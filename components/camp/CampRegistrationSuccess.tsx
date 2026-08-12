@@ -14,7 +14,7 @@ export function CampRegistrationSuccess({
       aria-live="polite"
     >
       <p className="font-mono text-xs font-bold uppercase tracking-[0.25em] text-pmr-green">
-        // transmission received
+        {"// transmission received"}
       </p>
       <h3 className="text-2xl font-bold text-pmr-green-bright">
         You&apos;re on the Camp list

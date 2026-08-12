@@ -92,7 +92,7 @@ export default function CampPage() {
             <div>
               <TapeLabel>Dates / schedule</TapeLabel>
               <div className="mt-4 border-2 border-dashed border-pmr-border bg-pmr-black/50 p-5 font-mono text-sm text-pmr-muted">
-                <p className="text-pmr-green">// placeholder</p>
+                <p className="text-pmr-green">{"// placeholder"}</p>
                 <p className="mt-2 text-pmr-offwhite">
                   Summer / fall session dates TBD
                 </p>
@@ -106,7 +106,7 @@ export default function CampPage() {
             <div>
               <TapeLabel>Location</TapeLabel>
               <div className="mt-4 border-2 border-dashed border-pmr-border bg-pmr-black/50 p-5 font-mono text-sm text-pmr-muted">
-                <p className="text-pmr-green">// placeholder</p>
+                <p className="text-pmr-green">{"// placeholder"}</p>
                 <p className="mt-2 text-pmr-offwhite">Philadelphia, PA</p>
                 <p className="mt-1">Venue announced with confirmation email</p>
                 <p className="mt-3 text-xs">
