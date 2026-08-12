@@ -18,12 +18,12 @@ export function PageShell({
       {(title || subtitle) && (
         <header className="mb-8 sm:mb-10">
           {title && (
-            <h1 className="text-3xl font-bold tracking-tight text-pmr-dark sm:text-4xl">
+            <h1 className="text-3xl font-bold tracking-tight text-pmr-offwhite sm:text-4xl">
               {title}
             </h1>
           )}
           {subtitle && (
-            <p className="mt-3 max-w-3xl text-lg text-pmr-charcoal">
+            <p className="mt-3 max-w-3xl text-lg text-pmr-muted">
               {subtitle}
             </p>
           )}

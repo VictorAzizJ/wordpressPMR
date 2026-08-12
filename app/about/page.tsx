@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function AboutPage() {
   return (
     <PageShell title="What We're Up To">
-      <div className="max-w-3xl space-y-6 text-lg leading-relaxed text-pmr-charcoal">
+      <div className="max-w-3xl space-y-6 text-lg leading-relaxed text-pmr-muted">
         <p>
           People&apos;s Media Record is a community-governed archive dedicated to
           preserving and sharing movement media — community radio, oral histories,
@@ -16,8 +16,8 @@ export default function AboutPage() {
           and training stewards to care for materials long-term.
         </p>
         <div className="pmr-card p-6 text-pmr-offwhite">
-          <h2 className="text-xl font-bold text-pmr-teal">Current priorities</h2>
-          <ul className="mt-4 list-inside list-disc space-y-2 text-pmr-silver">
+          <h2 className="text-xl font-bold text-pmr-green">Current priorities</h2>
+          <ul className="mt-4 list-inside list-disc space-y-2 text-pmr-muted">
             <li>Digitizing magnetic tape collections from the 1980s–2000s</li>
             <li>Expanding public search and collection browsing</li>
             <li>Training community stewards in metadata and access policy</li>

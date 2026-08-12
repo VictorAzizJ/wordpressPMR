@@ -9,6 +9,7 @@ const navLinks = [
   { href: "/archive", label: "Search Archive" },
   { href: "/collections", label: "Collections" },
   { href: "/stories", label: "Stories" },
+  { href: "/camp", label: "Camp" },
   { href: "/resources", label: "Resources" },
   { href: "/events", label: "Events" },
   { href: "/about", label: "About" },
@@ -19,11 +20,11 @@ export function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b-4 border-pmr-dark bg-pmr-charcoal text-pmr-offwhite">
+    <header className="sticky top-0 z-40 border-b-4 border-pmr-border bg-pmr-elevated text-pmr-offwhite">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
         <Link
           href="/"
-          className="flex items-center gap-2 font-bold tracking-tight transition hover:text-pmr-teal"
+          className="flex items-center gap-2 font-bold tracking-tight transition hover:text-pmr-green-bright"
         >
           <Radio className="h-7 w-7 text-pmr-coral" aria-hidden />
           <span className="text-lg sm:text-xl">
@@ -39,7 +40,7 @@ export function Header() {
               className={`rounded-lg px-3 py-2 text-sm font-medium transition ${
                 pathname === link.href || pathname.startsWith(link.href + "/")
                   ? "bg-pmr-coral text-pmr-offwhite"
-                  : "hover:bg-pmr-dark"
+                  : "hover:bg-pmr-black hover:text-pmr-green-bright"
               }`}
             >
               {link.label}
@@ -52,7 +53,7 @@ export function Header() {
 
         <button
           type="button"
-          className="rounded-lg border-2 border-pmr-dark bg-pmr-dark p-2 lg:hidden"
+          className="rounded-lg border-2 border-pmr-border bg-pmr-black p-2 text-pmr-offwhite lg:hidden"
           onClick={() => setOpen(!open)}
           aria-expanded={open}
           aria-label="Toggle menu"
@@ -63,7 +64,7 @@ export function Header() {
 
       {open && (
         <nav
-          className="border-t-2 border-pmr-dark bg-pmr-charcoal px-4 py-4 lg:hidden"
+          className="border-t-2 border-pmr-border bg-pmr-elevated px-4 py-4 lg:hidden"
           aria-label="Mobile"
         >
           <ul className="flex flex-col gap-1">
@@ -71,7 +72,7 @@ export function Header() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="block rounded-lg px-3 py-2 font-medium hover:bg-pmr-dark"
+                  className="block rounded-lg px-3 py-2 font-medium hover:bg-pmr-black hover:text-pmr-green-bright"
                   onClick={() => setOpen(false)}
                 >
                   {link.label}

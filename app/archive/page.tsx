@@ -41,11 +41,11 @@ export default function ArchivePage() {
         <FilterPanel filters={filters} onChange={setFilters} />
 
         <div>
-          <p className="mb-4 text-sm font-bold text-pmr-charcoal">
+          <p className="mb-4 text-sm font-bold text-pmr-muted">
             {results.length} record{results.length !== 1 ? "s" : ""} found
           </p>
           {results.length === 0 ? (
-            <div className="pmr-card p-8 text-center text-pmr-silver">
+            <div className="pmr-card p-8 text-center text-pmr-muted">
               No records match your search. Try clearing filters or broadening
               your keywords.
             </div>

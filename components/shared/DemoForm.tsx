@@ -20,7 +20,7 @@ export function DemoForm({
 
   if (submitted) {
     return (
-      <div className="rounded-pmr border-4 border-pmr-dark bg-pmr-teal p-6 text-pmr-dark">
+      <div className="rounded-pmr border-4 border-pmr-border bg-pmr-elevated p-6 text-pmr-green-bright shadow-glow">
         <p className="font-bold">{successMessage}</p>
       </div>
     );

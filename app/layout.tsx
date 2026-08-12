@@ -1,14 +1,26 @@
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
+import { Space_Grotesk, IBM_Plex_Mono, Bungee_Shade } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { GrainOverlay } from "@/components/layout/GrainOverlay";
 
-const roboto = Roboto({
-  weight: ["400", "500", "700"],
+const spaceGrotesk = Space_Grotesk({
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
-  variable: "--font-roboto",
+  variable: "--font-space-grotesk",
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+  variable: "--font-ibm-plex-mono",
+});
+
+const bungeeShade = Bungee_Shade({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-bungee-shade",
 });
 
 export const metadata: Metadata = {
@@ -26,8 +38,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={roboto.variable}>
-      <body className="flex min-h-screen flex-col font-sans">
+    <html
+      lang="en"
+      className={`${spaceGrotesk.variable} ${ibmPlexMono.variable} ${bungeeShade.variable}`}
+    >
+      <body className="flex min-h-screen flex-col bg-pmr-black font-sans text-pmr-offwhite">
         <GrainOverlay />
         <Header />
         <main className="relative z-10 flex-1">{children}</main>
@@ -36,3 +51,4 @@ export default function RootLayout({
     </html>
   );
 }
+

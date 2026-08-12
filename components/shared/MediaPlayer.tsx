@@ -25,7 +25,7 @@ export function MediaPlayer({
 
   return (
     <div className="pmr-card overflow-hidden">
-      <div className="relative aspect-video bg-pmr-dark">
+      <div className="relative aspect-video bg-pmr-black">
         <Image
           src={thumbnail}
           alt=""
@@ -34,7 +34,7 @@ export function MediaPlayer({
           sizes="(max-width: 768px) 100vw, 66vw"
           unoptimized
         />
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-pmr-dark/40">
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-pmr-black/40">
           {restricted ? (
             <>
               <Lock className="h-12 w-12 text-pmr-offwhite" />

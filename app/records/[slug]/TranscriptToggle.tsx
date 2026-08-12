@@ -11,7 +11,7 @@ export function TranscriptToggle({ transcript }: { transcript: string }) {
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="flex w-full items-center justify-between rounded-lg border-2 border-pmr-dark bg-pmr-offwhite px-4 py-3 font-bold text-pmr-dark"
+        className="flex w-full items-center justify-between rounded-lg border-2 border-pmr-border bg-pmr-elevated px-4 py-3 font-bold text-pmr-offwhite"
       >
         Transcript
         {open ? (
@@ -21,7 +21,7 @@ export function TranscriptToggle({ transcript }: { transcript: string }) {
         )}
       </button>
       {open && (
-        <div className="mt-2 rounded-lg border-2 border-pmr-dark/30 bg-pmr-cream p-4 text-sm leading-relaxed text-pmr-charcoal">
+        <div className="mt-2 rounded-lg border-2 border-pmr-border/30 bg-pmr-elevated p-4 text-sm leading-relaxed text-pmr-muted">
           {transcript}
         </div>
       )}

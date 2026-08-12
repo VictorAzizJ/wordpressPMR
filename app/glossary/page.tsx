@@ -24,12 +24,12 @@ export default function GlossaryPage() {
           return (
             <div
               key={item.id}
-              className="overflow-hidden rounded-lg border-2 border-pmr-dark bg-pmr-offwhite"
+              className="overflow-hidden rounded-lg border-2 border-pmr-border bg-pmr-elevated"
             >
               <button
                 type="button"
                 onClick={() => setOpenId(isOpen ? null : item.id)}
-                className="flex w-full items-center justify-between px-4 py-4 text-left font-bold text-pmr-dark"
+                className="flex w-full items-center justify-between px-4 py-4 text-left font-bold text-pmr-offwhite"
               >
                 {item.term}
                 <ChevronDown
@@ -37,8 +37,8 @@ export default function GlossaryPage() {
                 />
               </button>
               {isOpen && (
-                <div className="border-t-2 border-pmr-dark/20 px-4 pb-4">
-                  <p className="pt-3 leading-relaxed text-pmr-charcoal">
+                <div className="border-t-2 border-pmr-border/20 px-4 pb-4">
+                  <p className="pt-3 leading-relaxed text-pmr-muted">
                     {item.definition}
                   </p>
                   {(item.relatedRecordIds?.length ||

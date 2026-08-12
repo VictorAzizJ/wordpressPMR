@@ -26,7 +26,7 @@ export default async function CollectionDetailPage({ params }: Props) {
   return (
     <PageShell>
       <div className="pmr-card overflow-hidden">
-        <div className="relative aspect-[21/9] bg-pmr-dark">
+        <div className="relative aspect-[21/9] bg-pmr-black">
           <Image
             src={collection.coverImage}
             alt=""
@@ -40,7 +40,7 @@ export default async function CollectionDetailPage({ params }: Props) {
           <h1 className="text-3xl font-bold text-pmr-offwhite sm:text-4xl">
             {collection.title}
           </h1>
-          <p className="mt-4 max-w-3xl text-pmr-silver">
+          <p className="mt-4 max-w-3xl text-pmr-muted">
             {collection.description}
           </p>
           <dl className="mt-6 flex flex-wrap gap-6 text-sm">
@@ -62,7 +62,7 @@ export default async function CollectionDetailPage({ params }: Props) {
             </div>
           </dl>
           {collection.accessNotes && (
-            <p className="mt-4 rounded-lg border-2 border-pmr-dark bg-pmr-dark/50 p-4 text-sm text-pmr-silver">
+            <p className="mt-4 rounded-lg border-2 border-pmr-border bg-pmr-black/50 p-4 text-sm text-pmr-muted">
               {collection.accessNotes}
             </p>
           )}
@@ -70,7 +70,7 @@ export default async function CollectionDetailPage({ params }: Props) {
       </div>
 
       <section className="mt-12">
-        <h2 className="mb-6 text-2xl font-bold text-pmr-dark">Records in this collection</h2>
+        <h2 className="mb-6 text-2xl font-bold text-pmr-offwhite">Records in this collection</h2>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {records.map((record) => (
             <RecordCard key={record.id} record={record} />

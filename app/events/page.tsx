@@ -12,12 +12,12 @@ function EventList({
   if (!items.length) return null;
   return (
     <section className="mb-12">
-      <h2 className="mb-6 text-2xl font-bold text-pmr-dark">{title}</h2>
+      <h2 className="mb-6 text-2xl font-bold text-pmr-offwhite">{title}</h2>
       <div className="space-y-4">
         {items.map((event) => (
           <article key={event.id} className="pmr-card p-5 sm:p-6">
             <h3 className="text-xl font-bold text-pmr-offwhite">{event.title}</h3>
-            <div className="mt-3 flex flex-wrap gap-4 text-sm text-pmr-silver">
+            <div className="mt-3 flex flex-wrap gap-4 text-sm text-pmr-muted">
               <span className="flex items-center gap-1">
                 <Calendar className="h-4 w-4 text-pmr-coral" />
                 {new Date(event.dateTime).toLocaleString("en-US", {
@@ -30,7 +30,7 @@ function EventList({
                 {event.location}
               </span>
             </div>
-            <p className="mt-3 text-pmr-silver">{event.description}</p>
+            <p className="mt-3 text-pmr-muted">{event.description}</p>
             {event.registrationLink && event.isUpcoming && (
               <a
                 href={event.registrationLink}

@@ -8,10 +8,10 @@ const labels: Record<AccessLevel, string> = {
 };
 
 const styles: Record<AccessLevel, string> = {
-  public: "bg-pmr-teal text-pmr-dark border-pmr-dark",
-  request_access: "bg-amber-200 text-amber-950 border-amber-800",
-  restricted: "bg-pmr-coral text-pmr-offwhite border-pmr-dark",
-  private: "bg-pmr-silver text-pmr-dark border-pmr-dark",
+  public: "bg-pmr-green text-pmr-black border-pmr-border",
+  request_access: "bg-amber-400/90 text-amber-950 border-amber-700",
+  restricted: "bg-pmr-coral text-pmr-offwhite border-pmr-border",
+  private: "bg-pmr-muted text-pmr-black border-pmr-border",
 };
 
 export function AccessBadge({ level }: { level: AccessLevel }) {

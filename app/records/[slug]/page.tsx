@@ -49,10 +49,10 @@ export default async function RecordDetailPage({ params }: Props) {
             <MediaTypeBadge type={record.mediaType} />
             <AccessBadge level={record.accessLevel} />
           </div>
-          <h1 className="text-3xl font-bold text-pmr-dark sm:text-4xl">
+          <h1 className="text-3xl font-bold text-pmr-offwhite sm:text-4xl">
             {record.title}
           </h1>
-          <p className="mt-2 text-pmr-charcoal">
+          <p className="mt-2 text-pmr-muted">
             {new Date(record.date).toLocaleDateString("en-US", {
               year: "numeric",
               month: "long",
@@ -72,8 +72,8 @@ export default async function RecordDetailPage({ params }: Props) {
           </div>
 
           <div className="mt-8">
-            <h2 className="text-lg font-bold text-pmr-dark">Description</h2>
-            <p className="mt-2 leading-relaxed text-pmr-charcoal">
+            <h2 className="text-lg font-bold text-pmr-offwhite">Description</h2>
+            <p className="mt-2 leading-relaxed text-pmr-muted">
               {record.description}
             </p>
           </div>
@@ -83,9 +83,9 @@ export default async function RecordDetailPage({ params }: Props) {
           )}
 
           {showAccessCta && (
-            <div className="mt-8 rounded-pmr border-4 border-pmr-coral bg-pmr-cream p-6">
-              <h2 className="font-bold text-pmr-dark">Need access?</h2>
-              <p className="mt-2 text-sm text-pmr-charcoal">
+            <div className="mt-8 rounded-pmr border-4 border-pmr-coral bg-pmr-elevated p-6">
+              <h2 className="font-bold text-pmr-offwhite">Need access?</h2>
+              <p className="mt-2 text-sm text-pmr-muted">
                 This material requires review before viewing. Submit an access
                 request describing your intended use.
               </p>
@@ -102,13 +102,13 @@ export default async function RecordDetailPage({ params }: Props) {
             <dl className="mt-4 space-y-3 text-sm">
               {recordCollections.length > 0 && (
                 <div>
-                  <dt className="text-pmr-silver">Collection</dt>
+                  <dt className="text-pmr-muted">Collection</dt>
                   <dd className="mt-1 font-medium text-pmr-offwhite">
                     {recordCollections.map((c) => (
                       <Link
                         key={c.id}
                         href={`/collections/${c.slug}`}
-                        className="block text-pmr-teal hover:underline"
+                        className="block text-pmr-green hover:underline"
                       >
                         {c.title}
                       </Link>
@@ -118,31 +118,31 @@ export default async function RecordDetailPage({ params }: Props) {
               )}
               {record.organization && (
                 <div>
-                  <dt className="text-pmr-silver">Organization</dt>
+                  <dt className="text-pmr-muted">Organization</dt>
                   <dd className="text-pmr-offwhite">{record.organization}</dd>
                 </div>
               )}
               {record.location && (
                 <div>
-                  <dt className="text-pmr-silver">Location</dt>
+                  <dt className="text-pmr-muted">Location</dt>
                   <dd className="text-pmr-offwhite">{record.location}</dd>
                 </div>
               )}
               {record.language && (
                 <div>
-                  <dt className="text-pmr-silver">Language</dt>
+                  <dt className="text-pmr-muted">Language</dt>
                   <dd className="text-pmr-offwhite">{record.language}</dd>
                 </div>
               )}
               {record.rightsStatus && (
                 <div>
-                  <dt className="text-pmr-silver">Rights</dt>
+                  <dt className="text-pmr-muted">Rights</dt>
                   <dd className="text-pmr-offwhite">{record.rightsStatus}</dd>
                 </div>
               )}
               {record.people && record.people.length > 0 && (
                 <div>
-                  <dt className="text-pmr-silver">People</dt>
+                  <dt className="text-pmr-muted">People</dt>
                   <dd className="text-pmr-offwhite">
                     {record.people.join(", ")}
                   </dd>
@@ -150,7 +150,7 @@ export default async function RecordDetailPage({ params }: Props) {
               )}
             </dl>
             <div className="mt-4">
-              <dt className="mb-2 text-sm text-pmr-silver">Topics</dt>
+              <dt className="mb-2 text-sm text-pmr-muted">Topics</dt>
               <TagList tags={record.topics} />
             </div>
           </div>
@@ -159,7 +159,7 @@ export default async function RecordDetailPage({ params }: Props) {
 
       {related.length > 0 && (
         <section className="mt-16">
-          <h2 className="mb-6 text-2xl font-bold text-pmr-dark">
+          <h2 className="mb-6 text-2xl font-bold text-pmr-offwhite">
             Related records
           </h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

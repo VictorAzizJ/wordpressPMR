@@ -18,7 +18,7 @@ export default function BuildWithUsPage() {
       subtitle="Support PMR through volunteering, partnership, stewardship, or sharing your skills and resources."
     >
       <div className="grid gap-10 lg:grid-cols-2">
-        <div className="max-w-lg space-y-4 text-pmr-charcoal">
+        <div className="max-w-lg space-y-4 text-pmr-muted">
           <p>
             PMR grows through community participation. Whether you can donate
             time, expertise, collections, or funding — we want to hear from you.

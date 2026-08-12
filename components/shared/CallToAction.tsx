@@ -17,8 +17,8 @@ export function CallToAction({
 }: CallToActionProps) {
   const bg =
     variant === "coral"
-      ? "bg-pmr-coral border-pmr-dark"
-      : "bg-pmr-charcoal border-pmr-dark text-pmr-offwhite";
+      ? "bg-pmr-coral border-pmr-border"
+      : "bg-pmr-elevated border-pmr-border text-pmr-offwhite";
 
   return (
     <div
@@ -30,10 +30,10 @@ export function CallToAction({
       </p>
       <Link
         href={href}
-        className={`mt-4 inline-flex rounded-lg border-2 border-pmr-dark px-5 py-2.5 text-sm font-bold transition ${
+        className={`mt-4 inline-flex rounded-lg border-2 border-pmr-border px-5 py-2.5 text-sm font-bold transition ${
           variant === "coral"
-            ? "bg-pmr-dark text-pmr-offwhite hover:bg-pmr-charcoal"
-            : "bg-pmr-coral text-pmr-offwhite hover:bg-pmr-dark"
+            ? "bg-pmr-black text-pmr-offwhite hover:bg-pmr-elevated hover:text-pmr-green-bright"
+            : "bg-pmr-coral text-pmr-offwhite hover:bg-pmr-black"
         }`}
       >
         {buttonLabel}

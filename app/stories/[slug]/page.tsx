@@ -25,7 +25,7 @@ export default async function StoryDetailPage({ params }: Props) {
   return (
     <PageShell>
       <article>
-        <div className="relative mb-8 aspect-[21/9] overflow-hidden rounded-pmr border-4 border-pmr-dark bg-pmr-dark">
+        <div className="relative mb-8 aspect-[21/9] overflow-hidden rounded-pmr border-4 border-pmr-border bg-pmr-black">
           <Image
             src={story.heroImage}
             alt=""
@@ -38,17 +38,17 @@ export default async function StoryDetailPage({ params }: Props) {
         <p className="text-sm font-bold uppercase tracking-wider text-pmr-coral">
           Exhibition
         </p>
-        <h1 className="mt-2 text-3xl font-bold text-pmr-dark sm:text-4xl">
+        <h1 className="mt-2 text-3xl font-bold text-pmr-offwhite sm:text-4xl">
           {story.title}
         </h1>
-        <p className="mt-4 max-w-3xl text-xl text-pmr-charcoal">{story.intro}</p>
+        <p className="mt-4 max-w-3xl text-xl text-pmr-muted">{story.intro}</p>
 
         <div className="mt-10 max-w-3xl">
           <StoryBody sections={story.sections} />
         </div>
 
         {story.credits && (
-          <p className="mt-10 border-t-2 border-pmr-dark/20 pt-6 text-sm text-pmr-charcoal">
+          <p className="mt-10 border-t-2 border-pmr-border/20 pt-6 text-sm text-pmr-muted">
             {story.credits}
           </p>
         )}
@@ -56,7 +56,7 @@ export default async function StoryDetailPage({ params }: Props) {
 
       {relatedRecords.length > 0 && (
         <section className="mt-16">
-          <h2 className="mb-6 text-2xl font-bold text-pmr-dark">
+          <h2 className="mb-6 text-2xl font-bold text-pmr-offwhite">
             Related archive records
           </h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

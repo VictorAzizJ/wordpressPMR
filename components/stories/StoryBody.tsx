@@ -16,7 +16,7 @@ export function StoryBody({ sections }: StoryBodyProps) {
             return (
               <p
                 key={i}
-                className="text-lg leading-relaxed text-pmr-charcoal"
+                className="text-lg leading-relaxed text-pmr-muted"
               >
                 {section.content}
               </p>
@@ -25,7 +25,7 @@ export function StoryBody({ sections }: StoryBodyProps) {
             return (
               <blockquote
                 key={i}
-                className="border-l-4 border-pmr-coral bg-pmr-cream py-4 pl-6 pr-4 text-xl font-medium italic text-pmr-dark"
+                className="border-l-4 border-pmr-coral bg-pmr-elevated py-4 pl-6 pr-4 text-xl font-medium italic text-pmr-offwhite"
               >
                 {section.content}
               </blockquote>
@@ -37,16 +37,16 @@ export function StoryBody({ sections }: StoryBodyProps) {
             return (
               <div
                 key={i}
-                className="rounded-pmr border-4 border-pmr-dark bg-pmr-charcoal p-5 text-pmr-offwhite"
+                className="rounded-pmr border-4 border-pmr-border bg-pmr-elevated p-5 text-pmr-offwhite"
               >
-                <p className="text-xs font-bold uppercase text-pmr-teal">
+                <p className="font-mono text-xs font-bold uppercase text-pmr-green">
                   From the archive
                 </p>
                 <p className="mt-1 font-bold">{section.content}</p>
                 {record && (
                   <Link
                     href={`/records/${record.slug}`}
-                    className="mt-3 inline-flex text-sm font-bold text-pmr-coral hover:text-pmr-teal"
+                    className="mt-3 inline-flex text-sm font-bold text-pmr-coral hover:text-pmr-green-bright"
                   >
                     View record →
                   </Link>
@@ -57,14 +57,14 @@ export function StoryBody({ sections }: StoryBodyProps) {
           case "gallery":
             return (
               <div key={i}>
-                <p className="mb-3 text-sm font-bold text-pmr-dark">
+                <p className="mb-3 text-sm font-bold text-pmr-offwhite">
                   {section.content}
                 </p>
                 <div className="grid gap-3 sm:grid-cols-3">
                   {section.images?.map((img, j) => (
                     <div
                       key={j}
-                      className="relative aspect-video overflow-hidden rounded-lg border-2 border-pmr-dark"
+                      className="relative aspect-video overflow-hidden rounded-lg border-2 border-pmr-border"
                     >
                       <Image
                         src={img}

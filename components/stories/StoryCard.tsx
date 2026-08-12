@@ -12,7 +12,7 @@ export function StoryCard({ story }: StoryCardProps) {
       href={`/stories/${story.slug}`}
       className="pmr-card group block overflow-hidden transition hover:-translate-y-0.5"
     >
-      <div className="relative aspect-[16/9] bg-pmr-dark sm:aspect-[2/1]">
+      <div className="relative aspect-[16/9] bg-pmr-black sm:aspect-[2/1]">
         <Image
           src={story.heroImage}
           alt=""
@@ -26,10 +26,10 @@ export function StoryCard({ story }: StoryCardProps) {
         <p className="text-xs font-bold uppercase tracking-wider text-pmr-coral">
           Exhibition
         </p>
-        <h3 className="mt-1 text-xl font-bold text-pmr-offwhite group-hover:text-pmr-teal">
+        <h3 className="mt-1 text-xl font-bold text-pmr-offwhite group-hover:text-pmr-green-bright">
           {story.title}
         </h3>
-        <p className="mt-2 line-clamp-3 text-sm text-pmr-silver">{story.intro}</p>
+        <p className="mt-2 line-clamp-3 text-sm text-pmr-muted">{story.intro}</p>
       </div>
     </Link>
   );

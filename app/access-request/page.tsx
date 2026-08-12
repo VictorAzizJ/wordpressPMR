@@ -17,13 +17,13 @@ export default function AccessRequestPage() {
       subtitle="Request permission to view or use restricted archive materials. PMR staff review all requests."
     >
       <div className="grid gap-10 lg:grid-cols-2">
-        <div className="max-w-lg space-y-4 text-pmr-charcoal">
+        <div className="max-w-lg space-y-4 text-pmr-muted">
           <p>
             Some materials are available as metadata only, or require review
             before playback. Tell us what you need and how you plan to use it.
           </p>
-          <div className="rounded-lg border-2 border-pmr-dark bg-pmr-cream p-4 text-sm">
-            <p className="font-bold text-pmr-dark">Access levels</p>
+          <div className="rounded-lg border-2 border-pmr-border bg-pmr-elevated p-4 text-sm">
+            <p className="font-bold text-pmr-offwhite">Access levels</p>
             <ul className="mt-2 list-inside list-disc space-y-1">
               <li>
                 <strong>Public</strong> — anyone can view

@@ -10,7 +10,7 @@ export default function ContactPage() {
       subtitle="Questions about the archive, press inquiries, or general information."
     >
       <div className="grid gap-10 lg:grid-cols-2">
-        <div className="space-y-6 text-pmr-charcoal">
+        <div className="space-y-6 text-pmr-muted">
           <p>
             Reach out to People&apos;s Media Record for archive questions,
             partnership ideas, or press requests.

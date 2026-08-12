@@ -29,8 +29,10 @@ function FilterGroup({
   children: ReactNode;
 }) {
   return (
-    <fieldset className="border-b-2 border-pmr-dark/20 pb-4 last:border-0">
-      <legend className="mb-2 text-sm font-bold text-pmr-dark">{title}</legend>
+    <fieldset className="border-b-2 border-pmr-border/40 pb-4 last:border-0">
+      <legend className="mb-2 font-mono text-sm font-bold text-pmr-offwhite">
+        {title}
+      </legend>
       <div className="flex max-h-36 flex-col gap-1.5 overflow-y-auto">{children}</div>
     </fieldset>
   );
@@ -53,7 +55,10 @@ export function FilterPanel({ filters, onChange }: FilterPanelProps) {
       <div className="space-y-4">
         <FilterGroup title="Media type">
           {mediaTypes.map((type) => (
-            <label key={type} className="flex items-center gap-2 text-sm text-pmr-silver">
+            <label
+              key={type}
+              className="flex items-center gap-2 text-sm text-pmr-muted"
+            >
               <input
                 type="checkbox"
                 checked={filters.mediaTypes.includes(type)}
@@ -71,7 +76,10 @@ export function FilterPanel({ filters, onChange }: FilterPanelProps) {
 
         <FilterGroup title="Year">
           {allYears.slice(0, 12).map((year) => (
-            <label key={year} className="flex items-center gap-2 text-sm text-pmr-silver">
+            <label
+              key={year}
+              className="flex items-center gap-2 text-sm text-pmr-muted"
+            >
               <input
                 type="checkbox"
                 checked={filters.years.includes(year)}
@@ -89,7 +97,7 @@ export function FilterPanel({ filters, onChange }: FilterPanelProps) {
           {collections.map((col) => (
             <label
               key={col.id}
-              className="flex items-center gap-2 text-sm text-pmr-silver"
+              className="flex items-center gap-2 text-sm text-pmr-muted"
             >
               <input
                 type="checkbox"
@@ -108,7 +116,10 @@ export function FilterPanel({ filters, onChange }: FilterPanelProps) {
 
         <FilterGroup title="Topic">
           {allTopics.slice(0, 15).map((topic) => (
-            <label key={topic} className="flex items-center gap-2 text-sm text-pmr-silver">
+            <label
+              key={topic}
+              className="flex items-center gap-2 text-sm text-pmr-muted"
+            >
               <input
                 type="checkbox"
                 checked={filters.topics.includes(topic)}
@@ -124,7 +135,10 @@ export function FilterPanel({ filters, onChange }: FilterPanelProps) {
 
         <FilterGroup title="Access">
           {accessLevels.map((level) => (
-            <label key={level} className="flex items-center gap-2 text-sm text-pmr-silver">
+            <label
+              key={level}
+              className="flex items-center gap-2 text-sm text-pmr-muted"
+            >
               <input
                 type="checkbox"
                 checked={filters.accessLevels.includes(level)}
@@ -143,7 +157,7 @@ export function FilterPanel({ filters, onChange }: FilterPanelProps) {
 
       <button
         type="button"
-        className="mt-4 w-full rounded-lg border-2 border-pmr-dark bg-pmr-dark py-2 text-sm font-bold text-pmr-offwhite hover:bg-pmr-coral"
+        className="mt-4 w-full rounded-lg border-2 border-pmr-border bg-pmr-black py-2 text-sm font-bold text-pmr-offwhite hover:bg-pmr-coral"
         onClick={() =>
           onChange({
             topics: [],

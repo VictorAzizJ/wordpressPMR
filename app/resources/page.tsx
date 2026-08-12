@@ -22,10 +22,10 @@ export default function ResourcesPage() {
         <button
           type="button"
           onClick={() => setCategory("all")}
-          className={`rounded-lg border-2 border-pmr-dark px-4 py-2 text-sm font-bold ${
+          className={`rounded-lg border-2 border-pmr-border px-4 py-2 text-sm font-bold ${
             category === "all"
               ? "bg-pmr-coral text-pmr-offwhite"
-              : "bg-pmr-offwhite text-pmr-dark hover:bg-pmr-cream"
+              : "bg-pmr-elevated text-pmr-offwhite hover:bg-pmr-black"
           }`}
         >
           All
@@ -35,10 +35,10 @@ export default function ResourcesPage() {
             key={cat}
             type="button"
             onClick={() => setCategory(cat)}
-            className={`rounded-lg border-2 border-pmr-dark px-4 py-2 text-sm font-bold ${
+            className={`rounded-lg border-2 border-pmr-border px-4 py-2 text-sm font-bold ${
               category === cat
                 ? "bg-pmr-coral text-pmr-offwhite"
-                : "bg-pmr-offwhite text-pmr-dark hover:bg-pmr-cream"
+                : "bg-pmr-elevated text-pmr-offwhite hover:bg-pmr-black"
             }`}
           >
             {cat}
@@ -59,11 +59,11 @@ export default function ResourcesPage() {
               <h2 className="mt-1 text-lg font-bold text-pmr-offwhite">
                 {resource.title}
               </h2>
-              <p className="mt-2 text-sm text-pmr-silver">
+              <p className="mt-2 text-sm text-pmr-muted">
                 {resource.description}
               </p>
               {resource.audience && (
-                <p className="mt-2 text-xs text-pmr-silver">
+                <p className="mt-2 text-xs text-pmr-muted">
                   Audience: {resource.audience}
                 </p>
               )}
@@ -71,7 +71,7 @@ export default function ResourcesPage() {
                 {resource.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded border border-pmr-dark/50 px-2 py-0.5 text-xs text-pmr-silver"
+                    className="rounded border border-pmr-border/50 px-2 py-0.5 text-xs text-pmr-muted"
                   >
                     {tag}
                   </span>
