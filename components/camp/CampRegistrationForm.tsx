@@ -165,9 +165,12 @@ export function CampRegistrationForm() {
     const nextErrors = validate(values);
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) {
-      const firstKey = Object.keys(nextErrors)[0];
-      const el = document.getElementById(`field-${firstKey}`);
-      el?.focus();
+      if (nextErrors.form) {
+        document.getElementById("camp-form-error")?.focus();
+      } else {
+        const firstKey = Object.keys(nextErrors)[0];
+        document.getElementById(`field-${firstKey}`)?.focus();
+      }
       return;
     }
 
@@ -214,7 +217,12 @@ export function CampRegistrationForm() {
       </div>
 
       {errors.form && (
-        <p className="rounded-lg border-2 border-pmr-coral bg-pmr-black px-4 py-3 font-mono text-sm text-pmr-coral" role="alert">
+        <p
+          id="camp-form-error"
+          tabIndex={-1}
+          className="rounded-lg border-2 border-pmr-coral bg-pmr-cream px-4 py-3 font-mono text-sm text-pmr-coral focus:outline-none focus-visible:ring-2 focus-visible:ring-pmr-coral"
+          role="alert"
+        >
           {errors.form}
         </p>
       )}
@@ -291,8 +299,11 @@ export function CampRegistrationForm() {
       {showGuardian && (
         <>
           <XeroxDivider />
-          <fieldset className="space-y-4 rounded-lg border-2 border-dashed border-pmr-border bg-pmr-black/40 p-4 sm:p-5">
-            <legend className="px-1 font-mono text-xs font-bold uppercase tracking-widest text-pmr-green">
+          <p className="sr-only" role="status">
+            Optional parent or guardian fields are now available.
+          </p>
+          <fieldset className="space-y-4 rounded-lg border-2 border-dashed border-pmr-border bg-pmr-cream/20 p-4 sm:p-5">
+            <legend className="px-1 font-mono text-xs font-bold uppercase tracking-widest text-pmr-coral">
               Parent / guardian (optional)
             </legend>
             <p className="text-sm text-pmr-muted">

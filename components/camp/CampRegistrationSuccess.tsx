@@ -9,14 +9,14 @@ export function CampRegistrationSuccess({
 }: CampRegistrationSuccessProps) {
   return (
     <div
-      className="pmr-card space-y-4 border-pmr-green/50 p-6 shadow-glow sm:p-8"
+      className="pmr-card space-y-4 border-pmr-coral p-6 sm:p-8"
       role="status"
       aria-live="polite"
     >
-      <p className="font-mono text-xs font-bold uppercase tracking-[0.25em] text-pmr-green">
+      <p className="font-mono text-xs font-bold uppercase tracking-[0.25em] text-pmr-coral">
         {"// transmission received"}
       </p>
-      <h3 className="text-2xl font-bold text-pmr-green-bright">
+      <h3 className="text-2xl font-bold text-pmr-offwhite">
         You&apos;re on the Camp list
         {name ? `, ${name.split(" ")[0]}` : ""}.
       </h3>
@@ -25,7 +25,7 @@ export function CampRegistrationSuccess({
         confirm dates, location, and next steps by email. Your submission was
         validated and staged for the Sheets webhook.
       </p>
-      <p className="font-mono text-sm text-pmr-green/80">
+      <p className="font-mono text-sm text-pmr-coral">
         &gt; status: queued · mode: awaiting webhook_
       </p>
       {onReset && (

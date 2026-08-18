@@ -10,14 +10,14 @@ export function StoryCard({ story }: StoryCardProps) {
   return (
     <Link
       href={`/stories/${story.slug}`}
-      className="pmr-card group block overflow-hidden transition hover:-translate-y-0.5"
+      className="pmr-card group block overflow-hidden motion-safe:transition motion-safe:hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-green-bright/70"
     >
       <div className="relative aspect-[16/9] bg-pmr-black sm:aspect-[2/1]">
         <Image
           src={story.heroImage}
           alt=""
           fill
-          className="object-cover transition group-hover:scale-[1.02]"
+          className="object-cover motion-safe:transition motion-safe:group-hover:scale-[1.02]"
           sizes="(max-width: 768px) 100vw, 50vw"
           unoptimized
         />

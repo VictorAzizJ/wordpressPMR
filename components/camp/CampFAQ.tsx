@@ -14,7 +14,7 @@ export function CampFAQ() {
       <TapeLabel as="h2" id={`${baseId}-heading`}>
         FAQ // signal check
       </TapeLabel>
-      <p className="mt-3 max-w-2xl text-pmr-muted">
+      <p className="mt-3 max-w-2xl text-pmr-charcoal">
         Quick answers before you register. Still unsure? Reach out after you
         submit — staff will follow up.
       </p>
@@ -36,12 +36,12 @@ export function CampFAQ() {
                   id={buttonId}
                   aria-expanded={isOpen}
                   aria-controls={panelId}
-                  className="flex w-full items-center justify-between gap-4 px-4 py-3 text-left font-mono text-sm font-bold text-pmr-offwhite transition hover:text-pmr-green-bright focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-pmr-green/50 sm:px-5 sm:py-4 sm:text-base"
+                  className="flex min-h-11 w-full items-center justify-between gap-4 px-4 py-3 text-left font-mono text-sm font-bold text-pmr-offwhite transition hover:text-pmr-coral focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-pmr-coral/70 sm:px-5 sm:py-4 sm:text-base"
                   onClick={() => setOpenId(isOpen ? null : item.id)}
                 >
                   <span>{item.question}</span>
                   <ChevronDown
-                    className={`h-5 w-5 shrink-0 text-pmr-green transition ${isOpen ? "rotate-180" : ""}`}
+                    className={`h-5 w-5 shrink-0 text-pmr-coral motion-safe:transition-transform ${isOpen ? "rotate-180" : ""}`}
                     aria-hidden
                   />
                 </button>

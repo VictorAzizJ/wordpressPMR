@@ -7,7 +7,7 @@ import {
   useRef,
   useState,
   type KeyboardEvent,
-  type TouchEvent,
+  type PointerEvent,
 } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ArchiveSlide } from "./ArchiveSlide";
@@ -21,17 +21,20 @@ const SWIPE_THRESHOLD_PX = 50;
 
 interface FeaturedArchiveCarouselProps {
   slides?: FeaturedSlide[];
+  /** Use h2 when another page-level h1 is already present (e.g. campaign landing). */
+  titleAs?: "h1" | "h2";
 }
 
 export function FeaturedArchiveCarousel({
   slides = featuredSlides,
+  titleAs = "h1",
 }: FeaturedArchiveCarouselProps) {
   const baseId = useId();
   const liveId = `${baseId}-live`;
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
-  const touchStartX = useRef<number | null>(null);
+  const pointerStartX = useRef<number | null>(null);
   const count = slides.length;
   const current = slides[index] ?? slides[0];
 
@@ -63,25 +66,22 @@ export function FeaturedArchiveCarousel({
     return () => window.clearInterval(id);
   }, [paused, reduceMotion, count, index]);
 
-  const onTouchStart = (e: TouchEvent) => {
-    touchStartX.current = e.touches[0]?.clientX ?? null;
+  const onPointerDown = (e: PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType === "mouse") return;
+    if ((e.target as HTMLElement | null)?.closest("a, button")) return;
+    pointerStartX.current = e.clientX;
     setPaused(true);
   };
 
-  const onTouchEnd = (e: TouchEvent) => {
-    const start = touchStartX.current;
-    touchStartX.current = null;
-    if (start != null) {
-      const end = e.changedTouches[0]?.clientX;
-      if (end != null) {
-        const dx = end - start;
-        if (Math.abs(dx) >= SWIPE_THRESHOLD_PX) {
-          if (dx < 0) goNext();
-          else goPrev();
-        }
-      }
+  const finishPointer = (e: PointerEvent<HTMLDivElement>) => {
+    const start = pointerStartX.current;
+    pointerStartX.current = null;
+    if (start == null) return;
+    const dx = e.clientX - start;
+    if (Math.abs(dx) >= SWIPE_THRESHOLD_PX) {
+      if (dx < 0) goNext();
+      else goPrev();
     }
-    // Resume after a beat so swipe doesn't permanently stop autoplay on touch devices.
     window.setTimeout(() => setPaused(false), AUTOPLAY_MS);
   };
 
@@ -103,8 +103,6 @@ export function FeaturedArchiveCarousel({
       className="relative border-b-4 border-pmr-border bg-pmr-black"
       aria-roledescription="carousel"
       aria-label="Featured archive"
-      tabIndex={0}
-      onKeyDown={onKeyDown}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocusCapture={() => setPaused(true)}
@@ -113,20 +111,26 @@ export function FeaturedArchiveCarousel({
           setPaused(false);
         }
       }}
-      onTouchStart={onTouchStart}
-      onTouchEnd={onTouchEnd}
     >
       <div id={liveId} className="sr-only" aria-live="polite" aria-atomic="true">
         Slide {index + 1} of {count}: {current.title}
       </div>
 
-      <div className="relative">
+      <div
+        className="relative touch-pan-y"
+        onPointerDown={onPointerDown}
+        onPointerUp={finishPointer}
+        onPointerCancel={() => {
+          pointerStartX.current = null;
+        }}
+      >
         {slides.map((slide, i) => (
           <ArchiveSlide
             key={slide.id}
             slide={slide}
             slideId={`${baseId}-slide-${slide.id}`}
             active={i === index}
+            headingAs={titleAs}
             priorityImage={i === 0 && slide.media.kind === "image"}
           />
         ))}
@@ -134,10 +138,15 @@ export function FeaturedArchiveCarousel({
 
       {count > 1 && (
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 pb-10 sm:px-6">
-          <div className="flex items-center gap-2" role="group" aria-label="Carousel controls">
+          <div
+            className="flex items-center gap-2"
+            role="group"
+            aria-label="Carousel controls"
+            onKeyDown={onKeyDown}
+          >
             <button
               type="button"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-lg border-2 border-pmr-border bg-pmr-elevated text-pmr-offwhite transition hover:border-pmr-green hover:text-pmr-green-bright focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-green/50"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-lg border-2 border-pmr-border bg-pmr-elevated text-pmr-offwhite transition hover:border-pmr-green hover:text-pmr-green-bright focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-green-bright/70"
               aria-controls={liveId}
               aria-label="Previous slide"
               onClick={goPrev}
@@ -146,7 +155,7 @@ export function FeaturedArchiveCarousel({
             </button>
             <button
               type="button"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-lg border-2 border-pmr-border bg-pmr-elevated text-pmr-offwhite transition hover:border-pmr-green hover:text-pmr-green-bright focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-green/50"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-lg border-2 border-pmr-border bg-pmr-elevated text-pmr-offwhite transition hover:border-pmr-green hover:text-pmr-green-bright focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-green-bright/70"
               aria-controls={liveId}
               aria-label="Next slide"
               onClick={goNext}
@@ -159,6 +168,7 @@ export function FeaturedArchiveCarousel({
             className="flex flex-wrap items-center gap-2"
             role="tablist"
             aria-label="Slide selectors"
+            onKeyDown={onKeyDown}
           >
             {slides.map((slide, i) => {
               const selected = i === index;
@@ -171,7 +181,7 @@ export function FeaturedArchiveCarousel({
                   aria-selected={selected}
                   aria-controls={panelId}
                   aria-label={`Go to slide ${i + 1}: ${slide.title}`}
-                  className={`h-11 min-w-11 rounded-lg border-2 px-3 font-mono text-xs font-bold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-green/50 ${
+                  className={`h-11 min-w-11 rounded-lg border-2 px-3 font-mono text-xs font-bold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-green-bright/70 ${
                     selected
                       ? "border-pmr-green bg-pmr-green/20 text-pmr-green-bright"
                       : "border-pmr-border bg-pmr-elevated text-pmr-muted hover:border-pmr-green hover:text-pmr-green-bright"

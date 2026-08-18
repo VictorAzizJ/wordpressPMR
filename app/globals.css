@@ -3,14 +3,24 @@
 @tailwind utilities;
 
 :root {
-  --pmr-green: #39d353;
-  --pmr-green-bright: #6eff7a;
-  --pmr-black: #0b0d0b;
-  --pmr-elevated: #151a15;
-  --pmr-offwhite: #e8ede6;
-  --pmr-muted: #8a9a88;
-  --pmr-coral: #e6584c;
-  --pmr-border: #2a352a;
+  /* Cassette palette — space-separated RGB for Tailwind alpha (bg-pmr-teal/20) */
+  --pmr-teal: 143 226 236; /* #8fe2ec */
+  --pmr-coral: 230 88 76; /* #e6584c */
+  --pmr-charcoal: 75 75 86; /* #4b4b56 */
+  --pmr-dark: 53 53 53; /* #353535 */
+  --pmr-offwhite: 248 248 248; /* #f8f8f8 */
+  --pmr-silver: 173 173 173; /* #adadad */
+  --pmr-cream: 245 240 235; /* #f5f0eb */
+  --pmr-blue: 44 95 138; /* #2c5f8a active-tab blocks */
+  --pmr-tangerine: 240 140 58; /* #f08c3a nav underline */
+
+  /* CRT class aliases → cassette */
+  --pmr-green: 143 226 236;
+  --pmr-green-bright: 143 226 236;
+  --pmr-black: 143 226 236; /* page = teal */
+  --pmr-elevated: 75 75 86; /* charcoal surfaces */
+  --pmr-muted: 173 173 173;
+  --pmr-border: 53 53 53;
 }
 
 /* Psycho Glitch — @property so SCSS-style var keyframes interpolate */
@@ -39,13 +49,38 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
-    @apply bg-pmr-black text-pmr-offwhite antialiased;
+    @apply bg-pmr-teal text-pmr-dark antialiased;
   }
 
   ::selection {
-    background: color-mix(in srgb, var(--pmr-green) 40%, transparent);
-    color: var(--pmr-offwhite);
+    background: color-mix(in srgb, rgb(var(--pmr-coral)) 40%, transparent);
+    color: rgb(var(--pmr-dark));
+  }
+
+  /* Keyboard focus: coral on the light cassette page */
+  a:focus-visible,
+  button:focus-visible,
+  summary:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid rgb(var(--pmr-coral));
+    outline-offset: 2px;
+  }
+
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: none;
+  }
+
+  /* Skip-link target: don't ring the entire main landmark */
+  main:focus,
+  main:focus-visible {
+    outline: none;
   }
 }
 
@@ -55,15 +90,44 @@
   }
 
   .pmr-input {
-    @apply w-full rounded-lg border-2 border-pmr-border bg-pmr-black px-4 py-2.5 font-mono text-sm text-pmr-offwhite placeholder:text-pmr-muted focus:border-pmr-green focus:outline-none focus:ring-2 focus:ring-pmr-green/35;
+    @apply min-h-11 w-full rounded-lg border-2 border-pmr-dark bg-pmr-offwhite px-4 py-2.5 font-mono text-sm text-pmr-dark placeholder:text-pmr-silver focus:border-pmr-coral focus:outline-none focus:ring-2 focus:ring-pmr-coral/35;
   }
 
   .pmr-btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg border-2 border-pmr-border bg-pmr-coral px-5 py-2.5 font-bold text-pmr-offwhite transition hover:border-pmr-green hover:bg-pmr-elevated hover:text-pmr-green-bright focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-green/50;
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border-2 border-pmr-dark bg-pmr-coral px-5 py-2.5 font-bold text-pmr-offwhite transition hover:bg-pmr-dark hover:text-pmr-offwhite focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-coral/70;
   }
 
   .pmr-btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg border-2 border-pmr-border bg-pmr-elevated px-5 py-2.5 font-bold text-pmr-offwhite transition hover:border-pmr-green hover:text-pmr-green-bright focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-green/50;
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border-2 border-pmr-dark bg-pmr-charcoal px-5 py-2.5 font-bold text-pmr-offwhite transition hover:bg-pmr-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-coral/70;
+  }
+
+  .pmr-btn-hero {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border-2 border-pmr-offwhite bg-pmr-offwhite/15 px-5 py-2.5 font-bold text-pmr-offwhite backdrop-blur-sm transition hover:bg-pmr-offwhite hover:text-pmr-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-coral/70;
+  }
+
+  .pmr-hero-crossfade {
+    transition: opacity 1.2s ease-in-out;
+  }
+
+  .skip-link {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    z-index: 70;
+    padding: 0.75rem 1.25rem;
+    border: 2px solid rgb(var(--pmr-dark));
+    border-radius: 0.5rem;
+    background: rgb(var(--pmr-offwhite));
+    color: rgb(var(--pmr-dark));
+    font-weight: 700;
+    transform: translateY(-180%);
+  }
+
+  .skip-link:focus,
+  .skip-link:focus-visible {
+    transform: translateY(0);
+    outline: 2px solid rgb(var(--pmr-coral));
+    outline-offset: 2px;
   }
 
   .grain-texture {
@@ -76,8 +140,8 @@
       to bottom,
       transparent 0,
       transparent 2px,
-      rgba(57, 211, 83, 0.04) 2px,
-      rgba(57, 211, 83, 0.04) 3px
+      rgb(var(--pmr-coral) / 0.06) 2px,
+      rgb(var(--pmr-coral) / 0.06) 3px
     );
     background-size: 100% 3px;
   }
@@ -94,12 +158,12 @@
   .xerox-divider {
     background: repeating-linear-gradient(
       90deg,
-      var(--pmr-border) 0,
-      var(--pmr-border) 6px,
+      rgb(var(--pmr-border)) 0,
+      rgb(var(--pmr-border)) 6px,
       transparent 6px,
       transparent 10px,
-      color-mix(in srgb, var(--pmr-green) 35%, var(--pmr-border)) 10px,
-      color-mix(in srgb, var(--pmr-green) 35%, var(--pmr-border)) 14px,
+      color-mix(in srgb, rgb(var(--pmr-coral)) 40%, rgb(var(--pmr-teal))) 10px,
+      color-mix(in srgb, rgb(var(--pmr-coral)) 40%, rgb(var(--pmr-teal))) 14px,
       transparent 14px,
       transparent 18px
     );
@@ -108,18 +172,19 @@
   }
 
   .camp-signal {
-    /* Same :root tokens as the SCSS sample (scoped to camp) */
     --f-size: 11;
     --f-unit: 1vmin;
     --f: calc(var(--f-size) * var(--f-unit));
-    --bg: #181717;
-    background:
-      radial-gradient(
-        ellipse 80% 55% at 50% 40%,
-        rgba(26, 240, 220, 0.06),
-        transparent 55%
-      ),
-      var(--bg);
+    --bg: #8fe2ec;
+    color: rgb(var(--pmr-dark));
+    background: rgb(var(--pmr-teal));
+  }
+
+  .camp-signal a:focus-visible,
+  .camp-signal button:focus-visible,
+  .camp-signal summary:focus-visible,
+  .camp-signal [tabindex]:focus-visible {
+    outline-color: rgb(var(--pmr-coral));
   }
 
   /*
@@ -135,11 +200,11 @@
     font-family: var(--font-bungee-shade), "Bungee Shade", cursive;
     font-size: var(--f);
     line-height: 0.75;
-    color: #1af0dc;
+    color: #e6584c;
     text-align: center;
     text-transform: uppercase;
     transform: scaleX(var(--scale, 1));
-    animation: glitch-p 11s infinite alternate;
+    animation: glitch-p 40s infinite alternate;
   }
 
   .pmr-glitch::before,
@@ -164,8 +229,8 @@
     /* this helps to get rid of pixelization */
     filter: drop-shadow(0 0 transparent);
     text-shadow:
-      calc(var(--left) * -3em) 0 0.02em lime,
-      calc(var(--left) * -6em) 0 0.02em #ff00e1;
+      calc(var(--left) * -3em) 0 0.02em #4b4b56,
+      calc(var(--left) * -6em) 0 0.02em #2c5f8a;
     background-color: var(--bg);
     clip-path: polygon(
       0% var(--t-cut),
@@ -176,11 +241,34 @@
   }
 
   .pmr-glitch::before {
-    animation: glitch-b 1.7s infinite alternate-reverse;
+    animation: glitch-b 8s infinite alternate-reverse;
   }
 
   .pmr-glitch::after {
-    animation: glitch-a 3.1s infinite alternate;
+    animation: glitch-a 14s infinite alternate;
+  }
+
+  /* Seamless 50% loop — duplicated SVG tiles, linear so the join does not jump */
+  .pmr-wave-drift,
+  .pmr-wave-drift-digital {
+    will-change: transform;
+  }
+
+  .pmr-wave-drift {
+    animation: pmr-wave-drift 50s linear infinite;
+  }
+
+  .pmr-wave-drift-digital {
+    animation: pmr-wave-drift 56s linear infinite;
+  }
+}
+
+@keyframes pmr-wave-drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
@@ -278,6 +366,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .skip-link {
+    transition: none;
+  }
+
   .grain-texture,
   .scanlines,
   .pmr-flicker,
@@ -287,8 +383,19 @@
   .animate-spooling,
   .animate-flicker,
   .animate-tracking-glitch,
-  .animate-reel-spin {
+  .animate-reel-spin,
+  .animate-reel-slow,
+  .pmr-wave-drift,
+  .pmr-wave-drift-digital {
     animation: none !important;
+  }
+
+  .pmr-hero-crossfade {
+    transition: none !important;
+  }
+
+  .pmr-tracking {
+    opacity: 0;
   }
 
   .pmr-glitch,

@@ -18,10 +18,10 @@ export function SectionHeading({
       {href && (
         <Link
           href={href}
-          className="inline-flex items-center gap-1 text-sm font-bold text-pmr-coral transition hover:text-pmr-green-bright"
+          className="inline-flex min-h-11 items-center gap-1 text-sm font-bold text-pmr-coral transition hover:text-pmr-green-bright focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-green-bright/70"
         >
           {linkLabel}
-          <ArrowRight className="h-4 w-4" />
+          <ArrowRight className="h-4 w-4" aria-hidden />
         </Link>
       )}
     </div>

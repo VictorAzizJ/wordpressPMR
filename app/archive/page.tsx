@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { archiveRecords } from "@/lib/mock-data";
 import { filterRecords } from "@/lib/filter-records";
 import { PageShell } from "@/components/layout/PageShell";
@@ -20,8 +21,46 @@ const emptyFilters: FilterState = {
 };
 
 export default function ArchivePage() {
-  const [query, setQuery] = useState("");
+  return (
+    <Suspense fallback={<ArchiveFallback />}>
+      <ArchivePageContent />
+    </Suspense>
+  );
+}
+
+function ArchiveFallback() {
+  return (
+    <PageShell
+      title="Search the Archive"
+      subtitle="Filter by topic, year, media type, collection, and access level. Demo uses mock records."
+    >
+      <div className="mb-6">
+        <SearchBar value="" onChange={() => {}} />
+      </div>
+    </PageShell>
+  );
+}
+
+function ArchivePageContent() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  const urlQuery = searchParams.get("q") ?? "";
+  const [query, setQuery] = useState(urlQuery);
   const [filters, setFilters] = useState<FilterState>(emptyFilters);
+
+  useEffect(() => {
+    setQuery(urlQuery);
+  }, [urlQuery]);
+
+  function handleQueryChange(value: string) {
+    setQuery(value);
+    const params = new URLSearchParams(searchParams.toString());
+    if (value) params.set("q", value);
+    else params.delete("q");
+    const qs = params.toString();
+    router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+  }
 
   const results = useMemo(
     () => filterRecords(archiveRecords, query, filters),
@@ -34,14 +73,14 @@ export default function ArchivePage() {
       subtitle="Filter by topic, year, media type, collection, and access level. Demo uses mock records."
     >
       <div className="mb-6">
-        <SearchBar value={query} onChange={setQuery} />
+        <SearchBar value={query} onChange={handleQueryChange} />
       </div>
 
       <div className="grid gap-8 lg:grid-cols-[280px_1fr]">
         <FilterPanel filters={filters} onChange={setFilters} />
 
         <div>
-          <p className="mb-4 text-sm font-bold text-pmr-muted">
+          <p className="mb-4 text-sm font-bold text-pmr-muted" role="status" aria-live="polite">
             {results.length} record{results.length !== 1 ? "s" : ""} found
           </p>
           {results.length === 0 ? (

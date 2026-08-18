@@ -2,95 +2,183 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, Radio } from "lucide-react";
-import { useState } from "react";
-
-const navLinks = [
-  { href: "/archive", label: "Search Archive" },
-  { href: "/collections", label: "Collections" },
-  { href: "/stories", label: "Stories" },
-  { href: "/camp", label: "Camp" },
-  { href: "/resources", label: "Resources" },
-  { href: "/events", label: "Events" },
-  { href: "/about", label: "About" },
-];
+import { Menu, X } from "lucide-react";
+import { useEffect, useId, useRef, useState } from "react";
+import { CassetteLogo } from "@/components/layout/CassetteLogo";
+import { HeaderSearch } from "@/components/layout/HeaderSearch";
+import { HeaderWaves } from "@/components/layout/HeaderWaves";
+import { NavDropdown } from "@/components/layout/NavDropdown";
+import { NavTabIndicators, navTabClass } from "@/components/layout/NavTab";
+import { aboutNav, isNavSectionActive, mainNav, type NavId } from "@/lib/nav";
 
 export function Header() {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [openId, setOpenId] = useState<NavId | null>(null);
+  const [mobileSection, setMobileSection] = useState<NavId | null>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const mobileNavRef = useRef<HTMLElement>(null);
+  const menuId = useId();
+
+  useEffect(() => {
+    setMobileOpen(false);
+    setOpenId(null);
+    setMobileSection(null);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const first = mobileNavRef.current?.querySelector<HTMLElement>(
+      "a, button, input, select"
+    );
+    first?.focus();
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setMobileOpen(false);
+        buttonRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [mobileOpen]);
+
+  function toggleDesktop(id: NavId) {
+    setOpenId((current) => (current === id ? null : id));
+  }
+
+  function toggleMobile(id: NavId) {
+    setMobileSection((current) => (current === id ? null : id));
+  }
 
   return (
     <header className="sticky top-0 z-40 border-b-4 border-pmr-border bg-pmr-elevated text-pmr-offwhite">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
-        <Link
-          href="/"
-          className="flex items-center gap-2 font-bold tracking-tight transition hover:text-pmr-green-bright"
-        >
-          <Radio className="h-7 w-7 text-pmr-coral" aria-hidden />
-          <span className="text-lg sm:text-xl">
-            People&apos;s Media Record
-          </span>
-        </Link>
-
-        <nav className="hidden items-center gap-1 lg:flex" aria-label="Main">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`rounded-lg px-3 py-2 text-sm font-medium transition ${
-                pathname === link.href || pathname.startsWith(link.href + "/")
-                  ? "bg-pmr-coral text-pmr-offwhite"
-                  : "hover:bg-pmr-black hover:text-pmr-green-bright"
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
-          <Link href="/build-with-us" className="pmr-btn ml-2 text-sm">
-            Build With Us
+      <HeaderWaves />
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="flex items-center gap-3 py-3">
+          <Link
+            href="/"
+            aria-current={pathname === "/" ? "page" : undefined}
+            className="flex min-h-11 min-w-0 items-center gap-2 rounded-lg font-bold tracking-tight transition hover:text-pmr-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-coral/70"
+          >
+            <CassetteLogo />
+            <span className="text-base leading-tight sm:text-xl">
+              People&apos;s Media Record
+            </span>
           </Link>
-        </nav>
+          <button
+            ref={buttonRef}
+            type="button"
+            className="ml-auto inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border-2 border-pmr-border bg-pmr-dark text-pmr-offwhite lg:hidden"
+            onClick={() => setMobileOpen((value) => !value)}
+            aria-expanded={mobileOpen}
+            aria-controls={menuId}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          >
+            {mobileOpen ? (
+              <X className="h-6 w-6" aria-hidden />
+            ) : (
+              <Menu className="h-6 w-6" aria-hidden />
+            )}
+          </button>
+        </div>
 
-        <button
-          type="button"
-          className="rounded-lg border-2 border-pmr-border bg-pmr-black p-2 text-pmr-offwhite lg:hidden"
-          onClick={() => setOpen(!open)}
-          aria-expanded={open}
-          aria-label="Toggle menu"
+        <nav
+          className="hidden items-stretch lg:flex"
+          aria-label="Main"
         >
-          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+          <div className="flex items-center pb-3 pr-3">
+            <HeaderSearch className="w-[20rem]" />
+          </div>
+          {mainNav.map((item) =>
+            item.children ? (
+              <NavDropdown
+                key={item.id}
+                item={item}
+                active={isNavSectionActive(item.id, pathname)}
+                open={openId === item.id}
+                onToggle={() => toggleDesktop(item.id)}
+                onClose={() => setOpenId(null)}
+              />
+            ) : (
+              <Link
+                key={item.id}
+                href={item.href ?? "/"}
+                aria-current={
+                  isNavSectionActive(item.id, pathname) ? "page" : undefined
+                }
+                className={navTabClass()}
+              >
+                {item.label}
+                <NavTabIndicators
+                  active={isNavSectionActive(item.id, pathname)}
+                />
+              </Link>
+            )
+          )}
+          <div className="ml-auto">
+            <NavDropdown
+              item={aboutNav}
+              active={isNavSectionActive("about", pathname)}
+              open={openId === "about"}
+              onToggle={() => toggleDesktop("about")}
+              onClose={() => setOpenId(null)}
+              align="right"
+            />
+          </div>
+        </nav>
       </div>
 
-      {open && (
+      {mobileOpen ? (
         <nav
-          className="border-t-2 border-pmr-border bg-pmr-elevated px-4 py-4 lg:hidden"
-          aria-label="Mobile"
+          ref={mobileNavRef}
+          id={menuId}
+          className="relative z-10 border-t-2 border-pmr-border bg-pmr-elevated px-4 py-4 lg:hidden"
+          aria-label="Main"
         >
-          <ul className="flex flex-col gap-1">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="block rounded-lg px-3 py-2 font-medium hover:bg-pmr-black hover:text-pmr-green-bright"
-                  onClick={() => setOpen(false)}
-                >
-                  {link.label}
-                </Link>
+          <HeaderSearch className="mb-4 w-full" />
+          <ul className="flex flex-col">
+            {mainNav.map((item) => (
+              <li key={item.id}>
+                {item.children ? (
+                  <NavDropdown
+                    item={item}
+                    active={isNavSectionActive(item.id, pathname)}
+                    open={mobileSection === item.id}
+                    onToggle={() => toggleMobile(item.id)}
+                    onClose={() => setMobileOpen(false)}
+                    variant="accordion"
+                  />
+                ) : (
+                  <Link
+                    href={item.href ?? "/"}
+                    aria-current={
+                      isNavSectionActive(item.id, pathname) ? "page" : undefined
+                    }
+                    className={`${navTabClass()} w-full`}
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {item.label}
+                    <NavTabIndicators
+                      active={isNavSectionActive(item.id, pathname)}
+                    />
+                  </Link>
+                )}
               </li>
             ))}
             <li>
-              <Link
-                href="/build-with-us"
-                className="pmr-btn mt-2 w-full text-center"
-                onClick={() => setOpen(false)}
-              >
-                Build With Us
-              </Link>
+              <NavDropdown
+                item={aboutNav}
+                active={isNavSectionActive("about", pathname)}
+                open={mobileSection === "about"}
+                onToggle={() => toggleMobile("about")}
+                onClose={() => setMobileOpen(false)}
+                variant="accordion"
+              />
             </li>
           </ul>
         </nav>
-      )}
+      ) : null}
     </header>
   );
 }

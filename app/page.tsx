@@ -1,27 +1,38 @@
 import Link from "next/link";
-import {
-  getFeaturedCollections,
-  getFeaturedRecords,
-  getFeaturedStories,
-} from "@/lib/mock-data";
+import { getFeaturedCollections } from "@/lib/mock-data";
+import { getUpdates } from "@/lib/updates";
 import { SectionHeading } from "@/components/shared/SectionHeading";
-import { RecordCard } from "@/components/archive/RecordCard";
 import { CollectionCard } from "@/components/collections/CollectionCard";
-import { StoryCard } from "@/components/stories/StoryCard";
 import { CallToAction } from "@/components/shared/CallToAction";
-import { FeaturedArchiveCarousel } from "@/components/archive/FeaturedArchiveCarousel";
+import { HomeHero } from "@/components/home/HomeHero";
+import { UpdatesFeed } from "@/components/home/UpdatesFeed";
+import { CampaignBanner } from "@/components/campaign/CampaignBanner";
+import { CampaignLandingHero } from "@/components/campaign/CampaignLandingHero";
+import {
+  isCampaignActive,
+  isCampaignLandingMode,
+} from "@/lib/campaign/isCampaignActive";
 import { ArrowRight, Radio } from "lucide-react";
 
-export default function HomePage() {
-  const featuredRecords = getFeaturedRecords().slice(0, 4);
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
   const featuredCollections = getFeaturedCollections();
-  const featuredStories = getFeaturedStories();
+  const updates = await getUpdates();
+  const campaignActive = isCampaignActive();
+  const landingHero = isCampaignLandingMode();
 
   return (
     <>
-      {/* CampaignBanner mounts here when campaign mode is active (Phase 7). */}
+      {landingHero ? (
+        <CampaignLandingHero continueHref="#pmr-content" />
+      ) : (
+        campaignActive && <CampaignBanner />
+      )}
 
-      <FeaturedArchiveCarousel />
+      <div id="pmr-content" className="scroll-mt-24">
+        <HomeHero titleAs={landingHero ? "h2" : "h1"} />
+      </div>
 
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
         <SectionHeading title="What PMR does" href="/about" linkLabel="About us" />
@@ -47,25 +58,7 @@ export default function HomePage() {
         </ul>
       </section>
 
-      <section className="border-y-4 border-pmr-border bg-pmr-elevated/60 py-12 sm:py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <SectionHeading title="Archive moments" href="/archive" />
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {featuredRecords.map((record) => (
-              <RecordCard key={record.id} record={record} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
-        <SectionHeading title="Stories & exhibitions" href="/stories" />
-        <div className="grid gap-6 lg:grid-cols-2">
-          {featuredStories.map((story) => (
-            <StoryCard key={story.id} story={story} />
-          ))}
-        </div>
-      </section>
+      <UpdatesFeed posts={updates} />
 
       <section className="border-y-4 border-pmr-border bg-pmr-black py-12 sm:py-16">
         <div className="mx-auto flex max-w-7xl flex-col gap-8 px-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
@@ -108,12 +101,13 @@ export default function HomePage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6">
+        <h2 className="sr-only">Stay involved</h2>
         <div className="grid gap-6 md:grid-cols-2">
           <CallToAction
             title="Stay in the loop"
             description="Join the community list for archive drops, events, and ways to dig into movement media with us."
-            href="/contact"
-            buttonLabel="Get updates"
+            href="/subscribe"
+            buttonLabel="Subscribe"
           />
           <CallToAction
             title="Build with us"

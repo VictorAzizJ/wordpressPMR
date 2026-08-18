@@ -15,7 +15,7 @@ export function TapeLabel({
   return (
     <Tag
       id={id}
-      className={`inline-block border-2 border-pmr-border bg-pmr-black px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-[0.2em] text-pmr-green sm:text-sm ${className}`.trim()}
+      className={`inline-block border-2 border-pmr-dark bg-pmr-cream px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-[0.2em] text-pmr-coral sm:text-sm ${className}`.trim()}
     >
       {children}
     </Tag>

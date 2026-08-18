@@ -30,7 +30,7 @@ export function CallToAction({
       </p>
       <Link
         href={href}
-        className={`mt-4 inline-flex rounded-lg border-2 border-pmr-border px-5 py-2.5 text-sm font-bold transition ${
+        className={`mt-4 inline-flex min-h-11 items-center rounded-lg border-2 border-pmr-border px-5 py-2.5 text-sm font-bold transition ${
           variant === "coral"
             ? "bg-pmr-black text-pmr-offwhite hover:bg-pmr-elevated hover:text-pmr-green-bright"
             : "bg-pmr-coral text-pmr-offwhite hover:bg-pmr-black"

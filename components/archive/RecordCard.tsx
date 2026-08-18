@@ -13,14 +13,17 @@ export function RecordCard({ record }: RecordCardProps) {
   const year = new Date(record.date).getFullYear();
 
   return (
-    <article className="pmr-card group overflow-hidden transition hover:-translate-y-0.5">
-      <Link href={`/records/${record.slug}`} className="block">
+    <article className="pmr-card group overflow-hidden motion-safe:transition motion-safe:hover:-translate-y-0.5">
+      <Link
+        href={`/records/${record.slug}`}
+        className="block rounded-[inherit] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-pmr-green-bright/70"
+      >
         <div className="relative aspect-video overflow-hidden bg-pmr-black">
           <Image
             src={record.thumbnail}
             alt=""
             fill
-            className="object-cover transition group-hover:scale-[1.02]"
+            className="object-cover motion-safe:transition motion-safe:group-hover:scale-[1.02]"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             unoptimized
           />

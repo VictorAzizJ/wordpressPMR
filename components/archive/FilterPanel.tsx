@@ -21,6 +21,28 @@ function toggle<T>(arr: T[], item: T): T[] {
   return arr.includes(item) ? arr.filter((x) => x !== item) : [...arr, item];
 }
 
+function FilterCheck({
+  checked,
+  onChange,
+  children,
+}: {
+  checked: boolean;
+  onChange: () => void;
+  children: ReactNode;
+}) {
+  return (
+    <label className="flex min-h-11 cursor-pointer items-center gap-3 text-sm text-pmr-muted">
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={onChange}
+        className="h-5 w-5 shrink-0 accent-pmr-coral"
+      />
+      <span className="leading-snug">{children}</span>
+    </label>
+  );
+}
+
 function FilterGroup({
   title,
   children,
@@ -33,7 +55,7 @@ function FilterGroup({
       <legend className="mb-2 font-mono text-sm font-bold text-pmr-offwhite">
         {title}
       </legend>
-      <div className="flex max-h-36 flex-col gap-1.5 overflow-y-auto">{children}</div>
+      <div className="flex max-h-56 flex-col overflow-y-auto">{children}</div>
     </fieldset>
   );
 }
@@ -50,114 +72,83 @@ export function FilterPanel({ filters, onChange }: FilterPanelProps) {
   ];
 
   return (
-    <aside className="pmr-card p-4 sm:p-5">
+    <aside className="pmr-card p-4 sm:p-5" aria-label="Archive filters">
       <h2 className="mb-4 text-lg font-bold text-pmr-offwhite">Filters</h2>
       <div className="space-y-4">
         <FilterGroup title="Media type">
           {mediaTypes.map((type) => (
-            <label
+            <FilterCheck
               key={type}
-              className="flex items-center gap-2 text-sm text-pmr-muted"
+              checked={filters.mediaTypes.includes(type)}
+              onChange={() =>
+                update({ mediaTypes: toggle(filters.mediaTypes, type) })
+              }
             >
-              <input
-                type="checkbox"
-                checked={filters.mediaTypes.includes(type)}
-                onChange={() =>
-                  update({
-                    mediaTypes: toggle(filters.mediaTypes, type),
-                  })
-                }
-                className="accent-pmr-coral"
-              />
               <span className="capitalize">{type}</span>
-            </label>
+            </FilterCheck>
           ))}
         </FilterGroup>
 
         <FilterGroup title="Year">
           {allYears.slice(0, 12).map((year) => (
-            <label
+            <FilterCheck
               key={year}
-              className="flex items-center gap-2 text-sm text-pmr-muted"
+              checked={filters.years.includes(year)}
+              onChange={() => update({ years: toggle(filters.years, year) })}
             >
-              <input
-                type="checkbox"
-                checked={filters.years.includes(year)}
-                onChange={() =>
-                  update({ years: toggle(filters.years, year) })
-                }
-                className="accent-pmr-coral"
-              />
               {year}
-            </label>
+            </FilterCheck>
           ))}
         </FilterGroup>
 
         <FilterGroup title="Collection">
           {collections.map((col) => (
-            <label
+            <FilterCheck
               key={col.id}
-              className="flex items-center gap-2 text-sm text-pmr-muted"
+              checked={filters.collectionIds.includes(col.id)}
+              onChange={() =>
+                update({
+                  collectionIds: toggle(filters.collectionIds, col.id),
+                })
+              }
             >
-              <input
-                type="checkbox"
-                checked={filters.collectionIds.includes(col.id)}
-                onChange={() =>
-                  update({
-                    collectionIds: toggle(filters.collectionIds, col.id),
-                  })
-                }
-                className="accent-pmr-coral"
-              />
               <span className="line-clamp-2">{col.title}</span>
-            </label>
+            </FilterCheck>
           ))}
         </FilterGroup>
 
         <FilterGroup title="Topic">
           {allTopics.slice(0, 15).map((topic) => (
-            <label
+            <FilterCheck
               key={topic}
-              className="flex items-center gap-2 text-sm text-pmr-muted"
+              checked={filters.topics.includes(topic)}
+              onChange={() => update({ topics: toggle(filters.topics, topic) })}
             >
-              <input
-                type="checkbox"
-                checked={filters.topics.includes(topic)}
-                onChange={() =>
-                  update({ topics: toggle(filters.topics, topic) })
-                }
-                className="accent-pmr-coral"
-              />
               <span className="line-clamp-1">{topic}</span>
-            </label>
+            </FilterCheck>
           ))}
         </FilterGroup>
 
         <FilterGroup title="Access">
           {accessLevels.map((level) => (
-            <label
+            <FilterCheck
               key={level}
-              className="flex items-center gap-2 text-sm text-pmr-muted"
+              checked={filters.accessLevels.includes(level)}
+              onChange={() =>
+                update({
+                  accessLevels: toggle(filters.accessLevels, level),
+                })
+              }
             >
-              <input
-                type="checkbox"
-                checked={filters.accessLevels.includes(level)}
-                onChange={() =>
-                  update({
-                    accessLevels: toggle(filters.accessLevels, level),
-                  })
-                }
-                className="accent-pmr-coral"
-              />
               <span className="capitalize">{level.replace("_", " ")}</span>
-            </label>
+            </FilterCheck>
           ))}
         </FilterGroup>
       </div>
 
       <button
         type="button"
-        className="mt-4 w-full rounded-lg border-2 border-pmr-border bg-pmr-black py-2 text-sm font-bold text-pmr-offwhite hover:bg-pmr-coral"
+        className="pmr-btn-secondary mt-4 w-full text-sm"
         onClick={() =>
           onChange({
             topics: [],

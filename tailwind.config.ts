@@ -1,5 +1,8 @@
 import type { Config } from "tailwindcss";
 
+/** RGB-channel tokens from `app/globals.css` so camp can rebind CRT aliases. */
+const pmr = (token: string) => `rgb(var(${token}) / <alpha-value>)`;
+
 const config: Config = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -10,20 +13,22 @@ const config: Config = {
     extend: {
       colors: {
         pmr: {
-          green: "#39d353",
-          "green-bright": "#6eff7a",
-          black: "#0b0d0b",
-          elevated: "#151a15",
-          offwhite: "#e8ede6",
-          muted: "#8a9a88",
-          coral: "#e6584c",
-          border: "#2a352a",
-          // Legacy aliases → CRT system (prefer green / elevated / black / muted)
-          teal: "#39d353",
-          charcoal: "#151a15",
-          dark: "#0b0d0b",
-          silver: "#8a9a88",
-          cream: "#1c231c",
+          teal: pmr("--pmr-teal"),
+          coral: pmr("--pmr-coral"),
+          charcoal: pmr("--pmr-charcoal"),
+          dark: pmr("--pmr-dark"),
+          offwhite: pmr("--pmr-offwhite"),
+          silver: pmr("--pmr-silver"),
+          cream: pmr("--pmr-cream"),
+          blue: pmr("--pmr-blue"),
+          tangerine: pmr("--pmr-tangerine"),
+          // CRT aliases → cassette
+          green: pmr("--pmr-green"),
+          "green-bright": pmr("--pmr-green-bright"),
+          black: pmr("--pmr-black"),
+          elevated: pmr("--pmr-elevated"),
+          muted: pmr("--pmr-muted"),
+          border: pmr("--pmr-border"),
         },
       },
       fontFamily: {
@@ -49,9 +54,10 @@ const config: Config = {
         pmr: "10px",
       },
       boxShadow: {
-        inset: "inset 0 0 0 4px #0b0d0b",
-        cassette: "0 4px 0 0 #0b0d0b, 0 8px 24px rgba(11, 13, 11, 0.45)",
-        glow: "0 0 12px rgba(57, 211, 83, 0.35)",
+        inset: "inset 0 0 0 4px rgb(var(--pmr-dark))",
+        cassette:
+          "0 4px 0 0 rgb(var(--pmr-dark)), 0 8px 24px rgb(var(--pmr-dark) / 0.25)",
+        glow: "0 0 12px rgb(var(--pmr-green) / 0.35)",
       },
       animation: {
         static: "static 2s steps(1) infinite",
@@ -60,6 +66,7 @@ const config: Config = {
         flicker: "flicker 4s linear infinite",
         "tracking-glitch": "tracking-glitch 6s steps(2) infinite",
         "reel-spin": "gears 2.8s linear infinite",
+        "reel-slow": "reel-slow 10s linear infinite",
       },
       keyframes: {
         static: {
@@ -70,14 +77,18 @@ const config: Config = {
           from: { transform: "rotate(0deg)" },
           to: { transform: "rotate(2160deg)" },
         },
+        "reel-slow": {
+          from: { transform: "rotate(0deg)" },
+          to: { transform: "rotate(360deg)" },
+        },
         spooling: {
           from: {
             boxShadow:
-              "0 0 0 0.5em #2a352a, 0 0 0 calc(0.5em + 3px) #0b0d0b",
+              "0 0 0 0.5em #5a5a5a, 0 0 0 calc(0.5em + 3px) #353535",
           },
           to: {
             boxShadow:
-              "0 0 0 2.5em #2a352a, 0 0 0 calc(2.5em + 3px) #0b0d0b",
+              "0 0 0 2.5em #5a5a5a, 0 0 0 calc(2.5em + 3px) #353535",
           },
         },
         flicker: {

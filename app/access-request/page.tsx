@@ -2,6 +2,7 @@ import { PageShell } from "@/components/layout/PageShell";
 import { FormField, DemoFormNotice } from "@/components/shared/FormField";
 import { DemoForm } from "@/components/shared/DemoForm";
 import { archiveRecords } from "@/lib/mock-data";
+import Link from "next/link";
 
 const recordOptions = archiveRecords
   .filter(
@@ -37,6 +38,13 @@ export default function AccessRequestPage() {
               </li>
             </ul>
           </div>
+          <p>
+            Read the full{" "}
+            <Link href="/archive/policy" className="font-bold text-pmr-coral hover:underline">
+              archive policy
+            </Link>{" "}
+            stub for collecting and use notes.
+          </p>
           <DemoFormNotice />
         </div>
 

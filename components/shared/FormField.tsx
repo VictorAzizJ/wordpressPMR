@@ -43,7 +43,7 @@ export function FormField({
   if (type === "checkbox") {
     return (
       <div>
-        <label className="flex items-start gap-3">
+        <label className="flex min-h-11 items-start gap-3">
           <input
             type="checkbox"
             name={name}
@@ -54,7 +54,7 @@ export function FormField({
             onBlur={onBlur}
             aria-invalid={invalid || undefined}
             aria-describedby={describedBy}
-            className="mt-1 h-4 w-4 rounded border-2 border-pmr-border accent-pmr-coral"
+            className="mt-1 h-5 w-5 shrink-0 rounded border-2 border-pmr-border accent-pmr-coral"
           />
           <span className="font-mono text-sm text-pmr-muted">{label}</span>
         </label>
@@ -74,7 +74,12 @@ export function FormField({
         className="mb-1.5 block font-mono text-sm font-bold text-pmr-offwhite"
       >
         {label}
-        {required && <span className="text-pmr-coral"> *</span>}
+        {required && (
+          <span className="text-pmr-coral" aria-hidden>
+            {" "}
+            *
+          </span>
+        )}
       </label>
       {type === "textarea" ? (
         <textarea

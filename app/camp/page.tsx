@@ -21,12 +21,12 @@ export default function CampPage() {
 
       <CampHero />
 
-      <section className="relative border-t-4 border-pmr-border bg-pmr-elevated/50">
+      <section className="relative border-t-4 border-pmr-border bg-pmr-cream">
         <div className="mx-auto max-w-7xl space-y-14 px-4 py-12 sm:px-6 sm:py-16">
           {/* What */}
           <div>
             <TapeLabel>What Camp is</TapeLabel>
-            <p className="mt-4 max-w-3xl text-lg text-pmr-muted">
+            <p className="mt-4 max-w-3xl text-lg text-pmr-charcoal">
               Media Camp is a short, intensive program where participants learn
               to interview, digitize magnetic and born-digital media, and
               steward community memory with care — the same practices that keep
@@ -47,11 +47,11 @@ export default function CampPage() {
                   body: "Label, describe, and share work back with community archives.",
                 },
               ].map((item) => (
-                <div key={item.title} className="border-l-4 border-pmr-green pl-4">
-                  <h3 className="font-mono text-base font-bold text-pmr-offwhite">
+                <div key={item.title} className="border-l-4 border-pmr-coral pl-4">
+                  <h3 className="font-mono text-base font-bold text-pmr-dark">
                     {item.title}
                   </h3>
-                  <p className="mt-2 text-sm text-pmr-muted">{item.body}</p>
+                  <p className="mt-2 text-sm text-pmr-charcoal">{item.body}</p>
                 </div>
               ))}
             </div>
@@ -62,13 +62,13 @@ export default function CampPage() {
           {/* Who */}
           <div>
             <TapeLabel>Who Camp is for</TapeLabel>
-            <p className="mt-4 max-w-3xl text-pmr-muted">
+            <p className="mt-4 max-w-3xl text-pmr-charcoal">
               Youth, neighbors, organizers, and anyone curious about public
               media history. Sessions mix ages intentionally when possible;
               under-18 participants can include optional guardian contacts on
               the form.
             </p>
-            <ul className="mt-4 grid gap-2 text-sm text-pmr-offwhite sm:grid-cols-2">
+            <ul className="mt-4 grid gap-2 text-sm text-pmr-dark sm:grid-cols-2">
               {[
                 "No prior AV experience required",
                 "Community members stewarding family or org tapes",
@@ -76,7 +76,7 @@ export default function CampPage() {
                 "Neighbors who want hands-on archive skills",
               ].map((line) => (
                 <li key={line} className="flex gap-2">
-                  <span className="font-mono text-pmr-green" aria-hidden>
+                  <span className="font-mono text-pmr-coral" aria-hidden>
                     &gt;
                   </span>
                   {line}
@@ -91,9 +91,9 @@ export default function CampPage() {
           <div className="grid gap-8 lg:grid-cols-2">
             <div>
               <TapeLabel>Dates / schedule</TapeLabel>
-              <div className="mt-4 border-2 border-dashed border-pmr-border bg-pmr-black/50 p-5 font-mono text-sm text-pmr-muted">
-                <p className="text-pmr-green">{"// placeholder"}</p>
-                <p className="mt-2 text-pmr-offwhite">
+              <div className="mt-4 border-2 border-dashed border-pmr-border bg-pmr-offwhite p-5 font-mono text-sm text-pmr-charcoal">
+                <p className="text-pmr-coral">{"// placeholder"}</p>
+                <p className="mt-2 text-pmr-dark">
                   Summer / fall session dates TBD
                 </p>
                 <p className="mt-1">Weekday evenings + one Saturday intensive</p>
@@ -105,9 +105,9 @@ export default function CampPage() {
             </div>
             <div>
               <TapeLabel>Location</TapeLabel>
-              <div className="mt-4 border-2 border-dashed border-pmr-border bg-pmr-black/50 p-5 font-mono text-sm text-pmr-muted">
-                <p className="text-pmr-green">{"// placeholder"}</p>
-                <p className="mt-2 text-pmr-offwhite">Philadelphia, PA</p>
+              <div className="mt-4 border-2 border-dashed border-pmr-border bg-pmr-offwhite p-5 font-mono text-sm text-pmr-charcoal">
+                <p className="text-pmr-coral">{"// placeholder"}</p>
+                <p className="mt-2 text-pmr-dark">Philadelphia, PA</p>
                 <p className="mt-1">Venue announced with confirmation email</p>
                 <p className="mt-3 text-xs">
                   Transit-accessible site; accessibility notes collected on the
@@ -122,7 +122,7 @@ export default function CampPage() {
           {/* Description */}
           <div>
             <TapeLabel>Camp description</TapeLabel>
-            <div className="mt-4 max-w-3xl space-y-4 text-pmr-muted">
+            <div className="mt-4 max-w-3xl space-y-4 text-pmr-charcoal">
               <p>
                 Expect a mix of short demos, paired practice, and time with real
                 community media. You will leave with basic recording and
@@ -146,7 +146,7 @@ export default function CampPage() {
           {/* Registration */}
           <div id="register" className="scroll-mt-24">
             <TapeLabel>Register</TapeLabel>
-            <p className="mt-3 mb-8 max-w-2xl text-pmr-muted">
+            <p className="mt-3 mb-8 max-w-2xl text-pmr-charcoal">
               Secure your spot. Submissions route through PMR&apos;s registration
               API to a Google Sheet in production (Phase 6 wiring).
             </p>

@@ -611,6 +611,7 @@ export const glossaryTerms: GlossaryTerm[] = [
     term: "Metadata",
     definition:
       "Descriptive information about a record (title, date, topics, rights) that helps users find and understand materials without opening the media file.",
+    relatedResourceIds: ["res-1"],
   },
   {
     id: "gloss-5",
@@ -618,6 +619,7 @@ export const glossaryTerms: GlossaryTerm[] = [
     term: "Stewardship",
     definition:
       "Ongoing care for collections including acquisition, description, access decisions, and community accountability.",
+    relatedResourceIds: ["res-1"],
     relatedStoryIds: ["story-1"],
   },
   {
@@ -634,6 +636,7 @@ export const glossaryTerms: GlossaryTerm[] = [
     term: "Consent",
     definition:
       "Documented agreement from participants about how their words, images, or likeness may be stored, shared, and accessed over time.",
+    relatedResourceIds: ["res-1", "res-2"],
   },
   {
     id: "gloss-8",
@@ -642,6 +645,7 @@ export const glossaryTerms: GlossaryTerm[] = [
     definition:
       "Unlicensed broadcasting, often used by social movements when legal channels are inaccessible or censored.",
     relatedRecordIds: ["rec-4"],
+    relatedResourceIds: ["res-3"],
     relatedStoryIds: ["story-1"],
   },
   {
@@ -659,6 +663,7 @@ export const glossaryTerms: GlossaryTerm[] = [
     definition:
       "Collective coordination to meet community needs, contrasted with charity models that don't build shared power.",
     relatedRecordIds: ["rec-7"],
+    relatedResourceIds: ["res-8"],
   },
 ];
 
@@ -723,6 +728,16 @@ export function getCollectionBySlug(slug: string): Collection | undefined {
 
 export function getStoryBySlug(slug: string): Story | undefined {
   return stories.find((s) => s.slug === slug);
+}
+
+export function getResourceById(id: string): Resource | undefined {
+  return resources.find((r) => r.id === id);
+}
+
+export function getGlossaryTermsForResource(resourceId: string): GlossaryTerm[] {
+  return glossaryTerms.filter((term) =>
+    term.relatedResourceIds?.includes(resourceId)
+  );
 }
 
 export function getRecordsForCollection(collectionId: string): ArchiveRecord[] {

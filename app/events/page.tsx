@@ -1,6 +1,8 @@
 import { events } from "@/lib/mock-data";
 import { PageShell } from "@/components/layout/PageShell";
-import { Calendar, MapPin } from "lucide-react";
+import { WorkshopCalendar } from "@/components/events/WorkshopCalendar";
+import { pastWorkshopVideosUrl } from "@/config/programs";
+import { Calendar, ExternalLink, MapPin } from "lucide-react";
 
 function EventList({
   title,
@@ -52,9 +54,21 @@ export default function EventsPage() {
 
   return (
     <PageShell
-      title="Events"
-      subtitle="Workshops, open houses, and community programming from PMR."
+      title="Workshops"
+      subtitle="A calendar of workshops, open houses, and community programming from PMR."
     >
+      <p className="mb-8">
+        <a
+          href={pastWorkshopVideosUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="pmr-btn-secondary inline-flex text-sm"
+        >
+          <ExternalLink className="h-4 w-4" aria-hidden />
+          Past workshop videos
+        </a>
+      </p>
+      <WorkshopCalendar events={events} />
       <EventList title="Upcoming" items={upcoming} />
       <EventList title="Past" items={past} />
     </PageShell>
