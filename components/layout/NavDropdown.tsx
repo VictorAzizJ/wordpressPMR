@@ -81,7 +81,7 @@ export function NavDropdown({
   }
 
   return (
-    <div ref={rootRef} className="relative">
+    <div ref={rootRef} className="relative h-full">
       <button
         ref={buttonRef}
         type="button"

@@ -84,10 +84,10 @@ export function Header() {
         </div>
 
         <nav
-          className="hidden items-stretch lg:flex"
+          className="hidden h-16 items-stretch lg:flex"
           aria-label="Main"
         >
-          <div className="flex items-center pb-3 pr-3">
+          <div className="flex h-full items-center pr-4">
             <HeaderSearch className="w-[20rem]" />
           </div>
           {mainNav.map((item) =>
@@ -116,7 +116,7 @@ export function Header() {
               </Link>
             )
           )}
-          <div className="ml-auto">
+          <div className="ml-auto h-full">
             <NavDropdown
               item={aboutNav}
               active={isNavSectionActive("about", pathname)}
