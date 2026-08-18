@@ -90,33 +90,33 @@ export function Header() {
           <div className="flex h-full items-center pr-4">
             <HeaderSearch className="w-[20rem]" />
           </div>
-          {mainNav.map((item) =>
-            item.children ? (
-              <NavDropdown
-                key={item.id}
-                item={item}
-                active={isNavSectionActive(item.id, pathname)}
-                open={openId === item.id}
-                onToggle={() => toggleDesktop(item.id)}
-                onClose={() => setOpenId(null)}
-              />
-            ) : (
-              <Link
-                key={item.id}
-                href={item.href ?? "/"}
-                aria-current={
-                  isNavSectionActive(item.id, pathname) ? "page" : undefined
-                }
-                className={navTabClass()}
-              >
-                {item.label}
-                <NavTabIndicators
+          <div className="ml-auto flex h-full items-stretch">
+            {mainNav.map((item) =>
+              item.children ? (
+                <NavDropdown
+                  key={item.id}
+                  item={item}
                   active={isNavSectionActive(item.id, pathname)}
+                  open={openId === item.id}
+                  onToggle={() => toggleDesktop(item.id)}
+                  onClose={() => setOpenId(null)}
                 />
-              </Link>
-            )
-          )}
-          <div className="ml-auto h-full">
+              ) : (
+                <Link
+                  key={item.id}
+                  href={item.href ?? "/"}
+                  aria-current={
+                    isNavSectionActive(item.id, pathname) ? "page" : undefined
+                  }
+                  className={navTabClass()}
+                >
+                  {item.label}
+                  <NavTabIndicators
+                    active={isNavSectionActive(item.id, pathname)}
+                  />
+                </Link>
+              )
+            )}
             <NavDropdown
               item={aboutNav}
               active={isNavSectionActive("about", pathname)}
