@@ -1,5 +1,3 @@
-import { GlitchText } from "@/components/camp/GlitchText";
-
 interface CampHeroProps {
   registerHref?: string;
 }
@@ -14,7 +12,12 @@ export function CampHero({ registerHref = "#register" }: CampHeroProps) {
         <span aria-hidden>●</span> signal · programs · open
       </p>
 
-      <GlitchText id="camp-hero-heading" text="MEDIA CAMP" as="h1" />
+      <h1
+        id="camp-hero-heading"
+        className="font-glitch w-full text-center text-[clamp(2.5rem,11vmin,6.5rem)] leading-[0.85] uppercase tracking-wide text-pmr-coral"
+      >
+        MEDIA CAMP
+      </h1>
 
       <p className="mt-10 max-w-2xl text-center text-lg text-pmr-charcoal sm:text-xl">
         Hands-on workshops for young people and neighbors who want to record,

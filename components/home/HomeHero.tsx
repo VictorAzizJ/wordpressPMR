@@ -44,7 +44,7 @@ export function HomeHero({ photos = heroPhotos, titleAs = "h1" }: HomeHeroProps)
 
   return (
     <section
-      className="relative isolate min-h-[min(85svh,42rem)] overflow-hidden border-b-4 border-pmr-border bg-pmr-dark"
+      className="px-[2%]"
       aria-labelledby={headingId}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -55,63 +55,66 @@ export function HomeHero({ photos = heroPhotos, titleAs = "h1" }: HomeHeroProps)
         }
       }}
     >
-      <div className="absolute inset-0" aria-hidden>
-        {photos.map((photo, i) => {
-          const visible = i === activeIndex;
-          return (
-            <div
-              key={photo.id}
-              className={`pmr-hero-crossfade absolute inset-0 ${
-                visible ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              <Image
-                src={photo.src}
-                alt=""
-                fill
-                className="object-cover"
-                sizes="100vw"
-                unoptimized
-                priority={i === 0}
-              />
-            </div>
-          );
-        })}
-      </div>
+      {/* Dark media panel — ~5% teal page field exposed on each side */}
+      <div className="relative isolate min-h-[min(85svh,42rem)] overflow-hidden border-b-4 border-pmr-border bg-pmr-dark md:border-4">
+        <div className="absolute inset-0" aria-hidden>
+          {photos.map((photo, i) => {
+            const visible = i === activeIndex;
+            return (
+              <div
+                key={photo.id}
+                className={`pmr-hero-crossfade absolute inset-0 ${
+                  visible ? "opacity-100" : "opacity-0"
+                }`}
+              >
+                <Image
+                  src={photo.src}
+                  alt=""
+                  fill
+                  className="object-cover"
+                  sizes="96vw"
+                  unoptimized
+                  priority={i === 0}
+                />
+              </div>
+            );
+          })}
+        </div>
 
-      <div
-        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-pmr-dark via-pmr-dark/70 to-pmr-dark/25"
-        aria-hidden
-      />
+        <div
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-pmr-dark via-pmr-dark/70 to-pmr-dark/25"
+          aria-hidden
+        />
 
-      <div className="relative z-10 mx-auto flex min-h-[min(85svh,42rem)] max-w-7xl flex-col justify-end px-4 py-16 sm:px-6 sm:py-20 lg:justify-center lg:py-24">
-        <p className="font-mono text-sm font-bold uppercase tracking-widest text-pmr-teal">
-          Community archive
-        </p>
-        <HeadingTag
-          id={headingId}
-          className="mt-3 max-w-3xl text-4xl font-bold leading-tight text-pmr-offwhite sm:text-5xl lg:text-6xl"
-        >
-          Movement memory on tape
-        </HeadingTag>
-        <p className="mt-4 max-w-2xl text-base text-pmr-cream sm:text-lg">
-          People&apos;s Media Record stewards oral histories, community radio,
-          strike footage, and youth media — so movement memory stays public,
-          usable, and cared for.
-        </p>
-        <div className="mt-8 flex flex-wrap gap-3 sm:gap-4">
-          <Link href="/subscribe" className="pmr-btn text-base">
-            <Mail className="h-4 w-4" aria-hidden />
-            Subscribe
-          </Link>
-          <Link href="/donate" className="pmr-btn text-base">
-            <Heart className="h-4 w-4" aria-hidden />
-            Donate
-          </Link>
-          <Link href="/archive" className="pmr-btn-hero text-base">
-            <Search className="h-4 w-4" aria-hidden />
-            Search archive
-          </Link>
+        <div className="relative z-10 mx-auto flex min-h-[min(85svh,42rem)] max-w-7xl flex-col justify-end px-4 py-16 sm:px-6 sm:py-20 lg:justify-center lg:py-24">
+          <p className="font-mono text-sm font-bold uppercase tracking-widest text-pmr-teal">
+            Community archive
+          </p>
+          <HeadingTag
+            id={headingId}
+            className="mt-3 max-w-3xl text-4xl font-bold leading-tight text-pmr-offwhite sm:text-5xl lg:text-6xl"
+          >
+            Movement memory on tape
+          </HeadingTag>
+          <p className="mt-4 max-w-2xl text-base text-pmr-cream sm:text-lg">
+            People&apos;s Media Record stewards oral histories, community radio,
+            strike footage, and youth media — so movement memory stays public,
+            usable, and cared for.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3 sm:gap-4">
+            <Link href="/subscribe" className="pmr-btn text-base">
+              <Mail className="h-4 w-4" aria-hidden />
+              Subscribe
+            </Link>
+            <Link href="/donate" className="pmr-btn text-base">
+              <Heart className="h-4 w-4" aria-hidden />
+              Donate
+            </Link>
+            <Link href="/archive" className="pmr-btn-hero text-base">
+              <Search className="h-4 w-4" aria-hidden />
+              Search archive
+            </Link>
+          </div>
         </div>
       </div>
     </section>

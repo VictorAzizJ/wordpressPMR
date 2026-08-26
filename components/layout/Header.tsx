@@ -6,7 +6,6 @@ import { Menu, X } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
 import { CassetteLogo } from "@/components/layout/CassetteLogo";
 import { HeaderSearch } from "@/components/layout/HeaderSearch";
-import { HeaderWaves } from "@/components/layout/HeaderWaves";
 import { NavDropdown } from "@/components/layout/NavDropdown";
 import { NavTabIndicators, navTabClass } from "@/components/layout/NavTab";
 import { aboutNav, isNavSectionActive, mainNav, type NavId } from "@/lib/nav";
@@ -53,44 +52,23 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b-4 border-pmr-border bg-pmr-elevated text-pmr-offwhite">
-      <HeaderWaves />
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="flex items-center gap-3 py-3">
+        <div className="flex items-center gap-3 py-3 lg:h-16 lg:gap-4 lg:py-0">
           <Link
             href="/"
             aria-current={pathname === "/" ? "page" : undefined}
-            className="flex min-h-11 min-w-0 items-center gap-2 rounded-lg font-bold tracking-tight transition hover:text-pmr-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-coral/70"
+            className="flex min-h-11 min-w-0 shrink-0 items-center gap-2 rounded-lg font-bold tracking-tight transition hover:text-pmr-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-coral/70"
           >
             <CassetteLogo />
             <span className="text-base leading-tight sm:text-xl">
               People&apos;s Media Record
             </span>
           </Link>
-          <button
-            ref={buttonRef}
-            type="button"
-            className="ml-auto inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border-2 border-pmr-border bg-pmr-dark text-pmr-offwhite lg:hidden"
-            onClick={() => setMobileOpen((value) => !value)}
-            aria-expanded={mobileOpen}
-            aria-controls={menuId}
-            aria-label={mobileOpen ? "Close menu" : "Open menu"}
-          >
-            {mobileOpen ? (
-              <X className="h-6 w-6" aria-hidden />
-            ) : (
-              <Menu className="h-6 w-6" aria-hidden />
-            )}
-          </button>
-        </div>
 
-        <nav
-          className="hidden h-16 items-stretch lg:flex"
-          aria-label="Main"
-        >
-          <div className="flex h-full items-center pr-4">
-            <HeaderSearch className="w-[20rem]" />
-          </div>
-          <div className="ml-auto flex h-full items-stretch">
+          <nav
+            className="ml-auto hidden h-full min-w-0 flex-1 items-stretch justify-end lg:flex"
+            aria-label="Main"
+          >
             {mainNav.map((item) =>
               item.children ? (
                 <NavDropdown
@@ -125,8 +103,27 @@ export function Header() {
               onClose={() => setOpenId(null)}
               align="right"
             />
-          </div>
-        </nav>
+            <div className="flex h-full items-center pl-3">
+              <HeaderSearch expandable />
+            </div>
+          </nav>
+
+          <button
+            ref={buttonRef}
+            type="button"
+            className="ml-auto inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border-2 border-pmr-border bg-pmr-dark text-pmr-offwhite lg:hidden"
+            onClick={() => setMobileOpen((value) => !value)}
+            aria-expanded={mobileOpen}
+            aria-controls={menuId}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          >
+            {mobileOpen ? (
+              <X className="h-6 w-6" aria-hidden />
+            ) : (
+              <Menu className="h-6 w-6" aria-hidden />
+            )}
+          </button>
+        </div>
       </div>
 
       {mobileOpen ? (

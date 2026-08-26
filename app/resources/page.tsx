@@ -39,7 +39,7 @@ export default function ResourcesPage() {
           aria-pressed={category === "all"}
           className={`min-h-11 rounded-lg border-2 border-pmr-border px-4 py-2 text-sm font-bold ${
             category === "all"
-              ? "bg-pmr-coral text-pmr-offwhite"
+              ? "bg-pmr-coral text-pmr-dark"
               : "bg-pmr-elevated text-pmr-offwhite hover:bg-pmr-black"
           }`}
         >
@@ -53,7 +53,7 @@ export default function ResourcesPage() {
             aria-pressed={category === cat}
             className={`min-h-11 rounded-lg border-2 border-pmr-border px-4 py-2 text-sm font-bold ${
               category === cat
-                ? "bg-pmr-coral text-pmr-offwhite"
+                ? "bg-pmr-coral text-pmr-dark"
                 : "bg-pmr-elevated text-pmr-offwhite hover:bg-pmr-black"
             }`}
           >

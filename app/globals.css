@@ -5,7 +5,7 @@
 :root {
   /* Cassette palette — space-separated RGB for Tailwind alpha (bg-pmr-teal/20) */
   --pmr-teal: 143 226 236; /* #8fe2ec */
-  --pmr-coral: 230 88 76; /* #e6584c */
+  --pmr-coral: 255 185 63; /* #ffb93f */
   --pmr-charcoal: 75 75 86; /* #4b4b56 */
   --pmr-dark: 53 53 53; /* #353535 */
   --pmr-offwhite: 248 248 248; /* #f8f8f8 */
@@ -46,6 +46,12 @@
   syntax: "<number>";
   inherits: true;
   initial-value: 1;
+}
+
+@property --signal-shift {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
 }
 
 @layer base {
@@ -94,7 +100,7 @@
   }
 
   .pmr-btn {
-    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border-2 border-pmr-dark bg-pmr-coral px-5 py-2.5 font-bold text-pmr-offwhite transition hover:bg-pmr-dark hover:text-pmr-offwhite focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-coral/70;
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border-2 border-pmr-dark bg-pmr-coral px-5 py-2.5 font-bold text-pmr-dark transition hover:bg-pmr-dark hover:text-pmr-offwhite focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-coral/70;
   }
 
   .pmr-btn-secondary {
@@ -200,7 +206,7 @@
     font-family: var(--font-bungee-shade), "Bungee Shade", cursive;
     font-size: var(--f);
     line-height: 0.75;
-    color: #e6584c;
+    color: #ffb93f;
     text-align: center;
     text-transform: uppercase;
     transform: scaleX(var(--scale, 1));
@@ -248,27 +254,95 @@
     animation: glitch-a 14s infinite alternate;
   }
 
-  /* Seamless 50% loop — duplicated SVG tiles, linear so the join does not jump */
-  .pmr-wave-drift,
-  .pmr-wave-drift-digital {
-    will-change: transform;
+  /*
+   * Background-only signal glitch — VHS tracking / scan displacement on
+   * decorative layers. Never applied to text content.
+   */
+  .signal-glitch-bg {
+    --signal-shift: 0%;
   }
 
-  .pmr-wave-drift {
-    animation: pmr-wave-drift 50s linear infinite;
+  .signal-glitch-layer {
+    background-color: rgb(var(--pmr-teal));
+    background-image:
+      repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent 2px,
+        rgb(var(--pmr-dark) / 0.14) 2px,
+        rgb(var(--pmr-dark) / 0.14) 3px
+      ),
+      linear-gradient(
+        105deg,
+        transparent 28%,
+        rgb(var(--pmr-blue) / 0.28) 42%,
+        rgb(var(--pmr-coral) / 0.32) 50%,
+        rgb(var(--pmr-charcoal) / 0.18) 58%,
+        transparent 72%
+      ),
+      linear-gradient(
+        to bottom,
+        rgb(var(--pmr-dark) / 0.08) 0%,
+        transparent 35%,
+        transparent 65%,
+        rgb(var(--pmr-dark) / 0.12) 100%
+      ),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+    background-size:
+      100% 3px,
+      180% 100%,
+      100% 100%,
+      96px 96px;
+    background-position:
+      0 0,
+      var(--signal-shift) 0,
+      0 0,
+      0 0;
+    opacity: 1;
+    mix-blend-mode: normal;
+    animation:
+      signal-bg-move 4s linear infinite,
+      signal-layer-jitter 1.2s steps(2) infinite;
   }
 
-  .pmr-wave-drift-digital {
-    animation: pmr-wave-drift 56s linear infinite;
+  .signal-glitch-layer::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 22%;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      rgb(var(--pmr-charcoal) / 0.35) 15%,
+      rgb(var(--pmr-blue) / 0.4) 45%,
+      rgb(var(--pmr-coral) / 0.35) 55%,
+      rgb(var(--pmr-charcoal) / 0.35) 85%,
+      transparent 100%
+    );
+    box-shadow:
+      0 -1px 0 rgb(var(--pmr-offwhite) / 0.25),
+      0 1px 0 rgb(var(--pmr-dark) / 0.35);
+    opacity: 0.8;
+    animation:
+      signal-slice-roam 5s ease-in-out infinite,
+      signal-slice-jitter 1.6s steps(2) infinite;
   }
-}
 
-@keyframes pmr-wave-drift {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(-50%, 0, 0);
+  .signal-glitch-layer::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 4px;
+    background: rgb(var(--pmr-coral) / 0.85);
+    box-shadow:
+      0 0 16px rgb(var(--pmr-coral) / 0.55),
+      0 0 2px rgb(var(--pmr-blue) / 0.6),
+      3px 0 0 rgb(var(--pmr-blue) / 0.45),
+      -3px 0 0 rgb(var(--pmr-coral) / 0.4);
+    opacity: 0.9;
+    animation: signal-tracking-roam 3.5s linear infinite;
   }
 }
 
@@ -365,6 +439,128 @@
   }
 }
 
+@keyframes signal-bg-move {
+  0% {
+    background-position:
+      0 0,
+      -25% 0,
+      0 0,
+      0 0;
+  }
+  50% {
+    background-position:
+      0 12px,
+      15% 0,
+      0 0,
+      32px 24px;
+  }
+  100% {
+    background-position:
+      0 24px,
+      45% 0,
+      0 0,
+      64px 48px;
+  }
+}
+
+@keyframes signal-layer-jitter {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  50% {
+    transform: translateX(3px);
+  }
+  75% {
+    transform: translateX(-2px);
+  }
+}
+
+@keyframes signal-slice-roam {
+  0% {
+    top: 5%;
+    transform: translateX(-6%) skewX(-0.6deg);
+    opacity: 0.55;
+  }
+  25% {
+    top: 35%;
+    transform: translateX(5%) skewX(0.8deg);
+    opacity: 0.9;
+  }
+  50% {
+    top: 58%;
+    transform: translateX(-4%) skewX(-0.5deg);
+    opacity: 0.75;
+  }
+  75% {
+    top: 22%;
+    transform: translateX(7%) skewX(0.4deg);
+    opacity: 0.85;
+  }
+  100% {
+    top: 5%;
+    transform: translateX(-6%) skewX(-0.6deg);
+    opacity: 0.55;
+  }
+}
+
+@keyframes signal-slice-jitter {
+  0%,
+  100% {
+    margin-left: 0;
+  }
+  25% {
+    margin-left: -8px;
+  }
+  50% {
+    margin-left: 6px;
+  }
+  75% {
+    margin-left: -4px;
+  }
+}
+
+@keyframes signal-tracking-roam {
+  0% {
+    top: 0%;
+    opacity: 0.4;
+    transform: translateX(0);
+  }
+  15% {
+    top: 18%;
+    opacity: 1;
+    transform: translateX(-4px);
+  }
+  30% {
+    top: 42%;
+    opacity: 0.85;
+    transform: translateX(5px);
+  }
+  50% {
+    top: 68%;
+    opacity: 1;
+    transform: translateX(-3px);
+  }
+  70% {
+    top: 88%;
+    opacity: 0.7;
+    transform: translateX(4px);
+  }
+  85% {
+    top: 55%;
+    opacity: 0.9;
+    transform: translateX(-2px);
+  }
+  100% {
+    top: 100%;
+    opacity: 0.35;
+    transform: translateX(0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -385,8 +581,9 @@
   .animate-tracking-glitch,
   .animate-reel-spin,
   .animate-reel-slow,
-  .pmr-wave-drift,
-  .pmr-wave-drift-digital {
+  .signal-glitch-layer,
+  .signal-glitch-layer::before,
+  .signal-glitch-layer::after {
     animation: none !important;
   }
 
@@ -411,6 +608,12 @@
   .pmr-glitch::before,
   .pmr-glitch::after {
     content: none;
+  }
+
+  .signal-glitch-layer::before,
+  .signal-glitch-layer::after {
+    opacity: 0.15;
+    transform: none;
   }
 }
 

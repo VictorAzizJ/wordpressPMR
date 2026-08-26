@@ -11,7 +11,7 @@ export function CassetteTape({ className = "" }: { className?: string }) {
           className="relative mx-auto mt-2 min-h-[6.75rem] w-[90%] overflow-hidden rounded-lg border-4 border-pmr-dark p-2 sm:min-h-[8.75rem] sm:p-3"
           style={{
             background: `linear-gradient(
-              #e6584c 8%, #f5f0eb 8%,
+              #ffb93f 8%, #f5f0eb 8%,
               #f5f0eb 30%, #4b4b56 30%,
               #4b4b56 31.5%, #f5f0eb 31.5%,
               #f5f0eb 36%, #4b4b56 36%,

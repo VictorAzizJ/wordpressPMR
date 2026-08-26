@@ -53,10 +53,10 @@ export function MediaPlayer({
             <>
               <button
                 type="button"
-                className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-pmr-offwhite bg-pmr-coral motion-safe:transition motion-safe:hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-green-bright/70"
+                className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-pmr-offwhite bg-pmr-coral text-pmr-dark motion-safe:transition motion-safe:hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-green-bright/70"
                 aria-label={`Play ${title}`}
               >
-                <Play className="h-8 w-8 fill-pmr-offwhite text-pmr-offwhite" aria-hidden />
+                <Play className="h-8 w-8 fill-pmr-dark text-pmr-dark" aria-hidden />
               </button>
               <p className="text-xs font-medium uppercase tracking-wider text-pmr-offwhite">
                 Demo player — {mediaType}
