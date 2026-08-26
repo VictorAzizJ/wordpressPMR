@@ -68,7 +68,7 @@ export function NavDropdown({
           <NavTabIndicators active={active} />
         </button>
         {open ? (
-          <ul id={menuId} className="mb-2 ml-3 border-l-2 border-pmr-blue pl-3">
+          <ul id={menuId} className="mb-2 ml-3 border-l-2 border-pmr-teal pl-3">
             {children.map((child) => (
               <li key={child.href}>
                 <DropdownLink item={child} onNavigate={onClose} stacked />

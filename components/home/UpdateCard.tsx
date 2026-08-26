@@ -32,12 +32,12 @@ export function UpdateCard({ post }: UpdateCardProps) {
       </div>
       <div className="p-4">
         {post.caption ? (
-          <p className="line-clamp-3 text-sm text-pmr-offwhite">{post.caption}</p>
+          <p className="line-clamp-3 text-sm text-pmr-dark">{post.caption}</p>
         ) : null}
         {dateLabel ? (
           <time
             dateTime={post.postedAt}
-            className="mt-3 block font-mono text-xs text-pmr-muted"
+            className="mt-3 block font-mono text-xs text-pmr-charcoal"
           >
             {dateLabel}
           </time>
@@ -48,7 +48,7 @@ export function UpdateCard({ post }: UpdateCardProps) {
 
   if (post.permalink) {
     return (
-      <article className="pmr-card group overflow-hidden motion-safe:transition motion-safe:hover:-translate-y-0.5">
+      <article className="pmr-card group overflow-hidden bg-pmr-tangerine text-pmr-dark motion-safe:transition motion-safe:hover:-translate-y-0.5">
         <a
           href={post.permalink}
           target="_blank"
@@ -62,6 +62,6 @@ export function UpdateCard({ post }: UpdateCardProps) {
   }
 
   return (
-    <article className="pmr-card overflow-hidden">{inner}</article>
+    <article className="pmr-card overflow-hidden bg-pmr-tangerine text-pmr-dark">{inner}</article>
   );
 }

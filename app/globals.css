@@ -11,8 +11,8 @@
   --pmr-offwhite: 248 248 248; /* #f8f8f8 */
   --pmr-silver: 173 173 173; /* #adadad */
   --pmr-cream: 245 240 235; /* #f5f0eb */
-  --pmr-blue: 44 95 138; /* #2c5f8a active-tab blocks */
-  --pmr-tangerine: 240 140 58; /* #f08c3a nav underline */
+  --pmr-blue: 44 95 138; /* #2c5f8a */
+  --pmr-tangerine: 240 140 58; /* #f08c3a accent */
 
   /* CRT class aliases → cassette */
   --pmr-green: 143 226 236;

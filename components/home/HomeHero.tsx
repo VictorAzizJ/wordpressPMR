@@ -44,7 +44,6 @@ export function HomeHero({ photos = heroPhotos, titleAs = "h1" }: HomeHeroProps)
 
   return (
     <section
-      className="px-[2%]"
       aria-labelledby={headingId}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -55,8 +54,7 @@ export function HomeHero({ photos = heroPhotos, titleAs = "h1" }: HomeHeroProps)
         }
       }}
     >
-      {/* Dark media panel — ~5% teal page field exposed on each side */}
-      <div className="relative isolate min-h-[min(85svh,42rem)] overflow-hidden border-b-4 border-pmr-border bg-pmr-dark md:border-4">
+      <div className="relative isolate min-h-[min(85svh,42rem)] overflow-hidden border-b-4 border-pmr-border bg-pmr-dark">
         <div className="absolute inset-0" aria-hidden>
           {photos.map((photo, i) => {
             const visible = i === activeIndex;
@@ -72,7 +70,7 @@ export function HomeHero({ photos = heroPhotos, titleAs = "h1" }: HomeHeroProps)
                   alt=""
                   fill
                   className="object-cover"
-                  sizes="96vw"
+                  sizes="100vw"
                   unoptimized
                   priority={i === 0}
                 />
@@ -82,7 +80,7 @@ export function HomeHero({ photos = heroPhotos, titleAs = "h1" }: HomeHeroProps)
         </div>
 
         <div
-          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-pmr-dark via-pmr-dark/70 to-pmr-dark/25"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-pmr-teal/40 via-pmr-teal/20 to-pmr-teal/10"
           aria-hidden
         />
 

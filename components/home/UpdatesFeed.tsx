@@ -23,7 +23,7 @@ export function UpdatesFeed({
 
   return (
     <section
-      className="border-t-4 border-pmr-border bg-pmr-elevated/60 py-12 sm:py-16"
+      className="border-t-4 border-pmr-border bg-pmr-charcoal py-12 sm:py-16"
       aria-labelledby="updates-heading"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
