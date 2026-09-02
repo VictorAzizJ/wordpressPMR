@@ -186,6 +186,19 @@
     background: rgb(var(--pmr-teal));
   }
 
+  .camp-form-card {
+    @apply relative overflow-hidden border-4 border-pmr-border bg-pmr-offwhite text-pmr-dark shadow-cassette;
+  }
+
+  .camp-form-card::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 0.375rem;
+    background: rgb(var(--pmr-coral));
+  }
+
   .camp-signal a:focus-visible,
   .camp-signal button:focus-visible,
   .camp-signal summary:focus-visible,

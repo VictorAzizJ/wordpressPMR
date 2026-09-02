@@ -1,6 +1,5 @@
 /**
- * Homepage hero stills. Picsum seeds match existing mock archive records;
- * swap `src` for real PMR photographs when they are available.
+ * Homepage hero stills. Files live in `public/images/home/`.
  */
 export interface HeroPhoto {
   id: string;
@@ -9,18 +8,13 @@ export interface HeroPhoto {
   alt: string;
 }
 
-const hero = (seed: number) =>
-  `https://picsum.photos/seed/pmr${seed}/1920/1080`;
-
 export const heroPhotos: HeroPhoto[] = [
-  { id: "rec-1", src: hero(1), alt: "" },
-  { id: "rec-3", src: hero(3), alt: "" },
-  { id: "rec-6", src: hero(6), alt: "" },
-  { id: "rec-9", src: hero(9), alt: "" },
-  { id: "rec-13", src: hero(13), alt: "" },
-  { id: "rec-14", src: hero(14), alt: "" },
-  { id: "rec-17", src: hero(17), alt: "" },
-  { id: "rec-18", src: hero(18), alt: "" },
-  { id: "rec-21", src: hero(21), alt: "" },
-  { id: "rec-22", src: hero(22), alt: "" },
+  { id: "hero-01", src: "/images/home/hero-01-we-are.jpg", alt: "" },
+  { id: "hero-02", src: "/images/home/hero-02-immigrant-community.jpg", alt: "" },
+  { id: "hero-03", src: "/images/home/hero-03-workshop-group.jpg", alt: "" },
+  { id: "hero-04", src: "/images/home/hero-04-community-circle.jpg", alt: "" },
+  { id: "hero-05", src: "/images/home/hero-05-teachers-march.jpg", alt: "" },
+  { id: "hero-06", src: "/images/home/hero-06-video-archive.jpg", alt: "" },
+  { id: "hero-07", src: "/images/home/hero-07-collective-screening.jpg", alt: "" },
+  { id: "hero-08", src: "/images/home/hero-08-digitization.jpg", alt: "" },
 ];

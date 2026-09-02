@@ -1,25 +1,27 @@
-/** Payload shape for Camp registration (Phase 6 posts this to Sheets). */
+/** Payload shape for Camp registration (posted to Sheets via /api/camp/register). */
+export interface CampChild {
+  name?: string;
+  age?: string;
+}
+
 export interface CampRegistrationPayload {
   name: string;
   email: string;
-  phone?: string;
+  phone: string;
   ageRange?: string;
   neighborhood?: string;
+  city?: string;
+  organization?: string;
   accessibilityNeeds?: string;
   dietaryNeeds?: string;
-  emergencyContactName?: string;
+  children?: CampChild[];
+  childAllergies?: string;
   emergencyContactPhone?: string;
   hearAbout?: string;
   notes?: string;
-  guardian?: {
-    name?: string;
-    email?: string;
-    phone?: string;
-  };
 }
 
 export const CAMP_AGE_RANGES = [
-  { value: "under-13", label: "Under 13" },
   { value: "13-17", label: "13–17" },
   { value: "18-24", label: "18–24" },
   { value: "25-34", label: "25–34" },
@@ -36,6 +38,8 @@ export const CAMP_HEAR_ABOUT = [
   { value: "other", label: "Other" },
 ] as const;
 
+export const CAMP_MAX_CHILDREN = 3;
+
 export function isUnderEighteen(ageRange: string | undefined): boolean {
-  return ageRange === "under-13" || ageRange === "13-17";
+  return ageRange === "13-17";
 }

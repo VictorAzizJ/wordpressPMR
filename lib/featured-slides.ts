@@ -27,7 +27,7 @@ export const featuredSlides: FeaturedSlide[] = [
     description:
       "People's Media Record stewards oral histories, community radio, strike footage, and youth media — so movement memory stays public, usable, and cared for.",
     tag: "Featured archive",
-    cta: { label: "Search the Archive", href: "/archive" },
+    cta: { label: "Search the Archive", href: "/archive/browse" },
     secondaryCta: { label: "Browse Collections", href: "/collections" },
     media: { kind: "cassette" },
   },

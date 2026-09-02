@@ -7,21 +7,27 @@ export interface CampFaqItem {
 export const campFaqItems: CampFaqItem[] = [
   {
     id: "who",
-    question: "Who can join Media Camp?",
+    question: "Who can join People’s Media Camp?",
     answer:
-      "Young people, neighbors, and community members who want to learn oral history, digitization, and archival care. No prior media experience required — curiosity and care matter more than gear.",
+      "Young people, neighbors, organizers, and community members who want to learn oral history, digitization, and archival care. No prior media experience required — curiosity and care matter more than gear.",
   },
   {
     id: "cost",
     question: "Is Camp free?",
     answer:
-      "Yes. Media Camp is free for participants. Materials and equipment are provided during sessions. Placeholder — confirm scholarship / stipend details with PMR staff before publishing.",
+      "Yes. People’s Media Camp is free for participants. Materials and equipment are provided during sessions. Meals and refreshments are included both days.",
   },
   {
     id: "minors",
     question: "What if a camper is under 18?",
     answer:
-      "Minors are welcome. When you select an under-18 age range on the form, we ask for optional parent/guardian contact info so staff can coordinate consent and pickup details.",
+      "Participants 13–17 are welcome. Childcare is available for younger children through the Philly Childcare Collective — list names, ages, and an emergency contact on the registration form.",
+  },
+  {
+    id: "childcare",
+    question: "Is childcare available?",
+    answer:
+      "Yes. People’s Media Camp partners with the Philly Childcare Collective. Childcare is offered on Saturday, October 3 and Sunday, October 4. Add names, ages, and any allergies on the registration form.",
   },
   {
     id: "gear",
@@ -33,12 +39,12 @@ export const campFaqItems: CampFaqItem[] = [
     id: "access",
     question: "How do accessibility and dietary needs work?",
     answer:
-      "Tell us on the registration form. We use that information to plan venues, schedules, and meals. Reach out to hello@peoplesmediarecord.demo if you need to discuss accommodations before registering.",
+      "Camp takes place in an ADA accessible facility. Tell us about other accessibility needs and dietary preferences on the registration form so we can plan sessions, meals, and care.",
   },
   {
     id: "after",
     question: "What happens after I register?",
     answer:
-      "You will receive a confirmation email (in production) with session dates, location details, and what to expect on day one. Spots may be limited — register early when the campaign window opens.",
+      "You will receive a confirmation email with session times, the venue address, and what to expect. Spots may be limited — register early.",
   },
 ];

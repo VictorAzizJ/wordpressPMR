@@ -8,7 +8,7 @@ import { CassetteLogo } from "@/components/layout/CassetteLogo";
 import { HeaderSearch } from "@/components/layout/HeaderSearch";
 import { NavDropdown } from "@/components/layout/NavDropdown";
 import { NavTabIndicators, navTabClass } from "@/components/layout/NavTab";
-import { aboutNav, isNavSectionActive, mainNav, type NavId } from "@/lib/nav";
+import { isNavSectionActive, mainNav, type NavId } from "@/lib/nav";
 
 export function Header() {
   const pathname = usePathname();
@@ -69,7 +69,7 @@ export function Header() {
             className="ml-auto hidden h-full min-w-0 flex-1 items-stretch justify-end lg:flex"
             aria-label="Main"
           >
-            {mainNav.map((item) =>
+            {mainNav.map((item, index) =>
               item.children ? (
                 <NavDropdown
                   key={item.id}
@@ -78,6 +78,7 @@ export function Header() {
                   open={openId === item.id}
                   onToggle={() => toggleDesktop(item.id)}
                   onClose={() => setOpenId(null)}
+                  align={index === mainNav.length - 1 ? "right" : "left"}
                 />
               ) : (
                 <Link
@@ -95,14 +96,6 @@ export function Header() {
                 </Link>
               )
             )}
-            <NavDropdown
-              item={aboutNav}
-              active={isNavSectionActive("about", pathname)}
-              open={openId === "about"}
-              onToggle={() => toggleDesktop("about")}
-              onClose={() => setOpenId(null)}
-              align="right"
-            />
             <div className="flex h-full items-center pl-3">
               <HeaderSearch expandable />
             </div>
@@ -163,16 +156,6 @@ export function Header() {
                 )}
               </li>
             ))}
-            <li>
-              <NavDropdown
-                item={aboutNav}
-                active={isNavSectionActive("about", pathname)}
-                open={mobileSection === "about"}
-                onToggle={() => toggleMobile("about")}
-                onClose={() => setMobileOpen(false)}
-                variant="accordion"
-              />
-            </li>
           </ul>
         </nav>
       ) : null}

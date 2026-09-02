@@ -147,8 +147,9 @@ function getMockUpdates(limit: number): UpdatePost[] {
 }
 
 /**
- * Single entry point for the homepage grid.
- * Flip `updatesFeed.source` in config — the card component stays the same.
+ * Single entry point for the homepage “What’s Current?” grid.
+ * Instagram for now (mock or JSON). Flip `updatesFeed.source` in config
+ * when a live IG feed is ready; a later pass can draw from the calendar.
  */
 export async function getUpdates(): Promise<UpdatePost[]> {
   const { source, limit, jsonUrl } = updatesFeed;

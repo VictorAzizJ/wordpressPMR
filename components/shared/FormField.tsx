@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FocusEventHandler } from "react";
+import { ChangeEventHandler, FocusEventHandler, ReactNode } from "react";
 
 interface FormFieldProps {
   label: string;
@@ -9,8 +9,12 @@ interface FormFieldProps {
   rows?: number;
   placeholder?: string;
   value?: string;
+  defaultValue?: string;
   checked?: boolean;
   error?: string;
+  description?: ReactNode;
+  /** `light` = dark labels on cream surfaces (Camp registration). */
+  tone?: "default" | "light";
   onChange?: ChangeEventHandler<
     HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
   >;
@@ -29,16 +33,33 @@ export function FormField({
   rows = 4,
   placeholder,
   value,
+  defaultValue,
   checked,
   error,
+  description,
+  tone = "default",
   onChange,
   onBlur,
   autoComplete,
 }: FormFieldProps) {
   const id = `field-${name}`;
   const errorId = `${id}-error`;
-  const describedBy = error ? errorId : undefined;
+  const hintId = `${id}-hint`;
+  const describedBy =
+    [description ? hintId : null, error ? errorId : null]
+      .filter(Boolean)
+      .join(" ") || undefined;
   const invalid = Boolean(error);
+  const light = tone === "light";
+  const labelClass = light
+    ? "mb-1.5 block font-mono text-sm font-bold text-pmr-dark"
+    : "mb-1.5 block font-mono text-sm font-bold text-pmr-offwhite";
+  const hintClass = light
+    ? "mb-2 text-sm leading-relaxed text-pmr-charcoal"
+    : "mb-2 text-sm leading-relaxed text-pmr-muted";
+  const checkboxLabelClass = light
+    ? "font-mono text-sm text-pmr-charcoal"
+    : "font-mono text-sm text-pmr-muted";
 
   if (type === "checkbox") {
     return (
@@ -56,8 +77,13 @@ export function FormField({
             aria-describedby={describedBy}
             className="mt-1 h-5 w-5 shrink-0 rounded border-2 border-pmr-border accent-pmr-coral"
           />
-          <span className="font-mono text-sm text-pmr-muted">{label}</span>
+          <span className={checkboxLabelClass}>{label}</span>
         </label>
+        {description && (
+          <p id={hintId} className={`ml-8 ${hintClass}`}>
+            {description}
+          </p>
+        )}
         {error && (
           <p id={errorId} className="mt-1.5 font-mono text-sm text-pmr-coral" role="alert">
             {error}
@@ -69,10 +95,7 @@ export function FormField({
 
   return (
     <div>
-      <label
-        htmlFor={id}
-        className="mb-1.5 block font-mono text-sm font-bold text-pmr-offwhite"
-      >
+      <label htmlFor={id} className={labelClass}>
         {label}
         {required && (
           <span className="text-pmr-coral" aria-hidden>
@@ -81,6 +104,11 @@ export function FormField({
           </span>
         )}
       </label>
+      {description && (
+        <p id={hintId} className={hintClass}>
+          {description}
+        </p>
+      )}
       {type === "textarea" ? (
         <textarea
           id={id}
@@ -89,6 +117,7 @@ export function FormField({
           rows={rows}
           placeholder={placeholder}
           value={value}
+          defaultValue={value === undefined ? defaultValue : undefined}
           onChange={onChange}
           onBlur={onBlur}
           aria-invalid={invalid || undefined}
@@ -101,6 +130,7 @@ export function FormField({
           name={name}
           required={required}
           value={value}
+          defaultValue={value === undefined ? defaultValue : undefined}
           onChange={onChange}
           onBlur={onBlur}
           aria-invalid={invalid || undefined}
@@ -122,6 +152,7 @@ export function FormField({
           required={required}
           placeholder={placeholder}
           value={value}
+          defaultValue={value === undefined ? defaultValue : undefined}
           onChange={onChange}
           onBlur={onBlur}
           autoComplete={autoComplete}

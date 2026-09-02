@@ -12,7 +12,9 @@ export function CampaignChrome() {
   const pathname = usePathname();
   const { showPopup, dismiss, config } = useCampaignState();
 
-  if (!showPopup || pathname === "/camp") return null;
+  if (!showPopup || pathname === "/camp" || pathname.startsWith("/camp/")) {
+    return null;
+  }
 
   return <CampaignPopup config={config} onDismiss={dismiss} />;
 }

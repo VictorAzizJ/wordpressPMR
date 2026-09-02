@@ -18,6 +18,8 @@ export interface ArchiveRecord {
   location?: string;
   people?: string[];
   topics: string[];
+  /** Replaces coverage_type in source metadata (interview, meeting, rally, etc.). */
+  activity?: string;
   language?: string;
   rightsStatus?: string;
   accessLevel: AccessLevel;
@@ -119,11 +121,18 @@ export type InterestType =
   | "partner"
   | "offer_resources";
 
+export type ArchiveSort = "year" | "title" | "relevance";
+
 export interface ArchiveFilters {
   query?: string;
   topics?: string[];
+  activities?: string[];
+  organizations?: string[];
+  locations?: string[];
   years?: string[];
   mediaTypes?: MediaType[];
+  languages?: string[];
+  rights?: string[];
   collectionIds?: string[];
   accessLevels?: AccessLevel[];
 }

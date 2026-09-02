@@ -2,9 +2,9 @@ import Link from "next/link";
 
 const exploreLinks = [
   { href: "/archive", label: "Archive" },
+  { href: "/resources", label: "Resources" },
   { href: "/programs", label: "Programs" },
   { href: "/about", label: "About" },
-  { href: "/glossary", label: "Glossary" },
 ];
 
 const involvedLinks = [

@@ -1,102 +1,82 @@
-"use client";
-
-import { Suspense, useEffect, useMemo, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { archiveRecords } from "@/lib/mock-data";
-import { filterRecords } from "@/lib/filter-records";
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { ArrowRight } from "lucide-react";
 import { PageShell } from "@/components/layout/PageShell";
-import { SearchBar } from "@/components/archive/SearchBar";
-import {
-  FilterPanel,
-  type FilterState,
-} from "@/components/archive/FilterPanel";
-import { RecordCard } from "@/components/archive/RecordCard";
+import { archiveHub, archiveSections } from "@/lib/archive";
 
-const emptyFilters: FilterState = {
-  topics: [],
-  years: [],
-  mediaTypes: [],
-  collectionIds: [],
-  accessLevels: [],
+export const metadata: Metadata = {
+  title: archiveHub.title,
+  description: archiveHub.intro,
 };
 
-export default function ArchivePage() {
-  return (
-    <Suspense fallback={<ArchiveFallback />}>
-      <ArchivePageContent />
-    </Suspense>
-  );
-}
-
-function ArchiveFallback() {
-  return (
-    <PageShell
-      title="Search the Archive"
-      subtitle="Filter by topic, year, media type, collection, and access level. Demo uses mock records."
-    >
-      <div className="mb-6">
-        <SearchBar value="" onChange={() => {}} />
-      </div>
-    </PageShell>
-  );
-}
-
-function ArchivePageContent() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const pathname = usePathname();
-  const urlQuery = searchParams.get("q") ?? "";
-  const [query, setQuery] = useState(urlQuery);
-  const [filters, setFilters] = useState<FilterState>(emptyFilters);
-
-  useEffect(() => {
-    setQuery(urlQuery);
-  }, [urlQuery]);
-
-  function handleQueryChange(value: string) {
-    setQuery(value);
-    const params = new URLSearchParams(searchParams.toString());
-    if (value) params.set("q", value);
-    else params.delete("q");
-    const qs = params.toString();
-    router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+export default async function ArchivePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string }>;
+}) {
+  const { q } = await searchParams;
+  const query = q?.trim();
+  if (query) {
+    redirect(`/archive/browse?q=${encodeURIComponent(query)}`);
   }
 
-  const results = useMemo(
-    () => filterRecords(archiveRecords, query, filters),
-    [query, filters]
-  );
-
   return (
-    <PageShell
-      title="Search the Archive"
-      subtitle="Filter by topic, year, media type, collection, and access level. Demo uses mock records."
-    >
-      <div className="mb-6">
-        <SearchBar value={query} onChange={handleQueryChange} />
-      </div>
-
-      <div className="grid gap-8 lg:grid-cols-[280px_1fr]">
-        <FilterPanel filters={filters} onChange={setFilters} />
-
-        <div>
-          <p className="mb-4 text-sm font-bold text-pmr-muted" role="status" aria-live="polite">
-            {results.length} record{results.length !== 1 ? "s" : ""} found
-          </p>
-          {results.length === 0 ? (
-            <div className="pmr-card p-8 text-center text-pmr-muted">
-              No records match your search. Try clearing filters or broadening
-              your keywords.
-            </div>
-          ) : (
-            <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-              {results.map((record) => (
-                <RecordCard key={record.id} record={record} />
-              ))}
-            </div>
-          )}
+    <>
+      <section
+        className="relative isolate overflow-hidden border-b-4 border-pmr-border bg-pmr-dark"
+        aria-labelledby="archive-heading"
+      >
+        <div className="absolute inset-0" aria-hidden>
+          <Image
+            src={archiveHub.photo.src}
+            alt={archiveHub.photo.alt}
+            fill
+            className="object-cover"
+            sizes="100vw"
+            priority
+          />
         </div>
-      </div>
-    </PageShell>
+        <div
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-pmr-dark/80 via-pmr-dark/45 to-pmr-dark/20"
+          aria-hidden
+        />
+        <div className="relative z-10 mx-auto flex min-h-[min(52svh,28rem)] max-w-7xl flex-col justify-end px-4 py-12 sm:px-6 sm:py-16">
+          <h1
+            id="archive-heading"
+            className="max-w-4xl text-3xl font-bold tracking-tight text-pmr-offwhite sm:text-4xl lg:text-5xl"
+          >
+            {archiveHub.title}
+          </h1>
+          <p className="mt-4 max-w-3xl text-base leading-relaxed text-pmr-cream sm:text-lg">
+            {archiveHub.intro}
+          </p>
+        </div>
+      </section>
+
+      <PageShell>
+        <div className="grid gap-6 sm:grid-cols-2">
+          {archiveSections.map((section) => (
+            <Link
+              key={section.href}
+              href={section.href}
+              className="pmr-card group flex flex-col p-6 transition hover:ring-2 hover:ring-pmr-coral/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-coral/70"
+            >
+              <h2 className="text-xl font-bold text-pmr-offwhite group-hover:text-pmr-green-bright">
+                {section.label}
+              </h2>
+              <p className="mt-3 flex-1 text-sm text-pmr-muted">
+                {section.description}
+              </p>
+              <p className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-pmr-coral">
+                {section.cta}
+                <ArrowRight className="h-4 w-4" aria-hidden />
+              </p>
+            </Link>
+          ))}
+        </div>
+      </PageShell>
+    </>
   );
 }

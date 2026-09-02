@@ -74,7 +74,7 @@ export const collections: Collection[] = [
   },
 ];
 
-export const archiveRecords: ArchiveRecord[] = [
+const archiveRecordsDraft: ArchiveRecord[] = [
   {
     id: "rec-1",
     slug: "west-philly-fm-sign-on-1984",
@@ -387,6 +387,195 @@ export const archiveRecords: ArchiveRecord[] = [
     featured: true,
   },
 ];
+
+function defaultRights(accessLevel: ArchiveRecord["accessLevel"]): string {
+  if (accessLevel === "restricted" || accessLevel === "private") {
+    return "Restricted";
+  }
+  if (accessLevel === "request_access") return "Pending review";
+  return "Community license";
+}
+
+/** Activity replaces coverage_type from source metadata. */
+const archiveFacets: Record<
+  string,
+  Pick<
+    ArchiveRecord,
+    "activity" | "organization" | "location" | "language" | "rightsStatus"
+  >
+> = {
+  "rec-1": {
+    activity: "Broadcast",
+    organization: "West Philly Community Media Collective",
+    location: "West Philadelphia, PA",
+    language: "English",
+    rightsStatus: "Community license",
+  },
+  "rec-2": {
+    activity: "Meeting",
+    organization: "West Philly Community Media Collective",
+    location: "West Philadelphia, PA",
+    language: "English",
+    rightsStatus: "Community license",
+  },
+  "rec-3": {
+    activity: "Interview",
+    organization: "West Philly Community Media Collective",
+    location: "Mantua, Philadelphia, PA",
+    language: "English",
+    rightsStatus: "Community license",
+  },
+  "rec-4": {
+    activity: "Documentary",
+    organization: "West Philly Community Media Collective",
+    location: "West Philadelphia, PA",
+    language: "English",
+    rightsStatus: "Pending review",
+  },
+  "rec-5": {
+    activity: "Broadcast",
+    organization: "West Philly Community Media Collective",
+    location: "West Philadelphia, PA",
+    language: "English",
+    rightsStatus: "Community license",
+  },
+  "rec-6": {
+    activity: "Oral history",
+    organization: "Kensington Welfare Rights Union",
+    location: "Kensington, Philadelphia, PA",
+    language: "English",
+    rightsStatus: "Community license",
+  },
+  "rec-7": {
+    activity: "Interview",
+    organization: "Kensington Welfare Rights Union",
+    location: "Kensington, Philadelphia, PA",
+    language: "English / Spanish",
+    rightsStatus: "Community license",
+  },
+  "rec-8": {
+    activity: "Training",
+    organization: "Kensington Memory Project",
+    location: "Kensington, Philadelphia, PA",
+    language: "English",
+    rightsStatus: "Pending review",
+  },
+  "rec-9": {
+    activity: "Photograph",
+    organization: "Kensington Memory Project",
+    location: "Kensington, Philadelphia, PA",
+    language: "English",
+    rightsStatus: "Public",
+  },
+  "rec-10": {
+    activity: "Broadcast",
+    organization: "Media Mobilizing Project",
+    location: "Philadelphia, PA",
+    language: "English",
+    rightsStatus: "Restricted",
+  },
+  "rec-11": {
+    activity: "Meeting",
+    organization: "Media Mobilizing Project",
+    location: "Philadelphia, PA",
+    language: "English",
+    rightsStatus: "Pending review",
+  },
+  "rec-12": {
+    activity: "Publication",
+    organization: "Media Mobilizing Project",
+    location: "Philadelphia, PA",
+    language: "English",
+    rightsStatus: "Community license",
+  },
+  "rec-13": {
+    activity: "Documentary",
+    organization: "Youth Media Labs",
+    location: "Philadelphia, PA",
+    language: "English",
+    rightsStatus: "Community license",
+  },
+  "rec-14": {
+    activity: "Workshop",
+    organization: "Youth Media Labs",
+    location: "Philadelphia, PA",
+    language: "English",
+    rightsStatus: "Community license",
+  },
+  "rec-15": {
+    activity: "Broadcast",
+    organization: "New Jersey Platform",
+    location: "Newark, NJ",
+    language: "English / Spanish",
+    rightsStatus: "Community license",
+  },
+  "rec-16": {
+    activity: "Publication",
+    organization: "Youth Media Labs",
+    location: "Philadelphia, PA",
+    language: "English",
+    rightsStatus: "Public",
+  },
+  "rec-17": {
+    activity: "Event coverage",
+    organization: "Tri-State Labor Archive Network",
+    location: "Philadelphia, PA",
+    language: "English",
+    rightsStatus: "Community license",
+  },
+  "rec-18": {
+    activity: "Rally",
+    organization: "Poor People's Campaign",
+    location: "Philadelphia, PA",
+    language: "English",
+    rightsStatus: "Community license",
+  },
+  "rec-19": {
+    activity: "Meeting",
+    organization: "Tri-State Labor Archive Network",
+    location: "Philadelphia, PA",
+    language: "English",
+    rightsStatus: "Pending review",
+  },
+  "rec-20": {
+    activity: "Photograph",
+    organization: "Philly We Rise",
+    location: "Philadelphia, PA",
+    language: "English",
+    rightsStatus: "Public",
+  },
+  "rec-21": {
+    activity: "Event coverage",
+    organization: "Philly We Rise",
+    location: "Philadelphia, PA",
+    language: "English / Spanish",
+    rightsStatus: "Community license",
+  },
+  "rec-22": {
+    activity: "Training",
+    organization: "People's Media Record",
+    location: "Philadelphia, PA",
+    language: "English",
+    rightsStatus: "Community license",
+  },
+};
+
+export const archiveRecords: ArchiveRecord[] = archiveRecordsDraft.map(
+  (record) => {
+    const facets = archiveFacets[record.id] ?? {};
+    return {
+      ...record,
+      activity: facets.activity ?? record.activity,
+      organization: facets.organization ?? record.organization,
+      location: facets.location ?? record.location ?? "Philadelphia, PA",
+      language: facets.language ?? record.language ?? "English",
+      rightsStatus:
+        facets.rightsStatus ??
+        record.rightsStatus ??
+        defaultRights(record.accessLevel),
+    };
+  }
+);
 
 export const stories: Story[] = [
   {
@@ -760,6 +949,42 @@ export function getFeaturedStories(): Story[] {
 
 export const allTopics = [
   ...new Set(archiveRecords.flatMap((r) => r.topics)),
+].sort();
+
+export const allActivities = [
+  ...new Set(
+    archiveRecords.map((r) => r.activity).filter((v): v is string => Boolean(v))
+  ),
+].sort();
+
+export const allOrganizations = [
+  ...new Set(
+    archiveRecords
+      .map((r) => r.organization)
+      .filter((v): v is string => Boolean(v))
+  ),
+].sort();
+
+export const allLocations = [
+  ...new Set(
+    archiveRecords.map((r) => r.location).filter((v): v is string => Boolean(v))
+  ),
+].sort();
+
+export const allLanguages = [
+  ...new Set(
+    archiveRecords
+      .map((r) => r.language)
+      .filter((v): v is string => Boolean(v))
+  ),
+].sort();
+
+export const allRights = [
+  ...new Set(
+    archiveRecords
+      .map((r) => r.rightsStatus)
+      .filter((v): v is string => Boolean(v))
+  ),
 ].sort();
 
 export const allYears = [

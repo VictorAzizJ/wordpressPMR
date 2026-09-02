@@ -9,6 +9,20 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/glossary",
+        destination: "/resources/glossary",
+        permanent: true,
+      },
+      {
+        source: "/archive/policy",
+        destination: "/archive/collections-management-policy",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

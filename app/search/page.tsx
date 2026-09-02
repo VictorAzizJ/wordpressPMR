@@ -60,7 +60,7 @@ export default async function SearchPage({
       ) : results.length === 0 ? (
         <div className="pmr-card p-8 text-center text-pmr-muted">
           No site results for “{query}”. Try another term, or{" "}
-          <Link href={`/archive?q=${encodeURIComponent(query)}`} className="underline">
+          <Link href={`/archive/browse?q=${encodeURIComponent(query)}`} className="underline">
             search the archive
           </Link>
           .

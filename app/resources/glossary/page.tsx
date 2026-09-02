@@ -3,8 +3,11 @@
 import { useEffect, useState } from "react";
 import { getResourceById, glossaryTerms } from "@/lib/mock-data";
 import { PageShell } from "@/components/layout/PageShell";
+import { resourceSections } from "@/lib/resources";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
+
+const glossary = resourceSections[2];
 
 export default function GlossaryPage() {
   const [openId, setOpenId] = useState<string | null>(glossaryTerms[0]?.id ?? null);
@@ -21,10 +24,7 @@ export default function GlossaryPage() {
   );
 
   return (
-    <PageShell
-      title="Glossary"
-      subtitle="Terms and concepts for understanding community archives and PMR practices. See also links point to matching resources."
-    >
+    <PageShell title={glossary.label} subtitle={glossary.description}>
       <div className="max-w-3xl space-y-2">
         {sorted.map((item) => {
           const isOpen = openId === item.id;
@@ -62,7 +62,7 @@ export default function GlossaryPage() {
                         <span key={resource.id}>
                           {index > 0 ? ", " : null}
                           <Link
-                            href={`/resources#${resource.slug}`}
+                            href={`/resources/pool#${resource.slug}`}
                             className="text-pmr-coral hover:underline"
                           >
                             {resource.title}

@@ -28,7 +28,7 @@ export function CampFAQ() {
           return (
             <li
               key={item.id}
-              className="border-2 border-pmr-border bg-pmr-elevated/80"
+              className="border-2 border-pmr-border bg-pmr-offwhite"
             >
               <h3>
                 <button
@@ -36,12 +36,12 @@ export function CampFAQ() {
                   id={buttonId}
                   aria-expanded={isOpen}
                   aria-controls={panelId}
-                  className="flex min-h-11 w-full items-center justify-between gap-4 px-4 py-3 text-left font-mono text-sm font-bold text-pmr-offwhite transition hover:text-pmr-coral focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-pmr-coral/70 sm:px-5 sm:py-4 sm:text-base"
+                  className="flex min-h-11 w-full items-center justify-between gap-4 px-4 py-3 text-left font-mono text-sm font-bold text-pmr-dark transition hover:bg-pmr-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-pmr-coral/70 sm:px-5 sm:py-4 sm:text-base"
                   onClick={() => setOpenId(isOpen ? null : item.id)}
                 >
                   <span>{item.question}</span>
                   <ChevronDown
-                    className={`h-5 w-5 shrink-0 text-pmr-coral motion-safe:transition-transform ${isOpen ? "rotate-180" : ""}`}
+                    className={`h-5 w-5 shrink-0 text-pmr-dark motion-safe:transition-transform ${isOpen ? "rotate-180" : ""}`}
                     aria-hidden
                   />
                 </button>
@@ -51,7 +51,7 @@ export function CampFAQ() {
                 role="region"
                 aria-labelledby={buttonId}
                 hidden={!isOpen}
-                className="border-t-2 border-pmr-border px-4 py-3 text-sm text-pmr-muted sm:px-5 sm:py-4"
+                className="border-t-2 border-pmr-border px-4 py-3 text-sm leading-relaxed text-pmr-charcoal sm:px-5 sm:py-4"
               >
                 {item.answer}
               </div>

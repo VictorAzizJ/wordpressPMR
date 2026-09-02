@@ -1,4 +1,4 @@
-import { pastWorkshopVideosUrl } from "@/config/programs";
+import { archiveSections } from "./archive";
 
 export type NavChild = {
   href: string;
@@ -17,47 +17,47 @@ export type NavEntry = {
 
 export const mainNav: NavEntry[] = [
   {
-    id: "archive",
-    label: "Archive",
+    id: "about",
+    label: "About",
+    href: "/about",
     children: [
-      { href: "/collections", label: "Collections" },
-      { href: "/archive/policy", label: "Policy" },
-      { href: "/glossary", label: "Glossary" },
+      { href: "/about#mission-vision-values", label: "Mission, Vision, and Values" },
+      { href: "/about#people", label: "People" },
+    ],
+  },
+  {
+    id: "programs",
+    label: "Programs",
+    href: "/programs",
+    children: [
+      { href: "/programs/pacme", label: "PACME Fellowship" },
+      { href: "/camp", label: "People's Media Camp" },
+      {
+        href: "/programs/movement-memory-jams",
+        label: "Movement Memory Jams",
+      },
     ],
   },
   {
     id: "resources",
     label: "Resources",
     href: "/resources",
-  },
-  {
-    id: "programs",
-    label: "Programs",
     children: [
-      { href: "/programs/pacme", label: "PACME" },
-      { href: "/camp", label: "People's Media Camp" },
-      {
-        href: "/programs/movement-memory-jams",
-        label: "Movement Memory Jams",
-      },
-      { href: "/events", label: "Workshops" },
-      {
-        href: pastWorkshopVideosUrl,
-        label: "Past workshop videos",
-        external: true,
-      },
+      { href: "/resources/pool", label: "Resource Pool" },
+      { href: "/resources/pace", label: "PACE" },
+      { href: "/resources/glossary", label: "Glossary" },
     ],
   },
+  {
+    id: "archive",
+    label: "Archive",
+    href: "/archive",
+    children: archiveSections.map((section) => ({
+      href: section.href,
+      label: section.label,
+    })),
+  },
 ];
-
-export const aboutNav: NavEntry = {
-  id: "about",
-  label: "About",
-  children: [
-    { href: "/about/mission", label: "Mission" },
-    { href: "/about/people", label: "People" },
-  ],
-};
 
 function starts(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
@@ -69,17 +69,12 @@ export function isNavSectionActive(id: NavId, pathname: string): boolean {
       return (
         starts(pathname, "/archive") ||
         starts(pathname, "/collections") ||
-        starts(pathname, "/glossary") ||
         starts(pathname, "/records")
       );
     case "resources":
       return starts(pathname, "/resources");
     case "programs":
-      return (
-        starts(pathname, "/programs") ||
-        starts(pathname, "/camp") ||
-        starts(pathname, "/events")
-      );
+      return starts(pathname, "/programs") || starts(pathname, "/camp");
     case "about":
       return starts(pathname, "/about");
   }

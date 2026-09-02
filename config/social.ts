@@ -13,9 +13,12 @@ export const social = {
 } as const;
 
 /**
- * Homepage “current things” grid.
+ * Homepage “What’s Current?” grid.
  *
- * - `mock` — `lib/updates.ts` placeholders (this pass).
+ * For now this is Instagram (mock placeholders, or a public JSON feed).
+ * A later pass can swap the source to the workshops/events calendar.
+ *
+ * - `mock` — `lib/updates.ts` placeholders.
  * - `json` — GET a public JSON feed (Behold or similar) and map to `UpdatePost`.
  *
  * Set `UPDATES_FEED_URL` in env (preferred) or `jsonUrl` below, then flip
@@ -29,7 +32,7 @@ export const updatesFeed: {
   jsonUrl: string;
 } = {
   source: "mock",
-  limit: 9,
+  limit: 6,
   jsonUrl: "",
 };
 

@@ -17,10 +17,39 @@ const pages: SearchDoc[] = [
     excerpt: "Community archive home, updates, and ways to get involved.",
   },
   {
-    title: "Search the archive",
+    title: "Archive",
     href: "/archive",
     kind: "page",
-    excerpt: "Find records by keyword, topic, year, media type, and access level.",
+    excerpt:
+      "Explore archive materials and the protocols for managing and preserving them long term.",
+  },
+  {
+    title: "Browse the Archive",
+    href: "/archive/browse",
+    kind: "page",
+    excerpt:
+      "The People's Media Record's Archive stewards the MMP Collection and related community media from the Philadelphia region.",
+  },
+  {
+    title: "The Media Mobilizing Project Collection",
+    href: "/archive/mmp-collection",
+    kind: "page",
+    excerpt:
+      "The archive of People's Media Record houses the Media Mobilizing Project (MMP) Collection. On this page we describe MMP, the origins of the collection, and what it includes.",
+  },
+  {
+    title: "Collections Management Policy",
+    href: "/archive/collections-management-policy",
+    kind: "page",
+    excerpt:
+      "Guidelines for stewarding the People's Media Record's Archive, covering acquisitions, postcustodial care, removal, access, and privacy.",
+  },
+  {
+    title: "Media Mobilizing Project Collection Community Policy",
+    href: "/archive/mmp-community-policy",
+    kind: "page",
+    excerpt:
+      "People's Media Record's relationship with the Media Mobilizing Project Collection, created in agreement with former MMP members.",
   },
   {
     title: "Collections",
@@ -29,40 +58,52 @@ const pages: SearchDoc[] = [
     excerpt: "Browse stewarded collections of movement media and oral history.",
   },
   {
-    title: "Archive policy",
-    href: "/archive/policy",
+    title: "Archiving and Preservation Resources",
+    href: "/resources",
     kind: "page",
-    excerpt: "Access, collecting, and care policies for the archive.",
+    excerpt:
+      "Knowledge and tools for archiving and preserving grassroots media.",
+  },
+  {
+    title: "Resource Pool",
+    href: "/resources/pool",
+    kind: "page",
+    excerpt:
+      "Tools, references, service providers, and other resources for archiving grassroots media.",
+  },
+  {
+    title: "Philadelphia Audiovisual Collections Evaluation (PACE)",
+    href: "/resources/pace",
+    kind: "page",
+    excerpt:
+      "Year-long evaluation of local community media collections with Scribe Video Center and Philadelphia Community Access Media.",
   },
   {
     title: "Glossary",
-    href: "/glossary",
+    href: "/resources/glossary",
     kind: "page",
-    excerpt: "Terms for community archives, stewardship, and PMR practice.",
-  },
-  {
-    title: "Resources",
-    href: "/resources",
-    kind: "page",
-    excerpt: "Toolkits, guides, teaching materials, and community archiving resources.",
+    excerpt:
+      "Key concepts for archiving and preserving grassroots media.",
   },
   {
     title: "About",
     href: "/about",
     kind: "page",
-    excerpt: "Mission and people behind People's Media Record.",
+    excerpt:
+      "Mission, vision, values, and people behind People's Media Record.",
   },
   {
-    title: "Mission",
-    href: "/about/mission",
+    title: "Mission, Vision, and Values",
+    href: "/about#mission-vision-values",
     kind: "page",
-    excerpt: "What People's Media Record is building and why.",
+    excerpt:
+      "Build power and capacity for Philadelphians to save and share their stories on their own terms.",
   },
   {
     title: "People",
-    href: "/about/people",
+    href: "/about#people",
     kind: "page",
-    excerpt: "Staff, fellows, community advisory board, and partners.",
+    excerpt: "PMR staff and the Community Advisory Board.",
   },
   {
     title: "Contact",
@@ -89,26 +130,36 @@ const programs: SearchDoc[] = [
     title: "Programs",
     href: "/programs",
     kind: "program",
-    excerpt: "PACME, People's Media Camp, Movement Memory Jams, and workshops.",
+    excerpt:
+      "PACME Fellowship, People's Media Camp, and Movement Memory Jams.",
   },
   {
-    title: "PACME",
+    title: "PACME Fellowship",
     href: "/programs/pacme",
     kind: "program",
-    excerpt: "Philadelphia-area community media education program.",
+    excerpt:
+      "A nine-month fellowship supporting Philadelphia-based media creators and stewards in preserving and archiving community media collections.",
   },
   {
     title: "People's Media Camp",
     href: "/camp",
     kind: "program",
     excerpt:
-      "Hands-on workshops in oral history, digitization, and community archival care.",
+      "An annual convening for grassroots preservationists, archivists, community historians, and memory workers.",
+  },
+  {
+    title: "Camp Registration",
+    href: "/camp/register",
+    kind: "program",
+    excerpt:
+      "Register for People's Media Camp. Only name and contact information are required.",
   },
   {
     title: "Movement Memory Jams",
     href: "/programs/movement-memory-jams",
     kind: "program",
-    excerpt: "Gatherings to share, digitize, and celebrate movement memory.",
+    excerpt:
+      "In 2026 PMR is hosting monthly Movement Memory Jams — community events to share, discuss, and connect around grassroots memory work, preservation, and archiving.",
   },
   {
     title: "Workshops",
@@ -128,13 +179,13 @@ export function getSearchIndex(): SearchDoc[] {
     ...programs,
     ...resources.map((item) => ({
       title: item.title,
-      href: `/resources#${item.slug}`,
+      href: `/resources/pool#${item.slug}`,
       kind: "resource" as const,
       excerpt: item.description,
     })),
     ...glossaryTerms.map((item) => ({
       title: item.term,
-      href: `/glossary#${item.slug}`,
+      href: `/resources/glossary#${item.slug}`,
       kind: "glossary" as const,
       excerpt: item.definition,
     })),

@@ -1,3 +1,6 @@
+import Link from "next/link";
+import { TapeLabel } from "@/components/camp/TapeLabel";
+
 interface CampRegistrationSuccessProps {
   name?: string;
   onReset?: () => void;
@@ -7,32 +10,33 @@ export function CampRegistrationSuccess({
   name,
   onReset,
 }: CampRegistrationSuccessProps) {
+  const firstName = name ? name.split(" ")[0] : "";
+
   return (
     <div
-      className="pmr-card space-y-4 border-pmr-coral p-6 sm:p-8"
+      className="camp-form-card space-y-4 p-6 sm:p-8"
       role="status"
       aria-live="polite"
     >
-      <p className="font-mono text-xs font-bold uppercase tracking-[0.25em] text-pmr-coral">
-        {"// transmission received"}
+      <TapeLabel as="p">Registration received</TapeLabel>
+      <h2 className="text-2xl font-bold text-pmr-dark">
+        You&apos;re registered
+        {firstName ? `, ${firstName}` : ""}.
+      </h2>
+      <p className="text-base leading-relaxed text-pmr-charcoal">
+        Thanks for signing up for People’s Media Camp. We’ll follow up by
+        email with session times, the venue, and next steps.
       </p>
-      <h3 className="text-2xl font-bold text-pmr-offwhite">
-        You&apos;re on the Camp list
-        {name ? `, ${name.split(" ")[0]}` : ""}.
-      </h3>
-      <p className="text-pmr-muted">
-        Thanks for registering for Media Camp. In production, PMR staff will
-        confirm dates, location, and next steps by email. Your submission was
-        validated and staged for the Sheets webhook.
-      </p>
-      <p className="font-mono text-sm text-pmr-coral">
-        &gt; status: queued · mode: awaiting webhook_
-      </p>
-      {onReset && (
-        <button type="button" className="pmr-btn-secondary mt-2" onClick={onReset}>
-          Submit another registration
-        </button>
-      )}
+      <div className="flex flex-wrap gap-3 pt-2">
+        <Link href="/camp" className="pmr-btn">
+          Back to Camp
+        </Link>
+        {onReset && (
+          <button type="button" className="pmr-btn-secondary" onClick={onReset}>
+            Submit another registration
+          </button>
+        )}
+      </div>
     </div>
   );
 }

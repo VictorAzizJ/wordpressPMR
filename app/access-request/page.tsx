@@ -11,7 +11,15 @@ const recordOptions = archiveRecords
   )
   .map((r) => ({ value: r.slug, label: r.title }));
 
-export default function AccessRequestPage() {
+export default async function AccessRequestPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ record?: string }>;
+}) {
+  const { record } = await searchParams;
+  const selectedRecord = recordOptions.some((option) => option.value === record)
+    ? record
+    : undefined;
   return (
     <PageShell
       title="Request Access"
@@ -39,11 +47,14 @@ export default function AccessRequestPage() {
             </ul>
           </div>
           <p>
-            Read the full{" "}
-            <Link href="/archive/policy" className="font-bold text-pmr-coral hover:underline">
-              archive policy
+            Read the{" "}
+            <Link
+              href="/archive/collections-management-policy"
+              className="font-bold text-pmr-coral hover:underline"
+            >
+              Collections Management Policy
             </Link>{" "}
-            stub for collecting and use notes.
+            for how People&apos;s Media Record stewards archive materials.
           </p>
           <DemoFormNotice />
         </div>
@@ -59,6 +70,7 @@ export default function AccessRequestPage() {
               type="select"
               required
               options={recordOptions}
+              defaultValue={selectedRecord}
             />
             <FormField
               label="Intended use"

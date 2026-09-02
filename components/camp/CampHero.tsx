@@ -1,14 +1,16 @@
+import Link from "next/link";
+
 interface CampHeroProps {
   registerHref?: string;
 }
 
-export function CampHero({ registerHref = "#register" }: CampHeroProps) {
+export function CampHero({ registerHref = "/camp/register" }: CampHeroProps) {
   return (
     <section
       className="relative flex min-h-[60svh] flex-col items-center justify-center px-4 py-16 sm:min-h-[72vh] sm:px-6"
       aria-labelledby="camp-hero-heading"
     >
-      <p className="mb-8 font-mono text-xs font-bold uppercase tracking-[0.35em] text-pmr-coral sm:text-sm">
+      <p className="mb-8 font-mono text-xs font-bold uppercase tracking-[0.35em] text-pmr-dark sm:text-sm">
         <span aria-hidden>●</span> signal · programs · open
       </p>
 
@@ -29,9 +31,9 @@ export function CampHero({ registerHref = "#register" }: CampHeroProps) {
         &gt; digitize · label · pass it on_
       </p>
 
-      <a href={registerHref} className="pmr-btn mt-10 text-base">
+      <Link href={registerHref} className="pmr-btn mt-10 text-base">
         Register for Camp
-      </a>
+      </Link>
     </section>
   );
 }

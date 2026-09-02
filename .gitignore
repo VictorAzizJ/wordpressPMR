@@ -36,3 +36,18 @@ next-env.d.ts
 
 # vercel
 .vercel
+
+# local agent/deploy scratch
+.arg-chunk-*.txt
+.staging-chunk-*.txt
+.args-only.json
+.stdout-deploy.json
+.deploy-*
+.mcp-*
+.full-deploy-*
+.playwright-mcp/
+/deploy-*.json
+/deploy-*.txt
+/mcp-*.json
+/mcp-*.txt
+/run-mcp-deploy.js

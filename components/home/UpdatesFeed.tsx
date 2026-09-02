@@ -3,6 +3,7 @@ import {
   instagramHandleDisplay,
   instagramProfileUrl,
   social,
+  updatesFeed,
 } from "@/config/social";
 import type { UpdatePost } from "@/lib/updates";
 import { UpdateCard } from "./UpdateCard";
@@ -16,23 +17,24 @@ export function UpdatesFeed({
   posts,
   handle = social.instagramHandle,
 }: UpdatesFeedProps) {
-  if (posts.length === 0) return null;
+  const visible = posts.slice(0, updatesFeed.limit);
+  if (visible.length === 0) return null;
 
   const profileUrl = instagramProfileUrl(handle);
   const handleLabel = instagramHandleDisplay(handle);
 
   return (
     <section
-      className="border-t-4 border-pmr-border bg-pmr-charcoal py-12 sm:py-16"
+      className="bg-pmr-charcoal py-12 sm:py-16"
       aria-labelledby="updates-heading"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
           <h2
             id="updates-heading"
-            className="text-2xl font-bold text-pmr-offwhite sm:text-3xl"
+            className="scroll-mt-28 text-2xl font-bold text-pmr-offwhite sm:text-3xl"
           >
-            Current things
+            What&apos;s Current?
           </h2>
           <a
             href={profileUrl}
@@ -45,7 +47,7 @@ export function UpdatesFeed({
           </a>
         </div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post) => (
+          {visible.map((post) => (
             <UpdateCard key={post.id} post={post} />
           ))}
         </div>

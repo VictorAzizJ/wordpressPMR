@@ -1,71 +1,67 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { PageShell } from "@/components/layout/PageShell";
-import { pastWorkshopVideosUrl } from "@/config/programs";
-import { ArrowRight, ExternalLink } from "lucide-react";
+import { programSections, programsHub } from "@/lib/programs";
 
-const programs = [
-  {
-    href: "/programs/pacme",
-    label: "PACME",
-    description:
-      "Community media education — fellows, classrooms, and neighborhood media skills.",
-  },
-  {
-    href: "/camp",
-    label: "People’s Media Camp",
-    description:
-      "Hands-on workshops in oral history, digitization, and archival care.",
-  },
-  {
-    href: "/programs/movement-memory-jams",
-    label: "Movement Memory Jams",
-    description:
-      "Gatherings to share, digitize, and celebrate movement memory.",
-  },
-  {
-    href: "/events",
-    label: "Workshops",
-    description: "Upcoming and past workshops, trainings, and public programs.",
-  },
-];
+export const metadata: Metadata = {
+  title: "Programs",
+  description: programsHub.intro,
+};
 
 export default function ProgramsPage() {
   return (
-    <PageShell
-      title="Programs"
-      subtitle="Education, camp, jams, and workshops — ways to make, care for, and share movement media with PMR."
-    >
-      <div className="grid gap-6 sm:grid-cols-2">
-        {programs.map((program) => (
-          <Link
-            key={program.href}
-            href={program.href}
-            className="pmr-card group flex flex-col p-6 transition hover:ring-2 hover:ring-pmr-coral/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-coral/70"
+    <>
+      <section
+        className="relative isolate overflow-hidden border-b-4 border-pmr-border bg-pmr-elevated"
+        aria-labelledby="programs-heading"
+      >
+        <div
+          className="pointer-events-none absolute inset-0 bg-[repeating-linear-gradient(135deg,rgb(var(--pmr-dark)/0.35)_0_12px,transparent_12px_24px)]"
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-pmr-dark/80 via-pmr-dark/45 to-pmr-dark/20"
+          aria-hidden
+        />
+        <p className="absolute right-4 top-4 z-10 font-mono text-xs text-pmr-muted sm:right-6">
+          Background image forthcoming
+        </p>
+        <div className="relative z-10 mx-auto flex min-h-[min(52svh,28rem)] max-w-7xl flex-col justify-end px-4 py-12 sm:px-6 sm:py-16">
+          <h1
+            id="programs-heading"
+            className="max-w-4xl text-3xl font-bold tracking-tight text-pmr-offwhite sm:text-4xl lg:text-5xl"
           >
-            <h2 className="text-xl font-bold text-pmr-offwhite group-hover:text-pmr-green-bright">
-              {program.label}
-            </h2>
-            <p className="mt-3 flex-1 text-sm text-pmr-muted">
-              {program.description}
-            </p>
-            <p className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-pmr-coral">
-              Learn more
-              <ArrowRight className="h-4 w-4" aria-hidden />
-            </p>
-          </Link>
-        ))}
-      </div>
-      <p className="mt-10">
-        <a
-          href={pastWorkshopVideosUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="pmr-btn-secondary inline-flex text-sm"
-        >
-          <ExternalLink className="h-4 w-4" aria-hidden />
-          Past workshop videos
-        </a>
-      </p>
-    </PageShell>
+            {programsHub.title}
+          </h1>
+          <p className="mt-4 max-w-3xl text-base leading-relaxed text-pmr-cream sm:text-lg">
+            {programsHub.intro}
+          </p>
+        </div>
+      </section>
+
+      <PageShell>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {programSections.map((section) => (
+            <Link
+              key={section.href}
+              href={section.href}
+              className="pmr-card group flex flex-col p-6 transition hover:ring-2 hover:ring-pmr-coral/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-coral/70"
+            >
+              <h2 className="text-xl font-bold text-pmr-offwhite group-hover:text-pmr-green-bright">
+                {section.label}
+              </h2>
+              <p className="mt-3 flex-1 text-sm text-pmr-muted">
+                {section.description}
+              </p>
+              <p className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-pmr-coral">
+                Learn more
+                <ArrowRight className="h-4 w-4" aria-hidden />
+              </p>
+            </Link>
+          ))}
+        </div>
+      </PageShell>
+    </>
   );
 }

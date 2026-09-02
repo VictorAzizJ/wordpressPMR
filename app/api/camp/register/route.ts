@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { submitCampRegistration } from "@/lib/camp/sheets";
-import type { CampRegistrationPayload } from "@/lib/camp/types";
+import type {
+  CampChild,
+  CampRegistrationPayload,
+} from "@/lib/camp/types";
 
 function isValidEmail(value: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
@@ -12,17 +15,22 @@ function optionalString(value: unknown): string | undefined {
   return trimmed.length > 0 ? trimmed : undefined;
 }
 
-function parseGuardian(
-  value: unknown
-): CampRegistrationPayload["guardian"] | undefined {
-  if (!value || typeof value !== "object") return undefined;
-  const raw = value as Record<string, unknown>;
-  const guardian = {
-    ...(optionalString(raw.name) && { name: optionalString(raw.name) }),
-    ...(optionalString(raw.email) && { email: optionalString(raw.email) }),
-    ...(optionalString(raw.phone) && { phone: optionalString(raw.phone) }),
-  };
-  return Object.keys(guardian).length > 0 ? guardian : undefined;
+function parseChildren(value: unknown): CampChild[] | undefined {
+  if (!Array.isArray(value)) return undefined;
+  const children = value
+    .map((item) => {
+      if (!item || typeof item !== "object") return null;
+      const raw = item as Record<string, unknown>;
+      const child: CampChild = {
+        ...(optionalString(raw.name) && { name: optionalString(raw.name) }),
+        ...(optionalString(raw.age) && { age: optionalString(raw.age) }),
+      };
+      return child.name || child.age ? child : null;
+    })
+    .filter((child): child is CampChild => child !== null)
+    .slice(0, 3);
+
+  return children.length > 0 ? children : undefined;
 }
 
 function parsePayload(
@@ -37,6 +45,7 @@ function parsePayload(
   const data = body as Record<string, unknown>;
   const name = optionalString(data.name);
   const email = optionalString(data.email);
+  const phone = optionalString(data.phone);
 
   if (!name) {
     return { ok: false, error: "Name is required." };
@@ -47,25 +56,25 @@ function parsePayload(
   if (!isValidEmail(email)) {
     return { ok: false, error: "Enter a valid email address." };
   }
-
-  const guardianEmail = parseGuardian(data.guardian)?.email;
-  if (guardianEmail && !isValidEmail(guardianEmail)) {
-    return { ok: false, error: "Enter a valid guardian email." };
+  if (!phone) {
+    return { ok: false, error: "Phone number is required." };
   }
 
   const payload: CampRegistrationPayload = {
     name,
     email,
-    phone: optionalString(data.phone),
+    phone,
     ageRange: optionalString(data.ageRange),
     neighborhood: optionalString(data.neighborhood),
+    city: optionalString(data.city),
+    organization: optionalString(data.organization),
     accessibilityNeeds: optionalString(data.accessibilityNeeds),
     dietaryNeeds: optionalString(data.dietaryNeeds),
-    emergencyContactName: optionalString(data.emergencyContactName),
+    children: parseChildren(data.children),
+    childAllergies: optionalString(data.childAllergies),
     emergencyContactPhone: optionalString(data.emergencyContactPhone),
     hearAbout: optionalString(data.hearAbout),
     notes: optionalString(data.notes),
-    guardian: parseGuardian(data.guardian),
   };
 
   return { ok: true, payload };
@@ -89,7 +98,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: result.error }, { status: 502 });
   }
 
-  // Client treats anything other than "stub" as a live API write.
   return NextResponse.json({
     ok: true,
     mode: result.mode === "stub" ? "stub" : "api",

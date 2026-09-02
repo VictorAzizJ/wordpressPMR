@@ -122,6 +122,12 @@ export default async function RecordDetailPage({ params }: Props) {
                   <dd className="text-pmr-offwhite">{record.organization}</dd>
                 </div>
               )}
+              {record.activity && (
+                <div>
+                  <dt className="text-pmr-muted">Activity</dt>
+                  <dd className="text-pmr-offwhite">{record.activity}</dd>
+                </div>
+              )}
               {record.location && (
                 <div>
                   <dt className="text-pmr-muted">Location</dt>

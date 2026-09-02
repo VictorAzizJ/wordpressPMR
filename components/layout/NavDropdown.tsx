@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ChevronDown, ExternalLink } from "lucide-react";
 import { useEffect, useId, useRef } from "react";
 import type { NavEntry } from "@/lib/nav";
@@ -28,7 +29,9 @@ export function NavDropdown({
   const rootRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const menuId = useId();
+  const pathname = usePathname();
   const children = item.children ?? [];
+  const href = item.href;
 
   useEffect(() => {
     if (!open || variant !== "dropdown") return;
@@ -53,20 +56,36 @@ export function NavDropdown({
   if (variant === "accordion") {
     return (
       <div>
-        <button
-          type="button"
-          className={`${navTabClass()} w-full justify-between`}
-          aria-expanded={open}
-          aria-controls={menuId}
-          onClick={onToggle}
-        >
-          {item.label}
-          <ChevronDown
-            className={`h-4 w-4 shrink-0 transition ${open ? "rotate-180" : ""}`}
-            aria-hidden
-          />
+        <div className={`${navTabClass()} w-full justify-between pr-1`}>
+          {href ? (
+            <Link
+              href={href}
+              aria-current={pathname === href ? "page" : undefined}
+              className="flex min-h-11 min-w-0 flex-1 items-center"
+              onClick={onClose}
+            >
+              {item.label}
+            </Link>
+          ) : (
+            <span className="flex min-h-11 min-w-0 flex-1 items-center">
+              {item.label}
+            </span>
+          )}
+          <button
+            type="button"
+            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg"
+            aria-expanded={open}
+            aria-controls={menuId}
+            aria-label={`${item.label} submenu`}
+            onClick={onToggle}
+          >
+            <ChevronDown
+              className={`h-4 w-4 shrink-0 transition ${open ? "rotate-180" : ""}`}
+              aria-hidden
+            />
+          </button>
           <NavTabIndicators active={active} />
-        </button>
+        </div>
         {open ? (
           <ul id={menuId} className="mb-2 ml-3 border-l-2 border-pmr-teal pl-3">
             {children.map((child) => (
@@ -82,27 +101,50 @@ export function NavDropdown({
 
   return (
     <div ref={rootRef} className="relative h-full">
-      <button
-        ref={buttonRef}
-        type="button"
-        className={navTabClass()}
-        aria-expanded={open}
-        aria-haspopup="menu"
-        aria-controls={menuId}
-        onClick={onToggle}
-      >
-        {item.label}
-        <ChevronDown
-          className={`h-4 w-4 shrink-0 transition ${open ? "rotate-180" : ""}`}
-          aria-hidden
-        />
+      <div className={`${navTabClass()} pr-1`}>
+        {href ? (
+          <Link
+            href={href}
+            aria-current={pathname === href ? "page" : undefined}
+            className="inline-flex h-full items-center"
+          >
+            {item.label}
+          </Link>
+        ) : (
+          <button
+            ref={buttonRef}
+            type="button"
+            className="inline-flex h-full items-center"
+            aria-expanded={open}
+            aria-haspopup="menu"
+            aria-controls={menuId}
+            onClick={onToggle}
+          >
+            {item.label}
+          </button>
+        )}
+        <button
+          ref={href ? buttonRef : undefined}
+          type="button"
+          className="inline-flex h-full items-center rounded-lg px-1"
+          aria-expanded={open}
+          aria-haspopup="menu"
+          aria-controls={menuId}
+          aria-label={`${item.label} submenu`}
+          onClick={onToggle}
+        >
+          <ChevronDown
+            className={`h-4 w-4 shrink-0 transition ${open ? "rotate-180" : ""}`}
+            aria-hidden
+          />
+        </button>
         <NavTabIndicators active={active} />
-      </button>
+      </div>
       {open ? (
         <ul
           id={menuId}
           role="menu"
-          className={`absolute top-full z-50 min-w-[16rem] border-2 border-pmr-dark bg-pmr-offwhite py-1 text-pmr-dark shadow-cassette ${
+          className={`absolute top-full z-50 min-w-[16rem] max-w-[22rem] border-2 border-pmr-dark bg-pmr-offwhite py-1 text-pmr-dark shadow-cassette ${
             align === "right" ? "right-0" : "left-0"
           }`}
         >
@@ -128,7 +170,7 @@ function DropdownLink({
 }) {
   const className = stacked
     ? "flex min-h-11 items-center gap-2 px-2 py-2 text-sm font-medium text-pmr-offwhite hover:text-pmr-cream"
-    : "flex min-h-11 items-center gap-2 px-4 py-2 text-sm font-medium text-pmr-dark hover:bg-pmr-teal/40";
+    : "flex min-h-11 items-center gap-2 px-4 py-2 text-sm font-medium leading-snug text-pmr-dark hover:bg-pmr-teal/40";
 
   if (item.external) {
     return (
