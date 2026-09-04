@@ -21,7 +21,9 @@ const cards = [
 
 export function CampInfoCards() {
   const baseId = useId();
-  const [openIds, setOpenIds] = useState<Set<string>>(new Set());
+  const [openIds, setOpenIds] = useState<Set<string>>(
+    () => new Set(["know", "about"])
+  );
 
   function toggle(id: string) {
     setOpenIds((prev) => {
@@ -33,7 +35,7 @@ export function CampInfoCards() {
   }
 
   return (
-    <div className="grid gap-6 md:grid-cols-2 md:gap-8">
+    <div className="grid items-start gap-6 md:grid-cols-2 md:gap-8">
       {cards.map((card) => {
         const isOpen = openIds.has(card.id);
         const panelId = `${baseId}-panel-${card.id}`;
@@ -117,7 +119,7 @@ function KnowBeforeYouGo() {
         <ul className="mt-4 grid gap-2 text-sm text-pmr-dark">
           {[
             "Meals and refreshments are provided both days",
-            "Childcare is offered to Camp participants — add names and ages on the registration form",
+            "Childcare is offered Saturday 8:30 am–6 pm and Sunday 9 am–6 pm — add names and ages on the registration form",
             "Tell us about accessibility needs and dietary preferences when you register",
             "Camp is free. Materials are provided",
           ].map((line) => (

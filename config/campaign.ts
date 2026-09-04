@@ -38,7 +38,7 @@ export const campaignMode: CampaignMode = {
   ctaHref: "/camp",
   continueLabel: "Continue to the archive",
   bannerMessage:
-    "Media Camp registration is open. Workshops in recording, digitization, and archival care.",
+    "People's Media Camp registration is open! Workshops, skillshares, roundtables, screenings, and more!",
   popupTitle: "Media Camp is open",
 };
 

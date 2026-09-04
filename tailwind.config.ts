@@ -49,12 +49,6 @@ const config: Config = {
           "Bungee Shade",
           "cursive",
         ],
-        slab: [
-          "var(--font-roboto-slab)",
-          "Roboto Slab",
-          "Georgia",
-          "serif",
-        ],
       },
       borderRadius: {
         pmr: "10px",

@@ -36,7 +36,7 @@ export const campFaqItems: CampFaqItem[] = [
     id: "childcare",
     question: "Is Childcare available?",
     answer:
-      "Yes. Childcare is offered on Saturday, October 3 and Sunday, October 4. Add names, ages, and any allergies on the registration form.",
+      "Yes. People’s Media Camp offers childcare through a partnership with the Philly Childcare Collective. Childcare is offered between 8:30 am and 6 pm on Saturday, 10/3, and between 9 am and 6 pm on Sunday, 10/4. Add names, ages, allergies, and an emergency contact on the registration form.",
   },
   {
     id: "gear",

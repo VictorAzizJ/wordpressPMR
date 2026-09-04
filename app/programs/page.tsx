@@ -2,8 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { PageShell } from "@/components/layout/PageShell";
-import { ForthcomingHero } from "@/components/shared/ForthcomingHero";
-import { programSections, programsHub } from "@/lib/programs";
+import { PhotoCarousel } from "@/components/shared/PhotoCarousel";
+import {
+  programSections,
+  programsHub,
+  programsPhotos,
+} from "@/lib/programs";
 
 export const metadata: Metadata = {
   title: "Programs",
@@ -13,12 +17,22 @@ export const metadata: Metadata = {
 export default function ProgramsPage() {
   return (
     <>
-      <ForthcomingHero
+      <PhotoCarousel
+        photos={programsPhotos}
         labelledBy="programs-heading"
-        title={programsHub.title}
-        intro={programsHub.intro}
-        photo={programsHub.photo.src ? programsHub.photo : undefined}
-      />
+        minHeightClass="min-h-[min(52svh,28rem)]"
+        contentClassName="justify-end py-12 sm:py-16"
+      >
+        <h1
+          id="programs-heading"
+          className="max-w-4xl text-3xl font-bold tracking-tight text-pmr-offwhite sm:text-4xl lg:text-5xl"
+        >
+          {programsHub.title}
+        </h1>
+        <p className="mt-4 max-w-3xl text-base leading-relaxed text-pmr-cream sm:text-lg">
+          {programsHub.intro}
+        </p>
+      </PhotoCarousel>
 
       <PageShell>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

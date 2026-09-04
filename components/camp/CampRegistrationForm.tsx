@@ -7,8 +7,9 @@ import { CampRegistrationSuccess } from "@/components/camp/CampRegistrationSucce
 import { XeroxDivider } from "@/components/camp/TapeLabel";
 import {
   CAMP_AGE_RANGES,
-  CAMP_HEAR_ABOUT,
+  CAMP_DAYS,
   CAMP_MAX_CHILDREN,
+  type CampAttendingDay,
   type CampChild,
   type CampRegistrationPayload,
 } from "@/lib/camp/types";
@@ -16,9 +17,11 @@ import {
 type ChildRow = { name: string; age: string };
 
 type FormValues = {
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   phone: string;
+  attendingDays: CampAttendingDay[];
   ageRange: string;
   neighborhood: string;
   city: string;
@@ -39,9 +42,11 @@ type FormErrors = Partial<Record<keyof FormValues, string>> & {
 const emptyChild = (): ChildRow => ({ name: "", age: "" });
 
 const initialValues: FormValues = {
-  name: "",
+  firstName: "",
+  lastName: "",
   email: "",
   phone: "",
+  attendingDays: [],
   ageRange: "",
   neighborhood: "",
   city: "",
@@ -62,8 +67,12 @@ function isValidEmail(value: string): boolean {
 function validate(values: FormValues): FormErrors {
   const errors: FormErrors = {};
 
-  if (!values.name.trim()) {
-    errors.name = "Name is required.";
+  if (!values.firstName.trim()) {
+    errors.firstName = "First name is required.";
+  }
+
+  if (!values.lastName.trim()) {
+    errors.lastName = "Last name is required.";
   }
 
   if (!values.email.trim()) {
@@ -72,8 +81,8 @@ function validate(values: FormValues): FormErrors {
     errors.email = "Enter a valid email address.";
   }
 
-  if (!values.phone.trim()) {
-    errors.phone = "Phone number is required.";
+  if (values.attendingDays.length === 0) {
+    errors.attendingDays = "Select at least one day you plan to attend.";
   }
 
   return errors;
@@ -90,16 +99,18 @@ function filledChildren(rows: ChildRow[]): CampChild[] {
 
 function toPayload(values: FormValues): CampRegistrationPayload {
   const payload: CampRegistrationPayload = {
-    name: values.name.trim(),
+    firstName: values.firstName.trim(),
+    lastName: values.lastName.trim(),
     email: values.email.trim(),
-    phone: values.phone.trim(),
+    attendingDays: values.attendingDays,
   };
 
+  if (values.phone.trim()) payload.phone = values.phone.trim();
   if (values.ageRange) payload.ageRange = values.ageRange;
   if (values.neighborhood.trim()) payload.neighborhood = values.neighborhood.trim();
   if (values.city.trim()) payload.city = values.city.trim();
   if (values.organization.trim()) payload.organization = values.organization.trim();
-  if (values.hearAbout) payload.hearAbout = values.hearAbout;
+  if (values.hearAbout.trim()) payload.hearAbout = values.hearAbout.trim();
   if (values.accessibilityNeeds.trim()) {
     payload.accessibilityNeeds = values.accessibilityNeeds.trim();
   }
@@ -126,6 +137,7 @@ async function submitRegistration(
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(25_000),
     });
 
     const data = (await res.json().catch(() => ({}))) as {
@@ -141,10 +153,15 @@ async function submitRegistration(
     }
 
     return { ok: true, mode: data.mode === "stub" ? "stub" : "api" };
-  } catch {
+  } catch (err) {
+    const timedOut =
+      err instanceof Error &&
+      (err.name === "TimeoutError" || err.name === "AbortError");
     return {
       ok: false,
-      message: "Network error. Check your connection and try again.",
+      message: timedOut
+        ? "This is taking longer than expected. Check whether your row landed in the sheet, then try again if it did not."
+        : "Network error. Check your connection and try again.",
     };
   }
 }
@@ -168,6 +185,24 @@ export function CampRegistrationForm() {
     });
   }
 
+  function toggleAttendingDay(day: CampAttendingDay, checked: boolean) {
+    setValues((prev) => {
+      const next = checked
+        ? CAMP_DAYS.map((item) => item.value).filter(
+            (value) => prev.attendingDays.includes(value) || value === day
+          )
+        : prev.attendingDays.filter((value) => value !== day);
+      return { ...prev, attendingDays: next };
+    });
+    setErrors((prev) => {
+      if (!prev.attendingDays && !prev.form) return prev;
+      const next = { ...prev };
+      delete next.attendingDays;
+      delete next.form;
+      return next;
+    });
+  }
+
   function updateChild(index: number, key: keyof ChildRow, value: string) {
     setValues((prev) => {
       const children = prev.children.map((row, i) =>
@@ -186,6 +221,7 @@ export function CampRegistrationForm() {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    if (loading) return;
     const nextErrors = validate(values);
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) {
@@ -200,15 +236,17 @@ export function CampRegistrationForm() {
 
     setLoading(true);
     const payload = toPayload(values);
-    const result = await submitRegistration(payload);
-    setLoading(false);
-
-    if (!result.ok) {
-      setErrors({ form: result.message });
-      return;
+    try {
+      const result = await submitRegistration(payload);
+      if (!result.ok) {
+        setErrors({ form: result.message });
+        document.getElementById("camp-form-error")?.focus();
+        return;
+      }
+      setSuccessName(payload.firstName);
+    } finally {
+      setLoading(false);
     }
-
-    setSuccessName(payload.name);
   }
 
   function handleReset() {
@@ -217,16 +255,16 @@ export function CampRegistrationForm() {
     setSuccessName(null);
   }
 
-  if (successName !== null) {
-    return (
-      <CampRegistrationSuccess name={successName} onReset={handleReset} />
-    );
-  }
-
   return (
-    <form
+    <>
+      {successName !== null && (
+        <CampRegistrationSuccess name={successName} onReset={handleReset} />
+      )}
+      <form
+      method="post"
       onSubmit={handleSubmit}
       noValidate
+      aria-hidden={successName !== null || undefined}
       className="camp-form-card space-y-8 p-6 sm:p-8"
       aria-labelledby="camp-register-heading"
     >
@@ -252,16 +290,28 @@ export function CampRegistrationForm() {
 
       <fieldset className="space-y-4">
         <legend className="sr-only">Contact information</legend>
-        <FormField
-          tone={fieldTone}
-          label="Name"
-          name="name"
-          required
-          autoComplete="name"
-          value={values.name}
-          error={errors.name}
-          onChange={(e) => updateField("name", e.target.value)}
-        />
+        <div className="grid gap-4 sm:grid-cols-2">
+          <FormField
+            tone={fieldTone}
+            label="First Name"
+            name="firstName"
+            required
+            autoComplete="given-name"
+            value={values.firstName}
+            error={errors.firstName}
+            onChange={(e) => updateField("firstName", e.target.value)}
+          />
+          <FormField
+            tone={fieldTone}
+            label="Last Name"
+            name="lastName"
+            required
+            autoComplete="family-name"
+            value={values.lastName}
+            error={errors.lastName}
+            onChange={(e) => updateField("lastName", e.target.value)}
+          />
+        </div>
         <FormField
           tone={fieldTone}
           label="Email"
@@ -278,12 +328,51 @@ export function CampRegistrationForm() {
           label="Phone number"
           name="phone"
           type="tel"
-          required
           autoComplete="tel"
           value={values.phone}
           error={errors.phone}
           onChange={(e) => updateField("phone", e.target.value)}
         />
+      </fieldset>
+
+      <XeroxDivider />
+
+      <fieldset className="space-y-3" aria-describedby="attending-days-hint">
+        <legend className="mb-1 block font-mono text-sm font-bold text-pmr-dark">
+          What days of Camp do you plan on attending?
+          <span className="text-pmr-coral" aria-hidden>
+            {" "}
+            *
+          </span>
+        </legend>
+        <p id="attending-days-hint" className="text-sm leading-relaxed text-pmr-charcoal">
+          This is for headcount purposes—your registration will automatically
+          sign you up for all Camp events.
+        </p>
+        <div className="grid gap-3">
+          {CAMP_DAYS.map((day) => (
+            <label
+              key={day.value}
+              className="flex min-h-11 items-start gap-3 font-mono text-sm leading-relaxed text-pmr-dark"
+            >
+              <input
+                id={day.value === "saturday" ? "field-attendingDays" : undefined}
+                type="checkbox"
+                name="attendingDays"
+                value={day.value}
+                checked={values.attendingDays.includes(day.value)}
+                onChange={(e) => toggleAttendingDay(day.value, e.target.checked)}
+                className="mt-0.5 h-5 w-5 shrink-0 border-2 border-pmr-border accent-pmr-coral"
+              />
+              <span>{day.label}</span>
+            </label>
+          ))}
+        </div>
+        {errors.attendingDays && (
+          <p className="font-mono text-sm text-pmr-coral" role="alert">
+            {errors.attendingDays}
+          </p>
+        )}
       </fieldset>
 
       <XeroxDivider />
@@ -347,8 +436,6 @@ export function CampRegistrationForm() {
           tone={fieldTone}
           label="How did you hear about Camp?"
           name="hearAbout"
-          type="select"
-          options={[...CAMP_HEAR_ABOUT]}
           value={values.hearAbout}
           error={errors.hearAbout}
           onChange={(e) => updateField("hearAbout", e.target.value)}
@@ -390,8 +477,10 @@ export function CampRegistrationForm() {
             Childcare
           </h3>
           <p className="text-sm leading-relaxed text-pmr-charcoal">
-            Childcare is offered on Saturday, October 3 and Sunday, October 4.
-            Add names, ages, and any allergies below.
+            People’s Media Camp is honored to be able to offer childcare for
+            participants through partnering with the Philly Childcare Collective.
+            Childcare is offered between 8:30 am and 6 pm on Saturday, 10/3, and
+            between 9 am and 6 pm on Sunday, 10/4.
           </p>
 
           {values.children.map((child, index) => (
@@ -430,7 +519,7 @@ export function CampRegistrationForm() {
               className="pmr-btn-secondary text-sm"
               onClick={addChild}
             >
-              Add an additional name and age
+              Add additional names and ages
             </button>
           )}
 
@@ -440,7 +529,7 @@ export function CampRegistrationForm() {
             name="childAllergies"
             type="textarea"
             rows={2}
-            description="Please provide any allergies and dietary restrictions for children in care."
+            description="Please provide any allergies and dietary restrictions."
             value={values.childAllergies}
             error={errors.childAllergies}
             onChange={(e) => updateField("childAllergies", e.target.value)}
@@ -499,9 +588,10 @@ export function CampRegistrationForm() {
           {loading ? "Sending…" : "Submit Registration"}
         </button>
         <p className="font-mono text-xs text-pmr-charcoal">
-          * Required: name, email, and phone number
+          * Required: first name, last name, email, and days attending
         </p>
       </div>
     </form>
+    </>
   );
 }

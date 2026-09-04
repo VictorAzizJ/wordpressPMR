@@ -31,8 +31,9 @@ export default function CampPage() {
             <div>
               <TapeLabel>Ready to join?</TapeLabel>
               <p className="mt-3 max-w-xl text-pmr-charcoal">
-                Only name and contact information are required. Everything else
-                helps us plan sessions, meals, and childcare.
+                First name, last name, email, and which days you plan to attend
+                are required. Everything else helps us plan sessions, meals, and
+                childcare.
               </p>
             </div>
             <Link href="/camp/register" className="pmr-btn shrink-0 text-base">

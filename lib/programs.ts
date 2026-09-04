@@ -1,13 +1,20 @@
+import type { HeroPhoto } from "@/lib/hero-photos";
+
 export const programsHub = {
   title: "Programs",
   intro:
     "Across our programming we prioritize sharing knowledge, building connection, and thinking collectively to address challenges in grassroots archiving and preservation and create capacity for the stewardship of community memory over time.",
-  /** Drop a hero at /images/programs/programs-hero.jpg and set src when available. */
-  photo: {
-    src: "" as string,
-    alt: "",
-  },
 };
+
+/** Programs hub carousel stills (Camp, PACME workshops, community activations). */
+export const programsPhotos: HeroPhoto[] = [
+  { id: "programs-hero-01", src: "/images/programs/hero/programs-hero-01.jpg", alt: "" },
+  { id: "programs-hero-02", src: "/images/programs/hero/programs-hero-02.jpg", alt: "" },
+  { id: "programs-hero-03", src: "/images/programs/hero/programs-hero-03.jpg", alt: "" },
+  { id: "programs-hero-04", src: "/images/programs/hero/programs-hero-04.jpg", alt: "" },
+  { id: "programs-hero-05", src: "/images/programs/hero/programs-hero-05.jpg", alt: "" },
+];
+
 
 export const programSections = [
   {

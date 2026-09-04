@@ -21,8 +21,7 @@ const square = (seed: number) =>
 const profile = instagramProfileUrl();
 
 /**
- * Placeholder posts for this pass. Swap `updatesFeed.source` to `"json"`
- * and set `UPDATES_FEED_URL` when a live feed host is ready.
+ * Fallback posts if the live Behold feed is unset or fails.
  */
 export const mockUpdates: UpdatePost[] = [
   {
@@ -108,6 +107,21 @@ function extractList(payload: unknown): unknown[] {
   return [];
 }
 
+/** Prefer Behold CDN sizes — Instagram `mediaUrl` CDNs expire. */
+function beholdSizedUrl(raw: Record<string, unknown>): string {
+  const sizes = raw.sizes;
+  if (!sizes || typeof sizes !== "object") return "";
+  const record = sizes as Record<string, unknown>;
+  for (const key of ["medium", "large", "small", "full"]) {
+    const size = record[key];
+    if (size && typeof size === "object") {
+      const url = asString((size as Record<string, unknown>).mediaUrl);
+      if (url) return url;
+    }
+  }
+  return "";
+}
+
 /** Normalize Behold-style JSON or Instagram Graph `data` arrays into UpdatePost. */
 export function mapFeedPayload(payload: unknown): UpdatePost[] {
   return extractList(payload).flatMap((item) => {
@@ -115,10 +129,11 @@ export function mapFeedPayload(payload: unknown): UpdatePost[] {
     const raw = item as Record<string, unknown>;
     const mediaType = asString(raw.mediaType || raw.media_type).toUpperCase();
     const thumbnail = asString(raw.thumbnailUrl || raw.thumbnail_url);
+    const sized = beholdSizedUrl(raw);
     const media = asString(
-      raw.image || raw.mediaUrl || raw.media_url || thumbnail,
+      sized || raw.image || raw.mediaUrl || raw.media_url || thumbnail,
     );
-    const image = mediaType === "VIDEO" && thumbnail ? thumbnail : media;
+    const image = mediaType === "VIDEO" && !sized && thumbnail ? thumbnail : media;
     const id = asString(raw.id || raw.mediaId);
     if (!id || !image) return [];
     return [
@@ -148,8 +163,7 @@ function getMockUpdates(limit: number): UpdatePost[] {
 
 /**
  * Single entry point for the homepage “What’s Current?” grid.
- * Instagram for now (mock or JSON). Flip `updatesFeed.source` in config
- * when a live IG feed is ready; a later pass can draw from the calendar.
+ * Live source is the Behold JSON feed in `config/social.ts`.
  */
 export async function getUpdates(): Promise<UpdatePost[]> {
   const { source, limit, jsonUrl } = updatesFeed;

@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
 import { submitCampRegistration } from "@/lib/camp/sheets";
-import type {
-  CampChild,
-  CampRegistrationPayload,
+import {
+  CAMP_DAYS,
+  type CampAttendingDay,
+  type CampChild,
+  type CampRegistrationPayload,
 } from "@/lib/camp/types";
+
+const VALID_DAYS = new Set<string>(CAMP_DAYS.map((day) => day.value));
 
 function isValidEmail(value: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
@@ -13,6 +17,17 @@ function optionalString(value: unknown): string | undefined {
   if (typeof value !== "string") return undefined;
   const trimmed = value.trim();
   return trimmed.length > 0 ? trimmed : undefined;
+}
+
+function parseAttendingDays(value: unknown): CampAttendingDay[] {
+  if (!Array.isArray(value)) return [];
+  const seen = new Set<CampAttendingDay>();
+  for (const item of value) {
+    if (typeof item !== "string") continue;
+    if (!VALID_DAYS.has(item)) continue;
+    seen.add(item as CampAttendingDay);
+  }
+  return CAMP_DAYS.map((day) => day.value).filter((day) => seen.has(day));
 }
 
 function parseChildren(value: unknown): CampChild[] | undefined {
@@ -43,12 +58,16 @@ function parsePayload(
   }
 
   const data = body as Record<string, unknown>;
-  const name = optionalString(data.name);
+  const firstName = optionalString(data.firstName);
+  const lastName = optionalString(data.lastName);
   const email = optionalString(data.email);
-  const phone = optionalString(data.phone);
+  const attendingDays = parseAttendingDays(data.attendingDays);
 
-  if (!name) {
-    return { ok: false, error: "Name is required." };
+  if (!firstName) {
+    return { ok: false, error: "First name is required." };
+  }
+  if (!lastName) {
+    return { ok: false, error: "Last name is required." };
   }
   if (!email) {
     return { ok: false, error: "Email is required." };
@@ -56,14 +75,16 @@ function parsePayload(
   if (!isValidEmail(email)) {
     return { ok: false, error: "Enter a valid email address." };
   }
-  if (!phone) {
-    return { ok: false, error: "Phone number is required." };
+  if (attendingDays.length === 0) {
+    return { ok: false, error: "Select at least one day you plan to attend." };
   }
 
   const payload: CampRegistrationPayload = {
-    name,
+    firstName,
+    lastName,
     email,
-    phone,
+    attendingDays,
+    phone: optionalString(data.phone),
     ageRange: optionalString(data.ageRange),
     neighborhood: optionalString(data.neighborhood),
     city: optionalString(data.city),
@@ -103,3 +124,5 @@ export async function POST(request: Request) {
     mode: result.mode === "stub" ? "stub" : "api",
   });
 }
+
+export const maxDuration = 30;

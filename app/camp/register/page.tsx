@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Camp Registration",
   description:
-    "Register for People’s Media Camp. Only name and contact information are required.",
+    "Register for People’s Media Camp. First name, last name, email, and which days you plan to attend are required.",
 };
 
 export default function CampRegisterPage() {
@@ -21,9 +21,9 @@ export default function CampRegisterPage() {
             Registration
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-pmr-charcoal">
-            Only name and contact information are required. Everything else will
-            help us plan for you to access Camp’s sessions, meals, and childcare.
-            Thank you!
+            First name, last name, email, and which days you plan to attend are
+            required. Everything else will help us plan for you to access Camp’s
+            sessions, meals, and childcare. Thank you!
           </p>
           <p className="mt-4">
             <Link

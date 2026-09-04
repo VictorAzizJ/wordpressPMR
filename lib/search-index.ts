@@ -158,7 +158,7 @@ const programs: SearchDoc[] = [
     href: "/camp/register",
     kind: "program",
     excerpt:
-      "Register for People's Media Camp. Only name and contact information are required.",
+      "Register for People's Media Camp. First name, last name, email, and which days you plan to attend are required.",
   },
   {
     title: "Movement Memory Jams",

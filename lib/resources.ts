@@ -2,10 +2,9 @@ export const resourcesHub = {
   title: "Archiving and Preservation Resources",
   intro:
     "Whether you are an activist, an archivist, a filmmaker, a librarian, a researcher, or simply an avid lover of grassroots media, this resource page aims to provide you with a wealth of knowledge and tools to support your archiving and preservation endeavors.",
-  /** Drop a hero at /images/resources/resources-hero.jpg and set src when available. */
   photo: {
-    src: "" as string,
-    alt: "",
+    src: "/images/resources/resources-hero.jpg",
+    alt: "Labeled MiniDV cassettes bundled in a storage bin",
   },
 };
 
