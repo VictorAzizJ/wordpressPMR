@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function ResourcePoolPage() {
   return (
     <PageShell title={pool.label}>
-      <div className="mb-8 max-w-3xl space-y-4 text-lg leading-relaxed text-pmr-muted">
+      <div className="mb-8 max-w-3xl space-y-4 text-lg leading-relaxed text-pmr-charcoal">
         {resourcePoolIntro.map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
         ))}

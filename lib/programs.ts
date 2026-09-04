@@ -2,6 +2,11 @@ export const programsHub = {
   title: "Programs",
   intro:
     "Across our programming we prioritize sharing knowledge, building connection, and thinking collectively to address challenges in grassroots archiving and preservation and create capacity for the stewardship of community memory over time.",
+  /** Drop a hero at /images/programs/programs-hero.jpg and set src when available. */
+  photo: {
+    src: "" as string,
+    alt: "",
+  },
 };
 
 export const programSections = [

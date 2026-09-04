@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { PageShell } from "@/components/layout/PageShell";
 import { archiveHub, archiveSections } from "@/lib/archive";
@@ -11,17 +10,7 @@ export const metadata: Metadata = {
   description: archiveHub.intro,
 };
 
-export default async function ArchivePage({
-  searchParams,
-}: {
-  searchParams: Promise<{ q?: string }>;
-}) {
-  const { q } = await searchParams;
-  const query = q?.trim();
-  if (query) {
-    redirect(`/archive/browse?q=${encodeURIComponent(query)}`);
-  }
-
+export default function ArchivePage() {
   return (
     <>
       <section
@@ -66,7 +55,7 @@ export default async function ArchivePage({
               <h2 className="text-xl font-bold text-pmr-offwhite group-hover:text-pmr-green-bright">
                 {section.label}
               </h2>
-              <p className="mt-3 flex-1 text-sm text-pmr-muted">
+              <p className="mt-3 flex-1 text-sm text-pmr-cream">
                 {section.description}
               </p>
               <p className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-pmr-coral">

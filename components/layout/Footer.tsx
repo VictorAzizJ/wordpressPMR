@@ -1,4 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
+import { sponsors } from "@/lib/sponsors";
 
 const exploreLinks = [
   { href: "/archive", label: "Archive" },
@@ -16,6 +18,50 @@ const involvedLinks = [
 
 const footerLinkClass =
   "inline-flex min-h-11 items-center text-pmr-muted transition hover:text-pmr-green-bright focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-green-bright/70";
+
+function SponsorTile({
+  name,
+  src,
+  alt,
+  href,
+}: {
+  name: string;
+  src?: string;
+  alt?: string;
+  href?: string;
+}) {
+  const inner = src ? (
+    <Image
+      src={src}
+      alt={alt || name}
+      fill
+      className="object-contain p-3"
+      sizes="160px"
+    />
+  ) : (
+    <span className="px-3 text-center font-mono text-xs leading-snug text-pmr-muted">
+      {name} logo forthcoming
+    </span>
+  );
+
+  const frameClass =
+    "relative flex h-20 w-36 items-center justify-center overflow-hidden rounded-md border-2 border-dashed border-pmr-border bg-pmr-dark/40 sm:h-24 sm:w-40";
+
+  if (href && src) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`${frameClass} transition hover:border-pmr-coral focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-coral/70`}
+      >
+        {inner}
+      </a>
+    );
+  }
+
+  return <div className={frameClass}>{inner}</div>;
+}
 
 export function Footer() {
   return (
@@ -56,9 +102,27 @@ export function Footer() {
             </ul>
           </nav>
         </div>
+
+        <div className="mt-10 border-t border-pmr-border pt-8">
+          <p className="font-mono text-xs font-bold uppercase tracking-wide text-pmr-coral">
+            Supported by
+          </p>
+          <ul className="mt-4 flex flex-wrap gap-3 sm:gap-4">
+            {sponsors.map((sponsor) => (
+              <li key={sponsor.id}>
+                <SponsorTile
+                  name={sponsor.name}
+                  src={sponsor.src}
+                  alt={sponsor.alt}
+                  href={sponsor.href}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+
         <p className="mt-8 border-t border-pmr-border pt-6 text-center text-xs text-pmr-muted">
-          Demo prototype — mock data for client presentation. © People&apos;s
-          Media Record.
+          © People&apos;s Media Record.
         </p>
       </div>
     </footer>

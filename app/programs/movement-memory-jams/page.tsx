@@ -54,7 +54,7 @@ export default function MovementMemoryJamsPage() {
 
   return (
     <PageShell title={movementMemoryJams.title}>
-      <div className="max-w-3xl space-y-8 text-lg leading-relaxed text-pmr-muted">
+      <div className="max-w-3xl space-y-8 text-lg leading-relaxed text-pmr-charcoal">
         <p>{movementMemoryJams.intro}</p>
         <p>
           To see announcements for past and upcoming Movement Memory Jams, check

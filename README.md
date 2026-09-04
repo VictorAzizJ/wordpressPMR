@@ -39,4 +39,9 @@ npm start
 
 ## Note
 
-This is a **client demo** only. Forms do not submit data. Images use placeholder URLs from picsum.photos.
+Most forms are **demo only** and do not submit data. Images use placeholder URLs from picsum.photos.
+
+**Camp registration** (`/camp/register`) is wired for production when
+`GOOGLE_SHEETS_WEBHOOK_URL` is set. That URL should point to a Google Apps
+Script web app that appends a Sheet row and emails the registrant. See
+`scripts/camp-registration-apps-script.js` for the script and deploy steps.

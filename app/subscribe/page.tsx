@@ -9,7 +9,7 @@ export default function SubscribePage() {
       subtitle="Join the list for archive drops, events, and ways to dig into movement media with us."
     >
       <div className="grid gap-10 lg:grid-cols-2">
-        <div className="space-y-6 text-pmr-muted">
+        <div className="space-y-6 text-pmr-charcoal">
           <p>
             Occasional updates — not a daily blast. We share new collections,
             workshop dates, and calls to steward or volunteer.

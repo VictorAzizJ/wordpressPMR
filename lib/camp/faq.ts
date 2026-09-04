@@ -1,15 +1,24 @@
+import {
+  CAMP_AUDIENCE_INTRO,
+  CAMP_AUDIENCE_LIST,
+} from "@/lib/camp/content";
+
 export interface CampFaqItem {
   id: string;
   question: string;
-  answer: string;
+  /** Plain-text answer when there are no bullets. */
+  answer?: string;
+  /** Optional intro before a bullet list. */
+  intro?: string;
+  bullets?: readonly string[];
 }
 
 export const campFaqItems: CampFaqItem[] = [
   {
     id: "who",
     question: "Who can join People’s Media Camp?",
-    answer:
-      "Young people, neighbors, organizers, and community members who want to learn oral history, digitization, and archival care. No prior media experience required — curiosity and care matter more than gear.",
+    intro: CAMP_AUDIENCE_INTRO,
+    bullets: CAMP_AUDIENCE_LIST,
   },
   {
     id: "cost",
@@ -19,21 +28,21 @@ export const campFaqItems: CampFaqItem[] = [
   },
   {
     id: "minors",
-    question: "What if a camper is under 18?",
+    question: "What if a Camp participant is under 18?",
     answer:
-      "Participants 13–17 are welcome. Childcare is available for younger children through the Philly Childcare Collective — list names, ages, and an emergency contact on the registration form.",
+      "We welcome people ages 13–17 to participate in all sessions of Camp according to their interests. Childcare is available for younger children — list names, ages, and emergency contact on the registration form.",
   },
   {
     id: "childcare",
-    question: "Is childcare available?",
+    question: "Is Childcare available?",
     answer:
-      "Yes. People’s Media Camp partners with the Philly Childcare Collective. Childcare is offered on Saturday, October 3 and Sunday, October 4. Add names, ages, and any allergies on the registration form.",
+      "Yes. Childcare is offered on Saturday, October 3 and Sunday, October 4. Add names, ages, and any allergies on the registration form.",
   },
   {
     id: "gear",
     question: "Do I need to bring equipment?",
     answer:
-      "No. PMR provides mics, decks, and workstations. You are welcome to bring your own notebooks, headphones, or media you are stewarding — label everything with your name.",
+      "No. PMR provides all necessary materials for workshops. You are welcome to bring your own notebooks, headphones, media you are stewarding (please label all personal items clearly with your name), or media to share.",
   },
   {
     id: "access",
@@ -45,6 +54,6 @@ export const campFaqItems: CampFaqItem[] = [
     id: "after",
     question: "What happens after I register?",
     answer:
-      "You will receive a confirmation email with session times, the venue address, and what to expect. Spots may be limited — register early.",
+      "After you register we’ll include you in all communications announcing session times and the schedule line-up.",
   },
 ];

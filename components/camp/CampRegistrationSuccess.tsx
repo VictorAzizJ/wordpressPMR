@@ -24,8 +24,9 @@ export function CampRegistrationSuccess({
         {firstName ? `, ${firstName}` : ""}.
       </h2>
       <p className="text-base leading-relaxed text-pmr-charcoal">
-        Thanks for signing up for People’s Media Camp. We’ll follow up by
-        email with session times, the venue, and next steps.
+        Thanks for signing up for People’s Media Camp. Check your email for a
+        confirmation. We’ll include you in all communications announcing
+        session times and the schedule line-up.
       </p>
       <div className="flex flex-wrap gap-3 pt-2">
         <Link href="/camp" className="pmr-btn">

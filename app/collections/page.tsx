@@ -1,6 +1,12 @@
-import { collections } from "@/lib/mock-data";
+import type { Metadata } from "next";
 import { PageShell } from "@/components/layout/PageShell";
-import { CollectionCard } from "@/components/collections/CollectionCard";
+import { UnderConstruction } from "@/components/archive/UnderConstruction";
+
+export const metadata: Metadata = {
+  title: "Collections",
+  description:
+    "Archive collections will be available once the digital catalog is connected to this site.",
+};
 
 export default function CollectionsPage() {
   return (
@@ -8,11 +14,10 @@ export default function CollectionsPage() {
       title="Collections"
       subtitle="Curated groupings of records by theme, organization, time period, or movement."
     >
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {collections.map((col) => (
-          <CollectionCard key={col.id} collection={col} />
-        ))}
-      </div>
+      <UnderConstruction
+        title="Collections under construction"
+        message="Collection browsing will return here once the People's Media Record digital catalog is connected to this site."
+      />
     </PageShell>
   );
 }

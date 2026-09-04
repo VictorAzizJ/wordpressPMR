@@ -20,10 +20,6 @@ export const mainNav: NavEntry[] = [
     id: "about",
     label: "About",
     href: "/about",
-    children: [
-      { href: "/about#mission-vision-values", label: "Mission, Vision, and Values" },
-      { href: "/about#people", label: "People" },
-    ],
   },
   {
     id: "programs",

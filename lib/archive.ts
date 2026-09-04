@@ -40,8 +40,8 @@ export const archiveSections = [
     href: "/archive/browse",
     label: "Browse the Archive",
     description:
-      "Discover materials produced by the Media Mobilizing Project (MMP), an organization that used community-based media production to foster political unity and build community among primarily poor and working people in the greater Philadelphia region.",
-    cta: "Browse",
+      "The digital catalog is under construction as we connect the archive to this site. Check back soon to search materials from the Media Mobilizing Project (MMP) Collection and related campaigns.",
+    cta: "Learn more",
   },
   {
     href: "/archive/mmp-collection",

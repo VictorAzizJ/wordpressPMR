@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function PeoplePage() {
   return (
     <PageShell title="People">
-      <HashRedirect href="/about#people" />
+      <HashRedirect href="/about#pmr-staff" />
     </PageShell>
   );
 }

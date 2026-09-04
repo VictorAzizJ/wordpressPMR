@@ -53,7 +53,22 @@ export function CampFAQ() {
                 hidden={!isOpen}
                 className="border-t-2 border-pmr-border px-4 py-3 text-sm leading-relaxed text-pmr-charcoal sm:px-5 sm:py-4"
               >
-                {item.answer}
+                {item.intro ? <p>{item.intro}</p> : null}
+                {item.bullets && item.bullets.length > 0 ? (
+                  <ul
+                    className={`grid gap-2 text-pmr-dark ${item.intro ? "mt-3" : ""}`}
+                  >
+                    {item.bullets.map((line) => (
+                      <li key={line} className="flex gap-2">
+                        <span className="font-mono text-pmr-dark" aria-hidden>
+                          &gt;
+                        </span>
+                        <span>{line}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+                {item.answer ? <p>{item.answer}</p> : null}
               </div>
             </li>
           );

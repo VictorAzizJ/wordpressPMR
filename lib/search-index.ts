@@ -100,10 +100,16 @@ const pages: SearchDoc[] = [
       "Build power and capacity for Philadelphians to save and share their stories on their own terms.",
   },
   {
-    title: "People",
-    href: "/about#people",
+    title: "PMR Staff",
+    href: "/about#pmr-staff",
     kind: "page",
-    excerpt: "PMR staff and the Community Advisory Board.",
+    excerpt: "Meet the people who steward People's Media Record.",
+  },
+  {
+    title: "Community Advisory Board",
+    href: "/about#community-advisory-board",
+    kind: "page",
+    excerpt: "Community advisors who guide People's Media Record.",
   },
   {
     title: "Contact",

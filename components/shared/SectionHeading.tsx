@@ -14,7 +14,7 @@ export function SectionHeading({
 }: SectionHeadingProps) {
   return (
     <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-      <h2 className="text-2xl font-bold text-pmr-offwhite sm:text-3xl">{title}</h2>
+      <h2 className="text-2xl font-bold text-pmr-dark sm:text-3xl">{title}</h2>
       {href && (
         <Link
           href={href}

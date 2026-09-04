@@ -52,7 +52,7 @@ function FellowList({ fellows }: { fellows: PacmeFellow[] }) {
                 {fellow.pronouns ? (
                   <>
                     {" "}
-                    <span className="font-normal text-pmr-muted">
+                    <span className="font-normal text-pmr-cream">
                       ({fellow.pronouns})
                     </span>
                   </>
@@ -64,7 +64,7 @@ function FellowList({ fellows }: { fellows: PacmeFellow[] }) {
                 </p>
               ) : null}
               {fellow.bio?.length ? (
-                <div className="mt-3 space-y-3 text-sm leading-relaxed text-pmr-muted sm:text-base">
+                <div className="mt-3 space-y-3 text-sm leading-relaxed text-pmr-cream sm:text-base">
                   {fellow.bio.map((paragraph) => (
                     <p key={paragraph.slice(0, 40)}>{paragraph}</p>
                   ))}
@@ -109,7 +109,10 @@ function CohortDisclosure({
 export function PacmeFellows() {
   return (
     <div className="mt-14 max-w-3xl space-y-10">
-      <section aria-labelledby="pacme-fellows-heading">
+      <section
+        aria-labelledby="pacme-fellows-heading"
+        className="rounded-lg border-2 border-pmr-border bg-pmr-elevated p-5 sm:p-8"
+      >
         <h2
           id="pacme-fellows-heading"
           className="text-2xl font-bold tracking-tight text-pmr-offwhite sm:text-3xl"

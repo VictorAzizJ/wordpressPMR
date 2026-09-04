@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 interface CampHeroProps {
@@ -7,33 +8,66 @@ interface CampHeroProps {
 export function CampHero({ registerHref = "/camp/register" }: CampHeroProps) {
   return (
     <section
-      className="relative flex min-h-[60svh] flex-col items-center justify-center px-4 py-16 sm:min-h-[72vh] sm:px-6"
+      className="relative isolate flex min-h-[min(88svh,44rem)] flex-col items-center justify-center overflow-hidden border-b-4 border-pmr-border bg-pmr-dark px-4 py-16 sm:min-h-[min(92svh,48rem)] sm:px-6"
       aria-labelledby="camp-hero-heading"
     >
-      <p className="mb-8 font-mono text-xs font-bold uppercase tracking-[0.35em] text-pmr-dark sm:text-sm">
-        <span aria-hidden>●</span> signal · programs · open
-      </p>
+      <Image
+        src="/images/camp/hero-bg.jpg"
+        alt=""
+        fill
+        className="object-cover"
+        sizes="100vw"
+        priority
+        unoptimized
+      />
 
-      <h1
-        id="camp-hero-heading"
-        className="font-glitch w-full text-center text-[clamp(2.5rem,11vmin,6.5rem)] leading-[0.85] uppercase tracking-wide text-pmr-coral"
-      >
-        MEDIA CAMP
-      </h1>
+      <div
+        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-pmr-dark/50 via-pmr-dark/10 to-pmr-dark/25"
+        aria-hidden
+      />
 
-      <p className="mt-10 max-w-2xl text-center text-lg text-pmr-charcoal sm:text-xl">
-        Hands-on workshops for young people and neighbors who want to record,
-        digitize, and tell community stories — with tape, mics, and archival
-        care at the center.
-      </p>
+      <div className="relative z-10 flex w-full max-w-4xl flex-col items-center">
+        <div className="camp-hero-title-pulse w-full">
+          <CampHeroTitle />
+        </div>
 
-      <p className="mt-6 font-mono text-sm text-pmr-dark">
-        &gt; digitize · label · pass it on_
-      </p>
-
-      <Link href={registerHref} className="pmr-btn mt-10 text-base">
-        Register for Camp
-      </Link>
+        <Link
+          href={registerHref}
+          className="camp-hero-cta pmr-btn-hero mt-10 text-base sm:mt-12"
+        >
+          Register for Camp
+        </Link>
+      </div>
     </section>
+  );
+}
+
+function CampHeroTitle() {
+  return (
+    <h1
+      id="camp-hero-heading"
+      className="camp-hero-title mx-auto w-fit max-w-full text-pmr-offwhite"
+    >
+      <span className="camp-hero-title-row" aria-hidden="true">
+        <span className="camp-hero-push camp-hero-push-red">PUSH</span>
+        <span className="camp-hero-word">Back</span>
+        <span className="camp-hero-colon">
+          <span />
+          <span />
+        </span>
+        <span className="camp-hero-forward-block">
+          <span className="camp-hero-push camp-hero-push-green">PUSH</span>
+          <span className="camp-hero-word">Forward</span>
+          <span className="camp-hero-rule" />
+          <span className="camp-hero-meta">
+            <span className="camp-hero-brand">People&apos;s Media Camp</span>
+            <span className="camp-hero-dates">October 3 – 4, 2026</span>
+          </span>
+        </span>
+      </span>
+      <span className="sr-only">
+        Push Back Push Forward — People’s Media Camp, October 3–4, 2026
+      </span>
+    </h1>
   );
 }

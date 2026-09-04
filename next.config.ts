@@ -21,6 +21,12 @@ const nextConfig: NextConfig = {
         destination: "/archive/collections-management-policy",
         permanent: true,
       },
+      {
+        source: "/archive",
+        has: [{ type: "query", key: "q", value: "(?<q>.+)" }],
+        destination: "/archive/browse?q=:q",
+        permanent: false,
+      },
     ];
   },
 };

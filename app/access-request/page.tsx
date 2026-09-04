@@ -26,7 +26,7 @@ export default async function AccessRequestPage({
       subtitle="Request permission to view or use restricted archive materials. PMR staff review all requests."
     >
       <div className="grid gap-10 lg:grid-cols-2">
-        <div className="max-w-lg space-y-4 text-pmr-muted">
+        <div className="max-w-lg space-y-4 text-pmr-charcoal">
           <p>
             Some materials are available as metadata only, or require review
             before playback. Tell us what you need and how you plan to use it.

@@ -22,9 +22,15 @@ const HASH_IDS = new Set([
   ...pmrStaff.map((person) => person.id),
 ]);
 
+/** Legacy #people bookmarks open Staff. */
+const HASH_ALIASES: Record<string, string> = {
+  people: "pmr-staff",
+};
+
 function openDetailsForHash(hash: string) {
-  const id = hash.replace(/^#/, "");
-  if (!id || !HASH_IDS.has(id)) return;
+  const raw = hash.replace(/^#/, "");
+  if (!raw || !HASH_IDS.has(raw)) return;
+  const id = HASH_ALIASES[raw] ?? raw;
   const target = document.getElementById(id);
   if (!target) return;
 
@@ -143,8 +149,15 @@ export function AboutPageBody() {
   useLayoutEffect(() => {
     const apply = () => openDetailsForHash(window.location.hash);
     apply();
+    // Re-apply after paint — campaign popup / hydration can remount and reset <details>.
+    const t0 = window.setTimeout(apply, 0);
+    const t1 = window.setTimeout(apply, 100);
     window.addEventListener("hashchange", apply);
-    return () => window.removeEventListener("hashchange", apply);
+    return () => {
+      window.clearTimeout(t0);
+      window.clearTimeout(t1);
+      window.removeEventListener("hashchange", apply);
+    };
   }, [pathname]);
 
   return (
@@ -199,36 +212,25 @@ export function AboutPageBody() {
         </div>
       </Disclosure>
 
-      <Disclosure id="people" title="People">
-        <div className="space-y-3">
-          <Disclosure
-            id="pmr-staff"
-            title="PMR Staff"
-            className="border-pmr-dark bg-pmr-dark/40"
-          >
-            <ul className="space-y-6">
-              {pmrStaff.map((person) => (
-                <StaffCard key={person.id} person={person} />
-              ))}
-            </ul>
-          </Disclosure>
-          <Disclosure
-            id="community-advisory-board"
-            title="Community Advisory Board"
-            className="border-pmr-dark bg-pmr-dark/40"
-          >
-            <ul className="space-y-2">
-              {communityAdvisoryBoard.map((member) => (
-                <li
-                  key={member.id}
-                  className="font-bold text-pmr-offwhite"
-                >
-                  {member.name}
-                </li>
-              ))}
-            </ul>
-          </Disclosure>
-        </div>
+      <Disclosure id="pmr-staff" title="PMR Staff">
+        <ul className="space-y-6">
+          {pmrStaff.map((person) => (
+            <StaffCard key={person.id} person={person} />
+          ))}
+        </ul>
+      </Disclosure>
+
+      <Disclosure
+        id="community-advisory-board"
+        title="Community Advisory Board"
+      >
+        <ul className="space-y-2">
+          {communityAdvisoryBoard.map((member) => (
+            <li key={member.id} className="font-bold text-pmr-offwhite">
+              {member.name}
+            </li>
+          ))}
+        </ul>
       </Disclosure>
     </div>
   );

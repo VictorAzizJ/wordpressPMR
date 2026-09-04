@@ -1,9 +1,10 @@
-import { heroPhotos, type HeroPhoto } from "@/lib/hero-photos";
+import type { HeroPhoto } from "@/lib/hero-photos";
 
 export type PacmeFellow = {
   id: string;
   name: string;
   pronouns?: string;
+  /** Org / project affiliation — ready for short-term copy on current fellows. */
   affiliation?: string;
   initials: string;
   imageSrc?: string;
@@ -19,8 +20,20 @@ export const pacmeIntro =
 export const pacmeStewardship =
   "9 months of stewardship, workshops, and activations: PACME fellows engage in workshops on audiovisual preservation, metadata and cataloguing, digital preservation, community media as a tool for social empowerment, digitization, resource mobilization, strategic planning, and more. Alongside these sessions, fellows also plan activations of the collections they are working with, making space for their communities to interact with and give feedback on what is already being built. This effort supports the long-term stewardship of these collections and also helps build the necessary community around them. Across the board, PACME aims to empower people who have been historically marginalized from access to preservation and archiving education and services by delivering tools, skills, and knowledge in ways that uplift their goals and are responsive to their experience.";
 
-/** Placeholder stills until PACME-specific photos are supplied. */
-export const pacmePhotos: HeroPhoto[] = heroPhotos;
+/** PACME workshop and community-event stills (not the homepage carousel). */
+export const pacmePhotos: HeroPhoto[] = [
+  { id: "pacme-hero-01", src: "/images/programs/pacme/hero/pacme-hero-01.jpg", alt: "" },
+  { id: "pacme-hero-02", src: "/images/programs/pacme/hero/pacme-hero-02.jpg", alt: "" },
+  { id: "pacme-hero-03", src: "/images/programs/pacme/hero/pacme-hero-03.jpg", alt: "" },
+  { id: "pacme-hero-04", src: "/images/programs/pacme/hero/pacme-hero-04.jpg", alt: "" },
+  { id: "pacme-hero-05", src: "/images/programs/pacme/hero/pacme-hero-05.jpg", alt: "" },
+  { id: "pacme-hero-06", src: "/images/programs/pacme/hero/pacme-hero-06.jpg", alt: "" },
+  { id: "pacme-hero-07", src: "/images/programs/pacme/hero/pacme-hero-07.jpg", alt: "" },
+  { id: "pacme-hero-08", src: "/images/programs/pacme/hero/pacme-hero-08.jpg", alt: "" },
+  { id: "pacme-hero-09", src: "/images/programs/pacme/hero/pacme-hero-09.jpg", alt: "" },
+  { id: "pacme-hero-10", src: "/images/programs/pacme/hero/pacme-hero-10.jpg", alt: "" },
+  { id: "pacme-hero-11", src: "/images/programs/pacme/hero/pacme-hero-11.jpg", alt: "" },
+];
 
 export const currentPacmeFellows: PacmeFellow[] = [
   {

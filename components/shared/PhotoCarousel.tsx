@@ -4,7 +4,17 @@ import Image from "next/image";
 import { useEffect, useState, type ReactNode } from "react";
 import type { HeroPhoto } from "@/lib/hero-photos";
 
-const CROSSFADE_MS = 10000;
+const CROSSFADE_MS = 7000;
+
+/** Next index at random, never the same as current when count > 1. */
+function nextRandomIndex(current: number, count: number): number {
+  if (count <= 1) return 0;
+  let next = current;
+  while (next === current) {
+    next = Math.floor(Math.random() * count);
+  }
+  return next;
+}
 
 interface PhotoCarouselProps {
   photos: HeroPhoto[];
@@ -22,7 +32,6 @@ export function PhotoCarousel({
   contentClassName = "justify-end py-16 sm:py-20 lg:justify-center lg:py-24",
 }: PhotoCarouselProps) {
   const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
   const count = photos.length;
 
@@ -35,29 +44,21 @@ export function PhotoCarousel({
   }, []);
 
   useEffect(() => {
-    if (paused || reduceMotion || count <= 1) return;
+    // Do not pause on hover/focus of the full hero — it fills the viewport,
+    // so the cursor sitting on the page would freeze the slideshow.
+    if (reduceMotion || count <= 1) return;
     const id = window.setInterval(() => {
-      setIndex((current) => (current + 1) % count);
+      setIndex((current) => nextRandomIndex(current, count));
     }, CROSSFADE_MS);
     return () => window.clearInterval(id);
-  }, [paused, reduceMotion, count]);
+  }, [reduceMotion, count]);
 
   const activeIndex = reduceMotion ? 0 : index;
 
   if (count === 0) return null;
 
   return (
-    <section
-      aria-labelledby={labelledBy}
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocusCapture={() => setPaused(true)}
-      onBlurCapture={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
-          setPaused(false);
-        }
-      }}
-    >
+    <section aria-labelledby={labelledBy}>
       <div
         className={`relative isolate overflow-hidden border-b-4 border-pmr-border bg-pmr-dark ${minHeightClass}`}
       >

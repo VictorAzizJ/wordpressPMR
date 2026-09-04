@@ -390,10 +390,8 @@ export function CampRegistrationForm() {
             Childcare
           </h3>
           <p className="text-sm leading-relaxed text-pmr-charcoal">
-            People’s Media Camp is honored to be able to offer childcare for
-            participants through partnering with the Philly Childcare
-            Collective. Childcare is offered between x and x on Saturday, 10/3,
-            and between x and x on Sunday, 10/4.
+            Childcare is offered on Saturday, October 3 and Sunday, October 4.
+            Add names, ages, and any allergies below.
           </p>
 
           {values.children.map((child, index) => (

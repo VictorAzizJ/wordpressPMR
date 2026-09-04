@@ -32,7 +32,7 @@ export default function PacmePage() {
       </PhotoCarousel>
 
       <PageShell>
-        <div className="max-w-3xl space-y-6 text-lg leading-relaxed text-pmr-muted">
+        <div className="max-w-3xl space-y-6 text-lg leading-relaxed text-pmr-charcoal">
           <p>{pacmeIntro}</p>
           <p>{pacmeStewardship}</p>
         </div>

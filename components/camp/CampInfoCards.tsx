@@ -3,6 +3,10 @@
 import { useId, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { TapeLabel, XeroxDivider } from "@/components/camp/TapeLabel";
+import {
+  CAMP_AUDIENCE_INTRO,
+  CAMP_AUDIENCE_LIST,
+} from "@/lib/camp/content";
 
 const cards = [
   {
@@ -85,11 +89,12 @@ function KnowBeforeYouGo() {
         <TapeLabel as="h3">Dates</TapeLabel>
         <div className="mt-4 border-2 border-dashed border-pmr-border bg-pmr-cream p-4 font-mono text-sm text-pmr-charcoal">
           <p className="text-base font-bold text-pmr-dark">
-            Saturday, October 3 and Sunday, October 4, 2026
+            Saturday October 3rd, 9 am – 7 pm, and Sunday October 4th, 9 am –
+            6 pm
           </p>
           <p className="mt-2">
-            A two-day convening. Session times will be confirmed with your
-            registration.
+            This is a two-day convening. Session times and full lineup will be
+            announced in mid-September!
           </p>
         </div>
       </div>
@@ -99,18 +104,20 @@ function KnowBeforeYouGo() {
         <div className="mt-4 border-2 border-dashed border-pmr-border bg-pmr-cream p-4 font-mono text-sm text-pmr-charcoal">
           <p className="text-base font-bold text-pmr-dark">Philadelphia, PA</p>
           <p className="mt-2">
-            Camp will take place in an ADA accessible facility. The venue
-            address is sent with your confirmation.
+            Camp will mostly take place at the Folk Arts Cultural Treasures
+            Charter School (FACTS) at 1023 Callowhill Street, an ADA accessible
+            facility. Sunday’s program will also take place at a very special
+            outdoor location, to be announced shortly!
           </p>
         </div>
       </div>
 
       <div>
-        <TapeLabel as="h3">Meals, care, and access</TapeLabel>
+        <TapeLabel as="h3">Meals, Care, and Access</TapeLabel>
         <ul className="mt-4 grid gap-2 text-sm text-pmr-dark">
           {[
             "Meals and refreshments are provided both days",
-            "Childcare is offered through the Philly Childcare Collective — add names and ages on the registration form",
+            "Childcare is offered to Camp participants — add names and ages on the registration form",
             "Tell us about accessibility needs and dietary preferences when you register",
             "Camp is free. Materials are provided",
           ].map((line) => (
@@ -127,19 +134,10 @@ function KnowBeforeYouGo() {
       <XeroxDivider />
 
       <div>
-        <TapeLabel as="h3">Who Camp is for</TapeLabel>
-        <p className="mt-4 text-pmr-charcoal">
-          Youth, neighbors, organizers, and anyone curious about public media
-          history and grassroots preservation. No prior AV experience is
-          required.
-        </p>
+        <TapeLabel as="h3">Who is Camp for?</TapeLabel>
+        <p className="mt-4 text-pmr-charcoal">{CAMP_AUDIENCE_INTRO}</p>
         <ul className="mt-4 grid gap-2 text-sm text-pmr-dark">
-          {[
-            "Community members stewarding family or organization tapes",
-            "Students exploring journalism and oral history",
-            "Neighbors who want hands-on archive skills",
-            "Memory workers looking to connect and plan together",
-          ].map((line) => (
+          {CAMP_AUDIENCE_LIST.map((line) => (
             <li key={line} className="flex gap-2">
               <span className="font-mono text-pmr-dark" aria-hidden>
                 &gt;
@@ -155,59 +153,27 @@ function KnowBeforeYouGo() {
 
 function AboutCamp() {
   return (
-    <div className="space-y-8">
-      <div>
-        <TapeLabel as="h3">What Camp is</TapeLabel>
-        <p className="mt-4 text-base text-pmr-charcoal sm:text-lg">
-          This annual convening invites the region’s grassroots
-          preservationists, archivists, community historians, and memory
-          workers to come together, connect, learn from one another, name the
-          challenges we face, affirm each other’s efforts, and develop
-          collective strategies for sustaining our work.
-        </p>
-      </div>
-
-      <div className="grid gap-4">
-        {[
-          {
-            title: "Interview",
-            body: "Basics of oral history — mics, consent, and listening with care.",
-          },
-          {
-            title: "Digitize",
-            body: "Work with magnetic media and born-digital files for long-term access.",
-          },
-          {
-            title: "Steward",
-            body: "Label, describe, and share work back with community archives.",
-          },
-        ].map((item) => (
-          <div key={item.title} className="border-l-4 border-pmr-coral pl-4">
-            <h3 className="font-mono text-base font-bold text-pmr-dark">
-              {item.title}
-            </h3>
-            <p className="mt-1 text-sm text-pmr-charcoal">{item.body}</p>
-          </div>
-        ))}
-      </div>
-
-      <XeroxDivider />
-
-      <div>
-        <TapeLabel as="h3">What to expect</TapeLabel>
-        <div className="mt-4 space-y-4 text-pmr-charcoal">
-          <p>
-            Expect a mix of short demos, paired practice, and time with real
-            community media. You will leave with basic recording and
-            digitization skills, a sense of ethical archival practice, and a
-            connection to PMR’s wider steward network.
-          </p>
-          <p>
-            Bring curiosity, care for other people’s stories, and whatever
-            questions you have about keeping movement memory alive.
-          </p>
-        </div>
-      </div>
+    <div className="space-y-6 text-pmr-charcoal">
+      <p className="text-base sm:text-lg">
+        Now in its second year, People’s Media Camp is a space where people
+        across Greater Philadelphia gather, learn, and connect around
+        grassroots and community media, archiving, preservation, storytelling,
+        and memory work.
+      </p>
+      <p>
+        Camp participants learn from one another, share resources and skills,
+        build relationships, and uplift each other’s work by engaging in
+        roundtables, workshops, art, screenings, and conversations.
+      </p>
+      <p>
+        This year’s theme,{" "}
+        <span className="font-bold text-pmr-dark">Push Back! Push Forward!</span>
+        , invites everyone to collectively think about how we can push back
+        against the forces that erase, distort, or silence our histories, and
+        how we can push forward toward a future where today’s marginalized
+        communities have the freedom to tell, preserve, and experience their
+        own stories in their own terms.
+      </p>
     </div>
   );
 }

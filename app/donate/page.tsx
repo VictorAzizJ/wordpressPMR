@@ -6,7 +6,7 @@ export default function DonatePage() {
   return (
     <PageShell title="Donate">
       <div className="max-w-3xl">
-        <p className="text-lg text-pmr-muted">
+        <p className="text-lg text-pmr-charcoal">
           Your support helps PMR digitize aging tapes, train community stewards,
           and build a public archive that honors movement memory.
         </p>
@@ -55,7 +55,7 @@ export default function DonatePage() {
           </div>
         </div>
 
-        <p className="mt-8 text-center text-sm text-pmr-muted">
+        <p className="mt-8 text-center text-sm text-pmr-charcoal">
           Prefer to contribute time or collections?{" "}
           <Link href="/build-with-us" className="font-bold text-pmr-coral hover:underline">
             Build with us →

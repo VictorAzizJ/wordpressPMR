@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, IBM_Plex_Mono, Bungee_Shade } from "next/font/google";
+import {
+  Space_Grotesk,
+  IBM_Plex_Mono,
+  Bungee_Shade,
+  Roboto_Slab,
+} from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -23,6 +28,12 @@ const bungeeShade = Bungee_Shade({
   variable: "--font-bungee-shade",
 });
 
+const robotoSlab = Roboto_Slab({
+  weight: ["700", "800", "900"],
+  subsets: ["latin"],
+  variable: "--font-roboto-slab",
+});
+
 export const metadata: Metadata = {
   title: {
     default: "People's Media Record",
@@ -40,7 +51,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${ibmPlexMono.variable} ${bungeeShade.variable}`}
+      className={`${spaceGrotesk.variable} ${ibmPlexMono.variable} ${bungeeShade.variable} ${robotoSlab.variable}`}
     >
       <body className="flex min-h-screen flex-col bg-pmr-teal font-sans text-pmr-dark">
         <a href="#main-content" className="skip-link">
@@ -56,4 +67,3 @@ export default function RootLayout({
     </html>
   );
 }
-

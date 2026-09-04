@@ -21,9 +21,9 @@ export const social = {
  * - `mock` — `lib/updates.ts` placeholders.
  * - `json` — GET a public JSON feed (Behold or similar) and map to `UpdatePost`.
  *
- * Set `UPDATES_FEED_URL` in env (preferred) or `jsonUrl` below, then flip
- * `source` to `"json"`. Instagram Graph API is a later option and needs a
- * server-only token — never commit it.
+ * Set `UPDATES_FEED_URL` in env (preferred) or `jsonUrl` below. With
+ * `source: "json"`, missing/failed feeds fall back to mocks. Instagram Graph
+ * API is a later option and needs a server-only token — never commit it.
  */
 export const updatesFeed: {
   source: UpdatesFeedSource;
@@ -31,7 +31,7 @@ export const updatesFeed: {
   /** Optional in-repo JSON URL. Prefer UPDATES_FEED_URL so private hosts stay out of git. */
   jsonUrl: string;
 } = {
-  source: "mock",
+  source: "json",
   limit: 6,
   jsonUrl: "",
 };

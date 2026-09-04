@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
-import { CassetteLogo } from "@/components/layout/CassetteLogo";
 import { HeaderSearch } from "@/components/layout/HeaderSearch";
 import { NavDropdown } from "@/components/layout/NavDropdown";
 import { NavTabIndicators, navTabClass } from "@/components/layout/NavTab";
@@ -57,9 +56,8 @@ export function Header() {
           <Link
             href="/"
             aria-current={pathname === "/" ? "page" : undefined}
-            className="flex min-h-11 min-w-0 shrink-0 items-center gap-2 rounded-lg font-bold tracking-tight transition hover:text-pmr-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-coral/70"
+            className="flex min-h-11 min-w-0 shrink-0 items-center rounded-lg font-bold tracking-tight transition hover:text-pmr-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-coral/70"
           >
-            <CassetteLogo />
             <span className="text-base leading-tight sm:text-xl">
               People&apos;s Media Record
             </span>

@@ -9,7 +9,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "People’s Media Camp",
   description:
-    "People’s Media Camp is an annual convening for grassroots preservationists, archivists, community historians, and memory workers. Register for October 3–4, 2026 in Philadelphia.",
+    "People’s Media Camp gathers Greater Philadelphia’s community media and grassroots memory ecosystem for two days of learning and connection. Register for October 3–4, 2026 in Philadelphia.",
 };
 
 export default function CampPage() {

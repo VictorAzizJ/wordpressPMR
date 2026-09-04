@@ -56,7 +56,7 @@ export default async function SearchPage({
       </form>
 
       {!query ? (
-        <p className="text-pmr-muted">Enter a keyword to search the site.</p>
+        <p className="text-pmr-charcoal">Enter a keyword to search the site.</p>
       ) : results.length === 0 ? (
         <div className="pmr-card p-8 text-center text-pmr-muted">
           No site results for “{query}”. Try another term, or{" "}
@@ -67,7 +67,7 @@ export default async function SearchPage({
         </div>
       ) : (
         <div className="space-y-10">
-          <p className="text-sm font-bold text-pmr-muted" role="status" aria-live="polite">
+          <p className="text-sm font-bold text-pmr-charcoal" role="status" aria-live="polite">
             {results.length} result{results.length !== 1 ? "s" : ""} for “{query}”
           </p>
           {grouped.map((group) => (

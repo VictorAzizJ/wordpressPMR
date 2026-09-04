@@ -13,11 +13,13 @@ export type SheetsSubmitFailure = {
 export type SheetsSubmitResult = SheetsSubmitSuccess | SheetsSubmitFailure;
 
 /**
- * Persist a camp registration row.
+ * Persist a camp registration row and trigger confirmation email.
  *
  * Connection point: Google Apps Script web app webhook
- * (`GOOGLE_SHEETS_WEBHOOK_URL`). The script receives JSON and appends a row
- * to the staff spreadsheet. No Google credentials are bundled in the client.
+ * (`GOOGLE_SHEETS_WEBHOOK_URL`). The script receives JSON, appends a row
+ * to the staff spreadsheet, and sends a confirmation via MailApp.
+ * Copy the script from `scripts/camp-registration-apps-script.js`.
+ * No Google credentials are bundled in the client.
  *
  * Future swap: replace this POST with the official Sheets API (service
  * account / OAuth) without changing `/api/camp/register` or the form contract.

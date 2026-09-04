@@ -36,7 +36,7 @@ function PolicyLink({
 
 function Prose({ children }: { children: ReactNode }) {
   return (
-    <div className="mt-4 space-y-4 text-base leading-relaxed text-pmr-muted sm:text-lg">
+    <div className="mt-4 space-y-4 text-base leading-relaxed text-pmr-cream sm:text-lg">
       {children}
     </div>
   );
@@ -97,7 +97,7 @@ export function CollectionsManagementPolicyBody() {
         <p className="font-mono text-xs font-bold uppercase tracking-wide text-pmr-coral">
           Working document
         </p>
-        <p className="mt-2 text-sm leading-relaxed text-pmr-muted sm:text-base">
+        <p className="mt-2 text-sm leading-relaxed text-pmr-cream sm:text-base">
           First drafted {collectionsManagementPolicyMeta.drafted}. To be revised{" "}
           {collectionsManagementPolicyMeta.revisionCycle} by the Director of
           Archiving and Preservation, with support from staff and the Community
