@@ -97,7 +97,7 @@ export function HeaderSearch({
         <button
           type="button"
           onClick={() => setExpanded(true)}
-          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border-2 border-pmr-dark bg-pmr-coral text-pmr-dark transition hover:bg-pmr-dark hover:text-pmr-offwhite focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-cream"
+          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border-2 border-pmr-dark bg-pmr-tangerine text-pmr-dark transition hover:bg-pmr-dark hover:text-pmr-offwhite focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-cream"
           aria-label="Open search"
           aria-expanded={false}
         >
@@ -135,7 +135,7 @@ export function HeaderSearch({
           aria-controls={modeMenuId}
           aria-label="Choose search scope"
           onClick={() => setModeOpen((open) => !open)}
-          className="inline-flex min-h-11 w-8 shrink-0 items-center justify-center text-pmr-dark transition hover:text-pmr-coral focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-pmr-coral/70"
+          className="inline-flex min-h-11 w-8 shrink-0 items-center justify-center text-pmr-dark transition hover:text-pmr-tangerine focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-pmr-coral/70"
         >
           <ChevronDown
             className={`h-4 w-4 transition ${modeOpen ? "rotate-180" : ""}`}
@@ -144,7 +144,7 @@ export function HeaderSearch({
         </button>
         <button
           type="submit"
-          className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center border-l-2 border-pmr-dark bg-pmr-coral text-pmr-dark transition hover:bg-pmr-dark hover:text-pmr-offwhite focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-pmr-cream"
+          className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center border-l-2 border-pmr-dark bg-pmr-tangerine text-pmr-dark transition hover:bg-pmr-dark hover:text-pmr-offwhite focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-pmr-cream"
           aria-label={MODE_LABELS[mode]}
         >
           <Search className="h-4 w-4" aria-hidden />

@@ -8,46 +8,50 @@ interface CampHeroProps {
 export function CampHero({ registerHref = "/camp/register" }: CampHeroProps) {
   return (
     <section
-      className="relative isolate flex min-h-[min(88svh,44rem)] flex-col items-center justify-center overflow-hidden border-b-4 border-pmr-border bg-pmr-dark px-4 py-16 sm:min-h-[min(92svh,48rem)] sm:px-6"
+      className="relative isolate overflow-hidden border-b-4 border-pmr-border bg-pmr-dark"
       aria-labelledby="camp-hero-heading"
     >
-      <Image
-        src="/images/camp/hero-bg.jpg"
-        alt=""
-        fill
-        className="object-cover"
-        sizes="100vw"
-        priority
-        unoptimized
-      />
+      <div className="relative aspect-[16/9] w-full lg:aspect-auto lg:min-h-[min(88svh,44rem)]">
+        <Image
+          src="/images/camp/hero-bg.jpg"
+          alt=""
+          fill
+          className="object-cover object-center"
+          sizes="100vw"
+          priority
+          unoptimized
+        />
 
-      <div
-        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-pmr-dark/45 via-pmr-dark/10 to-pmr-dark/25"
-        aria-hidden
-      />
+        <div
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-pmr-dark/40 via-transparent to-pmr-dark/10"
+          aria-hidden
+        />
 
-      <h1 id="camp-hero-heading" className="sr-only">
-        Push Back Push Forward — People’s Media Camp, October 3–4, 2026
-      </h1>
-
-      <div className="relative z-10 flex w-full max-w-4xl flex-col items-center">
-        <div className="camp-hero-title-pulse w-full">
+        {/* Same frame as the photo so PUSH sits on the reels and the title stays in the gap. */}
+        <div
+          className="camp-hero-title-pulse pointer-events-none absolute inset-0"
+          aria-hidden
+        >
           <Image
             src="/images/camp/hero-title.png"
             alt=""
-            width={823}
-            height={247}
-            className="h-auto w-full"
-            sizes="(max-width: 896px) 92vw, 56rem"
+            fill
+            className="object-cover object-center"
+            sizes="100vw"
             priority
             unoptimized
-            aria-hidden
           />
         </div>
 
+        <h1 id="camp-hero-heading" className="sr-only">
+          Push Back Push Forward — People’s Media Camp, October 3–4, 2026
+        </h1>
+      </div>
+
+      <div className="relative z-10 flex justify-center px-4 py-4 lg:absolute lg:bottom-8 lg:left-1/2 lg:px-0 lg:py-0 lg:-translate-x-1/2">
         <Link
           href={registerHref}
-          className="camp-hero-cta pmr-btn-hero mt-8 text-base sm:mt-10"
+          className="camp-hero-cta pmr-btn-hero w-full max-w-xs text-base lg:w-auto"
         >
           Register for Camp
         </Link>
