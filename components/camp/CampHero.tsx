@@ -28,10 +28,7 @@ export function CampHero({ registerHref = "/camp/register" }: CampHeroProps) {
         />
 
         {/* Same frame as the photo so PUSH sits on the reels and the title stays in the gap. */}
-        <div
-          className="camp-hero-title-pulse pointer-events-none absolute inset-0"
-          aria-hidden
-        >
+        <div className="pointer-events-none absolute inset-0" aria-hidden>
           <Image
             src="/images/camp/hero-title.png"
             alt=""
