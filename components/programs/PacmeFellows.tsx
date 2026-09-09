@@ -19,7 +19,8 @@ function FellowPortrait({ fellow }: { fellow: PacmeFellow }) {
           src={fellow.imageSrc}
           alt=""
           fill
-          className="object-cover object-top"
+          className="object-cover"
+          style={{ objectPosition: fellow.imagePosition ?? "top center" }}
           sizes="112px"
         />
       </div>

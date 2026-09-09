@@ -8,6 +8,8 @@ export type PacmeFellow = {
   affiliation?: string;
   initials: string;
   imageSrc?: string;
+  /** CSS object-position; default is top so full-body shots keep the face in frame. */
+  imagePosition?: string;
   bio?: string[];
 };
 
@@ -78,6 +80,7 @@ export const currentPacmeFellows: PacmeFellow[] = [
     name: "Regina Jennings",
     initials: "RJ",
     imageSrc: "/images/programs/pacme/regina-jennings.jpg",
+    imagePosition: "center 82%",
   },
   {
     id: "cory-seals",
