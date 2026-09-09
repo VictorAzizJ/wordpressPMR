@@ -31,15 +31,15 @@ export const campaignMode: CampaignMode = {
   startDate: "2026-08-15T00:00:00",
   endDate: "2026-09-15T23:59:59",
   eyebrow: "Campaign window",
-  title: "Media Camp registration is open",
+  title: "Join Us at People's Media Camp!",
   description:
-    "Hands-on workshops in oral history, digitization, and community archival care. Free. Philadelphia. Spots are limited — register while the window is open.",
+    "Please register now for People's Media Camp, a space for Greater Philadelphia to connect around grassroots and community archiving, preservation, storytelling, and memory work.",
   ctaLabel: "Register for Camp",
   ctaHref: "/camp",
   continueLabel: "Continue to the archive",
   bannerMessage:
     "People's Media Camp registration is open! Workshops, skillshares, roundtables, screenings, and more!",
-  popupTitle: "Media Camp is open",
+  popupTitle: "Join Us at People's Media Camp!",
 };
 
 export const CAMPAIGN_DISMISS_KEY = "pmr-campaign-dismissed";

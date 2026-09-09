@@ -1,12 +1,9 @@
 import Link from "next/link";
 import { Radio } from "lucide-react";
 import { campaignMode } from "@/config/campaign";
-import { formatCampaignEndDate } from "@/lib/campaign/isCampaignActive";
 
 /** Slim homepage strip while Campaign Mode is active (popup behavior). */
 export function CampaignBanner() {
-  const through = formatCampaignEndDate();
-
   return (
     <div
       className="border-b-4 border-pmr-border bg-pmr-elevated"
@@ -19,15 +16,7 @@ export function CampaignBanner() {
             className="mt-0.5 h-4 w-4 shrink-0 text-pmr-coral sm:mt-0"
             aria-hidden
           />
-          <span>
-            <span className="font-mono text-xs font-bold uppercase tracking-widest text-pmr-green-bright">
-              {campaignMode.eyebrow}
-              {through ? ` · through ${through}` : ""}
-            </span>
-            <span className="mt-1 block sm:mt-0 sm:ml-2 sm:inline">
-              {campaignMode.bannerMessage}
-            </span>
-          </span>
+          <span>{campaignMode.bannerMessage}</span>
         </p>
         <Link
           href={campaignMode.ctaHref}

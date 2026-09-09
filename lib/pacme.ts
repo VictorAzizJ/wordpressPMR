@@ -79,7 +79,12 @@ export const currentPacmeFellows: PacmeFellow[] = [
     initials: "RJ",
     imageSrc: "/images/programs/pacme/regina-jennings.jpg",
   },
-  { id: "cory-seals", name: "Cory Seals", initials: "CS" },
+  {
+    id: "cory-seals",
+    name: "Cory Seals",
+    initials: "CS",
+    imageSrc: "/images/programs/pacme/cory-seals.jpg",
+  },
   {
     id: "tieshka-smith",
     name: "Tieshka Smith",

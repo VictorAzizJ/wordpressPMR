@@ -100,7 +100,7 @@
   }
 
   .pmr-btn {
-    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border-2 border-pmr-dark bg-pmr-coral px-5 py-2.5 font-bold text-pmr-dark transition hover:bg-pmr-dark hover:text-pmr-offwhite focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-coral/70;
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border-2 border-pmr-dark bg-pmr-tangerine px-5 py-2.5 font-bold text-pmr-dark transition hover:bg-pmr-dark hover:text-pmr-offwhite focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pmr-tangerine/70;
   }
 
   .pmr-btn-secondary {

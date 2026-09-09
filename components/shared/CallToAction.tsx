@@ -32,10 +32,7 @@ export function CallToAction({
       <p className="mt-2 max-w-xl text-sm opacity-90 sm:text-base">
         {description}
       </p>
-      <Link
-        href={href}
-        className="mt-4 inline-flex min-h-11 items-center rounded-lg border-2 border-pmr-border bg-pmr-coral px-5 py-2.5 text-sm font-bold text-pmr-dark transition hover:bg-pmr-dark hover:text-pmr-offwhite"
-      >
+      <Link href={href} className="pmr-btn mt-4 text-sm">
         {buttonLabel}
       </Link>
     </div>

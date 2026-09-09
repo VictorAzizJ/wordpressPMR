@@ -4,7 +4,6 @@ import { useCallback, useEffect, useId, useRef } from "react";
 import Link from "next/link";
 import { X } from "lucide-react";
 import type { CampaignMode } from "@/config/campaign";
-import { formatCampaignEndDate } from "@/lib/campaign/isCampaignActive";
 
 const FOCUSABLE =
   'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
@@ -19,7 +18,6 @@ export function CampaignPopup({ config, onDismiss }: CampaignPopupProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const titleId = useId();
   const descId = useId();
-  const through = formatCampaignEndDate(config);
 
   const onKeyDown = useCallback(
     (event: KeyboardEvent) => {
@@ -98,13 +96,9 @@ export function CampaignPopup({ config, onDismiss }: CampaignPopupProps) {
           <X className="h-5 w-5" aria-hidden />
         </button>
 
-        <p className="pr-12 font-mono text-xs font-bold uppercase tracking-widest text-pmr-green-bright">
-          {config.eyebrow}
-          {through ? ` · through ${through}` : ""}
-        </p>
         <h2
           id={titleId}
-          className="mt-3 text-2xl font-bold text-pmr-offwhite sm:text-3xl"
+          className="pr-12 text-2xl font-bold text-pmr-offwhite sm:text-3xl"
         >
           {config.popupTitle}
         </h2>
