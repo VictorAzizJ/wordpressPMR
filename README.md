@@ -45,3 +45,8 @@ Most forms are **demo only** and do not submit data. Images use placeholder URLs
 `GOOGLE_SHEETS_WEBHOOK_URL` is set. That URL should point to a Google Apps
 Script web app that appends a Sheet row and emails the registrant. See
 `scripts/camp-registration-apps-script.js` for the script and deploy steps.
+
+The register API rejects bot-style posts with a honeypot, a signed form
+token, same-origin checks, and per-IP rate limits. For stronger protection,
+create a Cloudflare Turnstile widget and set `TURNSTILE_SECRET_KEY` plus
+`NEXT_PUBLIC_TURNSTILE_SITE_KEY` (see `.env.example`).

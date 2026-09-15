@@ -14,6 +14,10 @@
  * After every script edit, create a New version so the live URL updates.
  * Paste the web app URL into GOOGLE_SHEETS_WEBHOOK_URL (server-only env).
  *
+ * Optional: Project Settings → Script properties → WEBHOOK_SECRET, matching
+ * CAMP_WEBHOOK_SECRET in the Next.js env. When set, POSTs without that
+ * secret are rejected.
+ *
  * If this sheet already has rows from the previous form (single Name column,
  * no attending-day columns), start a new tab or a new spreadsheet so headers
  * and data stay aligned.
@@ -57,6 +61,7 @@ function setupCampRegister() {
 function doPost(e) {
   try {
     var payload = JSON.parse(e.postData.contents);
+    assertWebhookSecret_(payload);
     appendRegistrationRow_(payload, "pending");
     var status = "pending";
     try {
@@ -116,6 +121,16 @@ function processPendingEmails() {
         "error: " + String(err && err.message ? err.message : err)
       );
     }
+  }
+}
+
+function assertWebhookSecret_(payload) {
+  var expected = PropertiesService.getScriptProperties().getProperty(
+    "WEBHOOK_SECRET"
+  );
+  if (!expected) return;
+  if (!payload || payload.webhookSecret !== expected) {
+    throw new Error("Unauthorized");
   }
 }
 

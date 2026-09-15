@@ -1,9 +1,13 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { FormField } from "@/components/shared/FormField";
 import { CampRegistrationSuccess } from "@/components/camp/CampRegistrationSuccess";
+import {
+  CampTurnstile,
+  type CampTurnstileHandle,
+} from "@/components/camp/CampTurnstile";
 import { XeroxDivider } from "@/components/camp/TapeLabel";
 import {
   CAMP_AGE_RANGES,
@@ -129,26 +133,38 @@ function toPayload(values: FormValues): CampRegistrationPayload {
   return payload;
 }
 
+type SubmitResult =
+  | { ok: true; mode: "api" | "stub" }
+  | { ok: false; message: string; code?: string };
+
 async function submitRegistration(
-  payload: CampRegistrationPayload
-): Promise<{ ok: true; mode: "api" | "stub" } | { ok: false; message: string }> {
+  payload: CampRegistrationPayload,
+  guard: { challenge: string; website: string; turnstileToken: string }
+): Promise<SubmitResult> {
   try {
     const res = await fetch("/api/camp/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
+      body: JSON.stringify({
+        ...payload,
+        challenge: guard.challenge,
+        website: guard.website,
+        turnstileToken: guard.turnstileToken,
+      }),
       signal: AbortSignal.timeout(25_000),
     });
 
     const data = (await res.json().catch(() => ({}))) as {
       error?: string;
       mode?: string;
+      code?: string;
     };
 
     if (!res.ok) {
       return {
         ok: false,
         message: data.error || "Registration failed. Please try again.",
+        code: data.code,
       };
     }
 
@@ -173,6 +189,46 @@ export function CampRegistrationForm() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [loading, setLoading] = useState(false);
   const [successName, setSuccessName] = useState<string | null>(null);
+  const [honeypot, setHoneypot] = useState("");
+  const [challenge, setChallenge] = useState("");
+  const [turnstileSiteKey, setTurnstileSiteKey] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const turnstileRef = useRef<CampTurnstileHandle>(null);
+  const challengeInflight = useRef<Promise<string> | null>(null);
+
+  const loadChallenge = useCallback(async () => {
+    if (challengeInflight.current) return challengeInflight.current;
+    const request = fetch("/api/camp/challenge", { cache: "no-store" })
+      .then(async (res) => {
+        const data = (await res.json().catch(() => ({}))) as {
+          challenge?: string;
+          turnstileSiteKey?: string;
+          error?: string;
+        };
+        if (!res.ok || !data.challenge) {
+          throw new Error(data.error || "Could not start registration.");
+        }
+        setChallenge(data.challenge);
+        setTurnstileSiteKey(data.turnstileSiteKey || "");
+        return data.challenge;
+      })
+      .finally(() => {
+        challengeInflight.current = null;
+      });
+    challengeInflight.current = request;
+    return request;
+  }, []);
+
+  useEffect(() => {
+    void loadChallenge().catch(() => {
+      // Retry on submit.
+    });
+  }, [loadChallenge]);
+
+  function resetTurnstile() {
+    setTurnstileToken("");
+    turnstileRef.current?.reset();
+  }
 
   function updateField<K extends keyof FormValues>(key: K, value: FormValues[K]) {
     setValues((prev) => ({ ...prev, [key]: value }));
@@ -234,11 +290,36 @@ export function CampRegistrationForm() {
       return;
     }
 
+    if (turnstileSiteKey && !turnstileToken) {
+      setErrors({ form: "Please complete the verification before submitting." });
+      document.getElementById("camp-form-error")?.focus();
+      return;
+    }
+
     setLoading(true);
     const payload = toPayload(values);
     try {
-      const result = await submitRegistration(payload);
+      let nextChallenge = challenge;
+      try {
+        nextChallenge = challenge || (await loadChallenge());
+      } catch {
+        setErrors({
+          form: "Could not start registration. Refresh the page and try again.",
+        });
+        document.getElementById("camp-form-error")?.focus();
+        return;
+      }
+
+      const result = await submitRegistration(payload, {
+        challenge: nextChallenge,
+        website: honeypot,
+        turnstileToken,
+      });
       if (!result.ok) {
+        if (result.code === "refresh") {
+          void loadChallenge().catch(() => undefined);
+        }
+        resetTurnstile();
         setErrors({ form: result.message });
         document.getElementById("camp-form-error")?.focus();
         return;
@@ -253,6 +334,9 @@ export function CampRegistrationForm() {
     setValues(initialValues);
     setErrors({});
     setSuccessName(null);
+    setHoneypot("");
+    resetTurnstile();
+    void loadChallenge().catch(() => undefined);
   }
 
   return (
@@ -268,6 +352,21 @@ export function CampRegistrationForm() {
       className="camp-form-card space-y-8 p-6 sm:p-8"
       aria-labelledby="camp-register-heading"
     >
+      <div
+        className="absolute -left-[10000px] top-auto h-px w-px overflow-hidden"
+        aria-hidden="true"
+      >
+        <label htmlFor="hp-website">Website</label>
+        <input
+          id="hp-website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={honeypot}
+          onChange={(e) => setHoneypot(e.target.value)}
+        />
+      </div>
       <div>
         <h2
           id="camp-register-heading"
@@ -577,6 +676,14 @@ export function CampRegistrationForm() {
         error={errors.notes}
         onChange={(e) => updateField("notes", e.target.value)}
       />
+
+      {turnstileSiteKey ? (
+        <CampTurnstile
+          ref={turnstileRef}
+          siteKey={turnstileSiteKey}
+          onToken={setTurnstileToken}
+        />
+      ) : null}
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <button

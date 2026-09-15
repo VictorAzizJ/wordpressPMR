@@ -6,6 +6,25 @@ import {
   type CampChild,
   type CampRegistrationPayload,
 } from "@/lib/camp/types";
+import {
+  CAPTCHA_ERROR,
+  GENERIC_VERIFY_ERROR,
+  RATE_LIMIT_ERROR,
+  RETRY_MOMENT_ERROR,
+  clientIp,
+  honeypotFilled,
+  isSameOriginPost,
+  isTurnstileEnabled,
+  limitAttempts,
+  limitSubmits,
+  looksLikeSpam,
+  verifyCampFormChallenge,
+  verifyTurnstile,
+  warnIfTurnstileMissing,
+} from "@/lib/camp/form-guard";
+
+export const dynamic = "force-dynamic";
+export const maxDuration = 30;
 
 const VALID_DAYS = new Set<string>(CAMP_DAYS.map((day) => day.value));
 
@@ -101,7 +120,30 @@ function parsePayload(
   return { ok: true, payload };
 }
 
+function jsonError(
+  error: string,
+  status: number,
+  code?: string,
+  reason?: string
+) {
+  if (reason) {
+    console.info("[camp/register] blocked", { reason });
+  }
+  return NextResponse.json(code ? { error, code } : { error }, { status });
+}
+
+function fakeSuccess(reason: string) {
+  console.info("[camp/register] blocked", { reason });
+  return NextResponse.json({ ok: true, mode: "api" });
+}
+
 export async function POST(request: Request) {
+  warnIfTurnstileMissing();
+
+  if (!isSameOriginPost(request)) {
+    return jsonError(GENERIC_VERIFY_ERROR, 403, "refresh", "origin");
+  }
+
   let body: unknown;
   try {
     body = await request.json();
@@ -109,9 +151,52 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid JSON body." }, { status: 400 });
   }
 
+  if (!body || typeof body !== "object") {
+    return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
+  }
+
+  const data = body as Record<string, unknown>;
+  const ip = clientIp(request);
+
+  if (!limitAttempts(ip)) {
+    return jsonError(RATE_LIMIT_ERROR, 429, "rate_limit", "rate_attempt");
+  }
+
+  if (honeypotFilled(data.website)) {
+    return fakeSuccess("honeypot");
+  }
+
+  const challenge = verifyCampFormChallenge(data.challenge);
+  if (!challenge.ok) {
+    if (challenge.reason === "too_fast") {
+      return jsonError(RETRY_MOMENT_ERROR, 400, "retry", "too_fast");
+    }
+    return jsonError(
+      GENERIC_VERIFY_ERROR,
+      400,
+      "refresh",
+      challenge.reason
+    );
+  }
+
+  if (isTurnstileEnabled()) {
+    const ok = await verifyTurnstile(data.turnstileToken, ip);
+    if (!ok) {
+      return jsonError(CAPTCHA_ERROR, 400, "captcha", "turnstile");
+    }
+  }
+
   const parsed = parsePayload(body);
   if (!parsed.ok) {
     return NextResponse.json({ error: parsed.error }, { status: 400 });
+  }
+
+  if (looksLikeSpam(parsed.payload)) {
+    return fakeSuccess("spam");
+  }
+
+  if (!limitSubmits(ip, parsed.payload.email)) {
+    return jsonError(RATE_LIMIT_ERROR, 429, "rate_limit", "rate_submit");
   }
 
   const result = await submitCampRegistration(parsed.payload);
@@ -124,5 +209,3 @@ export async function POST(request: Request) {
     mode: result.mode === "stub" ? "stub" : "api",
   });
 }
-
-export const maxDuration = 30;

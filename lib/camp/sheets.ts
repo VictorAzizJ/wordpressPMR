@@ -53,6 +53,9 @@ export async function submitCampRegistration(
         ...payload,
         submittedAt: new Date().toISOString(),
         source: "pmr-camp-register",
+        ...(process.env.CAMP_WEBHOOK_SECRET && {
+          webhookSecret: process.env.CAMP_WEBHOOK_SECRET,
+        }),
       }),
       redirect: "manual",
       cache: "no-store",
