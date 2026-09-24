@@ -6,12 +6,20 @@ import { TapeLabel, XeroxDivider } from "@/components/camp/TapeLabel";
 import {
   CAMP_AUDIENCE_INTRO,
   CAMP_AUDIENCE_LIST,
+  CAMP_CARE_LIST,
+  CAMP_DATES_NOTE,
+  CAMP_DATES_SUMMARY,
+  CAMP_LOCATION_DETAIL,
+  CAMP_LOCATION_SUMMARY,
+  CAMP_SCHEDULE,
+  type CampScheduleItem,
 } from "@/lib/camp/content";
 
 const cards = [
   {
     id: "know",
-    title: "Know Before You Go",
+    title: "Schedule & Know Before You Go",
+    wide: true,
   },
   {
     id: "about",
@@ -44,7 +52,7 @@ export function CampInfoCards() {
         return (
           <article
             key={card.id}
-            className="relative overflow-hidden border-4 border-pmr-border bg-pmr-offwhite shadow-cassette"
+            className={`relative overflow-hidden border-4 border-pmr-border bg-pmr-offwhite shadow-cassette ${"wide" in card && card.wide ? "md:col-span-2" : ""}`}
           >
             <div
               className="pointer-events-none absolute inset-x-0 top-0 h-1.5 bg-pmr-coral"
@@ -84,45 +92,96 @@ export function CampInfoCards() {
   );
 }
 
+function ScheduleItems({
+  items,
+  startAt = 1,
+}: {
+  items: readonly CampScheduleItem[];
+  startAt?: number;
+}) {
+  return (
+    <ol className="mt-3 grid gap-2 text-sm text-pmr-dark">
+      {items.map((item, index) => (
+        <li key={item.title} className="flex gap-2">
+          <span className="font-mono font-bold">{startAt + index}.</span>
+          <span>
+            {item.title}
+            {item.presenters ? ` — ${item.presenters}` : ""}
+          </span>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
 function KnowBeforeYouGo() {
   return (
     <div className="space-y-8">
+      {CAMP_SCHEDULE.map((day) => (
+        <section key={day.id} aria-labelledby={`camp-day-${day.id}`}>
+          <TapeLabel as="h3" id={`camp-day-${day.id}`}>
+            {day.heading}
+          </TapeLabel>
+          <p className="mt-3 font-mono text-sm font-bold text-pmr-dark">
+            {day.place}
+          </p>
+          <div className="mt-4 grid gap-3">
+            {day.preamble?.map((block) => (
+              <div
+                key={block.label}
+                className="border-2 border-dashed border-pmr-border bg-pmr-cream p-4 text-pmr-charcoal"
+              >
+                <p className="font-bold text-pmr-dark">{block.label}</p>
+                {block.items ? <ScheduleItems items={block.items} /> : null}
+              </div>
+            ))}
+            {day.blocks.map((block) => (
+              <div
+                key={`${day.id}-${block.time}-${block.title}`}
+                className="border-2 border-dashed border-pmr-border bg-pmr-cream p-4 text-pmr-charcoal"
+              >
+                <p className="font-mono text-xs font-bold uppercase tracking-wide text-pmr-dark">
+                  {block.time}
+                </p>
+                <p className="mt-1 font-bold text-pmr-dark">{block.title}</p>
+                {block.detail ? (
+                  <p className="mt-1 text-sm">{block.detail}</p>
+                ) : null}
+                {block.items ? (
+                  <ScheduleItems items={block.items} startAt={block.startAt} />
+                ) : null}
+              </div>
+            ))}
+          </div>
+        </section>
+      ))}
+
+      <XeroxDivider />
+
       <div>
         <TapeLabel as="h3">Dates</TapeLabel>
         <div className="mt-4 border-2 border-dashed border-pmr-border bg-pmr-cream p-4 font-mono text-sm text-pmr-charcoal">
           <p className="text-base font-bold text-pmr-dark">
-            Saturday October 3rd, 9 am – 7 pm, and Sunday October 4th, 9 am –
-            6 pm
+            {CAMP_DATES_SUMMARY}
           </p>
-          <p className="mt-2">
-            This is a two-day convening. Session times and full lineup will be
-            announced in mid-September!
-          </p>
+          <p className="mt-2">{CAMP_DATES_NOTE}</p>
         </div>
       </div>
 
       <div>
         <TapeLabel as="h3">Location</TapeLabel>
         <div className="mt-4 border-2 border-dashed border-pmr-border bg-pmr-cream p-4 font-mono text-sm text-pmr-charcoal">
-          <p className="text-base font-bold text-pmr-dark">Philadelphia, PA</p>
-          <p className="mt-2">
-            Camp will mostly take place at the Folk Arts Cultural Treasures
-            Charter School (FACTS) at 1023 Callowhill Street, an ADA accessible
-            facility. Sunday’s program will also take place at a very special
-            outdoor location, to be announced shortly!
+          <p className="text-base font-bold text-pmr-dark">
+            {CAMP_LOCATION_SUMMARY}
           </p>
+          <p className="mt-2">{CAMP_LOCATION_DETAIL}</p>
         </div>
       </div>
 
       <div>
         <TapeLabel as="h3">Meals, Care, and Access</TapeLabel>
         <ul className="mt-4 grid gap-2 text-sm text-pmr-dark">
-          {[
-            "Meals and refreshments are provided both days",
-            "Childcare is offered Saturday 8:30 am–6 pm and Sunday 9 am–6 pm — add names and ages on the registration form",
-            "Tell us about accessibility needs and dietary preferences when you register",
-            "Camp is free. Materials are provided",
-          ].map((line) => (
+          {CAMP_CARE_LIST.map((line) => (
             <li key={line} className="flex gap-2">
               <span className="font-mono text-pmr-dark" aria-hidden>
                 &gt;
