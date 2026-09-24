@@ -163,7 +163,7 @@ export const CAMP_SCHEDULE: readonly CampScheduleDay[] = [
             presenters: "Patricia Felder",
           },
           {
-            title: "“Food and Plant Stories and Archives”",
+            title: "“Documenting Stories from the Kitchen and the Garden”",
             presenters: "Bitter Kalli, Thao Tran",
           },
         ],
