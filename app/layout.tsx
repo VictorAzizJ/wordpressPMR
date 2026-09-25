@@ -30,6 +30,9 @@ export const metadata: Metadata = {
   },
   description:
     "Community archive preserving movement media, oral histories, and independent journalism.",
+  icons: {
+    icon: [{ url: "/favicon.gif", type: "image/gif" }],
+  },
 };
 
 export default function RootLayout({
