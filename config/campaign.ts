@@ -29,7 +29,7 @@ export const campaignMode: CampaignMode = {
   campaign: "camp",
   behavior: "popup",
   startDate: "2026-08-15T00:00:00",
-  endDate: "2026-09-15T23:59:59",
+  endDate: "2026-10-04T23:59:59",
   eyebrow: "Campaign window",
   title: "Join Us at People's Media Camp!",
   description:

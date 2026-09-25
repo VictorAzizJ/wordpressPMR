@@ -21,6 +21,8 @@ interface PhotoCarouselProps {
   children?: ReactNode;
   labelledBy?: string;
   minHeightClass?: string;
+  /** Extra frame classes. Homepage uses this to keep a 16:9 frame on wide screens. */
+  frameClassName?: string;
   contentClassName?: string;
 }
 
@@ -29,6 +31,7 @@ export function PhotoCarousel({
   children,
   labelledBy,
   minHeightClass = "min-h-[min(85svh,42rem)]",
+  frameClassName = "",
   contentClassName = "justify-end py-16 sm:py-20 lg:justify-center lg:py-24",
 }: PhotoCarouselProps) {
   const [index, setIndex] = useState(0);
@@ -58,9 +61,12 @@ export function PhotoCarousel({
   if (count === 0) return null;
 
   return (
-    <section aria-labelledby={labelledBy}>
+    <section
+      aria-labelledby={labelledBy}
+      className="border-b-4 border-pmr-border bg-pmr-dark"
+    >
       <div
-        className={`relative isolate overflow-hidden border-b-4 border-pmr-border bg-pmr-dark ${minHeightClass}`}
+        className={`relative isolate mx-auto w-full overflow-hidden ${minHeightClass} ${frameClassName}`.trim()}
       >
         <div className="absolute inset-0" aria-hidden>
           {photos.map((photo, i) => {
@@ -93,7 +99,7 @@ export function PhotoCarousel({
 
         {children ? (
           <div
-            className={`relative z-10 mx-auto flex ${minHeightClass} max-w-7xl flex-col px-4 sm:px-6 ${contentClassName}`}
+            className={`relative z-10 mx-auto flex h-full w-full max-w-7xl flex-col px-4 sm:px-6 ${minHeightClass} ${frameClassName ? "lg:min-h-0" : ""} ${contentClassName}`.trim()}
           >
             {children}
           </div>

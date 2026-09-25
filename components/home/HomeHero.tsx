@@ -17,7 +17,11 @@ export function HomeHero({ photos = heroPhotos, titleAs = "h1" }: HomeHeroProps)
   const HeadingTag = titleAs;
 
   return (
-    <PhotoCarousel photos={photos} labelledBy={headingId}>
+    <PhotoCarousel
+      photos={photos}
+      labelledBy={headingId}
+      frameClassName="lg:aspect-[16/9] lg:min-h-0 lg:max-w-[calc(min(85svh,42rem)*16/9)]"
+    >
       <HeadingTag
         id={headingId}
         className="max-w-4xl text-4xl font-bold leading-tight text-pmr-offwhite sm:text-5xl lg:text-6xl"

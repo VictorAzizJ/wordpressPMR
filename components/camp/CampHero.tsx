@@ -11,7 +11,7 @@ export function CampHero({ registerHref = "/camp/register" }: CampHeroProps) {
       className="relative isolate overflow-hidden border-b-4 border-pmr-border bg-pmr-dark"
       aria-labelledby="camp-hero-heading"
     >
-      <div className="relative aspect-[16/9] w-full lg:aspect-auto lg:min-h-[min(88svh,44rem)]">
+      <div className="relative mx-auto aspect-[16/9] w-full max-w-[calc(100svh*16/9)]">
         <Image
           src="/images/camp/hero-bg.jpg"
           alt=""
