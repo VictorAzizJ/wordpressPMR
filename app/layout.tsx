@@ -31,7 +31,11 @@ export const metadata: Metadata = {
   description:
     "Community archive preserving movement media, oral histories, and independent journalism.",
   icons: {
-    icon: [{ url: "/favicon.gif", type: "image/gif" }],
+    icon: [
+      { url: "/favicon.gif", type: "image/gif", sizes: "64x64" },
+      { url: "/favicon.ico", sizes: "48x48" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
 };
 
